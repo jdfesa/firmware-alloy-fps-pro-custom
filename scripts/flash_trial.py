@@ -18,7 +18,7 @@ import build_jumploader
 ROOT = Path(__file__).resolve().parents[1]
 LIMIT = 0x7800
 PAGE = 64
-KEYMAPS = ("default", "custom42", "custom42_fn", "vial_readonly")
+KEYMAPS = ("default", "custom42", "custom42_fn", "vial_readonly", "vial_editable")
 OEM_DESCRIPTOR = "225f708546bcd693001522ee72ae5a866fcb674dd433eba3687974b1ac128bdc"
 
 
@@ -80,6 +80,8 @@ def candidate(keymap, first_install=False):
         build_jumploader.validate(boot)
         data, offset = boot + app, 0
     data += b"\xff" * (-len(data) % PAGE)
+    if keymap == "vial_editable" and offset + len(data) > 0x7000:
+        raise ValueError("candidate overlaps persistent map banks")
     validate_image(data, offset)
     plan = {"keymap": keymap, "first_install": first_install,
             "offset": offset, "end_exclusive": offset + len(data),

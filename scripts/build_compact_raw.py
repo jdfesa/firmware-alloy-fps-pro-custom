@@ -10,7 +10,7 @@ from verified_patch import applied
 from measure_raw_hid import overflow_from_log
 
 
-KEYMAPS = ("raw_compact", "vial_readonly")
+KEYMAPS = ("raw_compact", "vial_readonly", "vial_editable")
 
 
 def main(keymap="raw_compact"):
@@ -44,6 +44,8 @@ def main(keymap="raw_compact"):
         sizes = build.output(build.PREFIX + "size", "-A", str(elf))
         nm = build.output(build.PREFIX + "nm", "-n", str(elf))
         report = build.memory_report(build.parse_sections(sizes), build.parse_symbols(nm), binary.read_bytes())
+        if keymap == "vial_editable" and len(binary.read_bytes()) + 0x200 > 0x7000:
+            raise ValueError("editable application overlaps reserved map banks")
         out = build.ROOT / "build" / keymap
         out.mkdir(parents=True, exist_ok=True)
         shutil.copy2(elf, out / "candidate.elf")
@@ -59,7 +61,11 @@ def main(keymap="raw_compact"):
                   "vial_protocol_subset": "read_only_vial6_via9" if keymap == "vial_readonly" else None,
                   "configuration_editable": False, "persistent_keymap": False,
                   "note": "Compile-only prototype. No complete Vial integration, no editable/persistent keymap. Needs jumploader."}
-        if keymap == "vial_readonly":
+        if keymap == "vial_editable":
+            result.update({"vial_protocol_subset":"editable_basic_vial6_via9", "configuration_editable":True,
+                           "persistent_keymap":True,"map_storage_range":[0x7000,0x7800],
+                           "note":"Experimental physical page backend; must verify actual editing and persistence."})
+        if keymap in ("vial_readonly", "vial_editable"):
             result["protocol_lock_sha256"] = build.digest(build.ROOT / "toolchains/vial-protocol-lock.json")
         (out / "build-manifest.json").write_text(json.dumps(result, indent=2) + "\n")
         (analysis / (label + ".json")).write_text(json.dumps(result, indent=2) + "\n")
