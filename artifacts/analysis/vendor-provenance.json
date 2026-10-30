@@ -1,0 +1,13 @@
+{
+  "source_type": "third_party_mirror_not_authenticated",
+  "source_repo": "IRus/blog",
+  "source_commit": "f280a57181cb8166c1031d064869fa83d3f0d5a9",
+  "source_path": "content/posts/archive/hyperx-alloy-fps/HyperX_Alloy_FPS_Pro_Keyboard_Firmware_Updater_v2112.zip",
+  "zip_sha256": "d023babeea8fb4305d727fe550f9bdc57e9a1fc82fe909b9072cbb066a297a6e",
+  "exe_sha256": "c192c4a2e678d416778b0dd042abb215489f8dba4e20e9130d43904d144ceada",
+  "exe_bytes": 2243096,
+  "executed": false,
+  "dump_of_connected_device": false,
+  "restoration_verified": false,
+  "rea_archive_evidence": "ev_639661a1355add344a8238486e99d48ce2efe971af62984c42d40c68cc5b094b"
+}

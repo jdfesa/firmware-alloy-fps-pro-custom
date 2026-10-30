@@ -1,0 +1,677 @@
+--- a/tmk_core/protocol/chibios/usb_report_handling.h
++++ b/tmk_core/protocol/chibios/usb_report_handling.h
+@@ -9,28 +9,36 @@
+ 
+ #include "timer.h"
+ 
++#ifndef QMK_USB_REPORT_STORAGE_SIZE
++#    define QMK_USB_REPORT_STORAGE_SIZE 64
++#endif
++#if QMK_USB_REPORT_STORAGE_SIZE < 1 || QMK_USB_REPORT_STORAGE_SIZE > 64
++#    error "HID report storage must hold 1..64 bytes"
++#endif
++
+ typedef struct {
+-    time_msecs_t idle_rate;
++    // SET_IDLE is uint8_t units of 4ms: at most 1020ms, fits uint16_t.
++    uint16_t idle_rate;
+     systime_t    last_report;
+-    uint8_t      data[64];
+-    size_t       length;
++    uint8_t      data[QMK_USB_REPORT_STORAGE_SIZE];
++    uint8_t      length;
+ } usb_fs_report_t;
+ 
+ typedef struct {
+-    usb_fs_report_t **reports;
+-    const void (*get_report)(usb_fs_report_t **, uint8_t, usb_fs_report_t *);
+-    const void (*set_report)(usb_fs_report_t **, const uint8_t *, size_t);
+-    const void (*reset_report)(usb_fs_report_t **);
+-    const void (*set_idle)(usb_fs_report_t **, uint8_t, uint8_t);
+-    const uint8_t (*get_idle)(usb_fs_report_t **, uint8_t);
+-    const bool (*idle_timer_elasped)(usb_fs_report_t **, uint8_t);
++    usb_fs_report_t *const *reports;
++    void (*get_report)(usb_fs_report_t *const *, uint8_t, usb_fs_report_t *);
++    void (*set_report)(usb_fs_report_t *const *, const uint8_t *, size_t);
++    void (*reset_report)(usb_fs_report_t *const *);
++    void (*set_idle)(usb_fs_report_t *const *, uint8_t, uint8_t);
++    uint8_t (*get_idle)(usb_fs_report_t *const *, uint8_t);
++    bool (*idle_timer_elasped)(usb_fs_report_t *const *, uint8_t);
+ } usb_report_storage_t;
+ 
+-#define QMK_USB_REPORT_STROAGE_ENTRY(_report_id, _report_size) [_report_id] = &((usb_fs_report_t){.data = {[0] = _report_id}, .length = _report_size})
++#define QMK_USB_REPORT_STROAGE_ENTRY(_report_id, _report_size) [_report_id] = &((usb_fs_report_t){.data = {[0] = _report_id}, .length = (_report_size) + 0 * sizeof(char[(_report_size) <= QMK_USB_REPORT_STORAGE_SIZE ? 1 : -1])})
+ 
+ #define QMK_USB_REPORT_STORAGE(_get_report, _set_report, _reset_report, _get_idle, _set_idle, _idle_timer_elasped, _report_count, _reports...) \
+-    &((usb_report_storage_t){                                                                                                                  \
+-        .reports            = (_Alignas(4) usb_fs_report_t *[_report_count]){_reports},                                                        \
++    &((const usb_report_storage_t){                                                                                                                  \
++        .reports            = (usb_fs_report_t *const [_report_count]){_reports},                                                        \
+         .get_report         = _get_report,                                                                                                     \
+         .set_report         = _set_report,                                                                                                     \
+         .reset_report       = _reset_report,                                                                                                   \
+@@ -50,28 +58,28 @@
+                            QMK_USB_REPORT_STROAGE_ENTRY(0, _report_length))
+ 
+ // USB HID SET_REPORT and GET_REPORT  handling functions
+-void usb_set_report(usb_fs_report_t **reports, const uint8_t *data, size_t length);
+-void usb_shared_set_report(usb_fs_report_t **reports, const uint8_t *data, size_t length);
++void usb_set_report(usb_fs_report_t *const *reports, const uint8_t *data, size_t length);
++void usb_shared_set_report(usb_fs_report_t *const *reports, const uint8_t *data, size_t length);
+ 
+-void usb_get_report(usb_fs_report_t **reports, uint8_t report_id, usb_fs_report_t *report);
+-void usb_shared_get_report(usb_fs_report_t **reports, uint8_t report_id, usb_fs_report_t *report);
++void usb_get_report(usb_fs_report_t *const *reports, uint8_t report_id, usb_fs_report_t *report);
++void usb_shared_get_report(usb_fs_report_t *const *reports, uint8_t report_id, usb_fs_report_t *report);
+ 
+-void usb_reset_report(usb_fs_report_t **reports);
+-void usb_shared_reset_report(usb_fs_report_t **reports);
++void usb_reset_report(usb_fs_report_t *const *reports);
++void usb_shared_reset_report(usb_fs_report_t *const *reports);
+ 
+ bool usb_get_report_cb(USBDriver *driver);
+ 
+ // USB HID SET_IDLE and GET_IDLE handling functions
+ void usb_idle_task(void);
+ 
+-void usb_set_idle_rate(usb_fs_report_t **timers, uint8_t report_id, uint8_t idle_rate);
+-void usb_shared_set_idle_rate(usb_fs_report_t **timers, uint8_t report_id, uint8_t idle_rate);
++void usb_set_idle_rate(usb_fs_report_t *const *timers, uint8_t report_id, uint8_t idle_rate);
++void usb_shared_set_idle_rate(usb_fs_report_t *const *timers, uint8_t report_id, uint8_t idle_rate);
+ 
+-uint8_t usb_get_idle_rate(usb_fs_report_t **timers, uint8_t report_id);
+-uint8_t usb_shared_get_idle_rate(usb_fs_report_t **timers, uint8_t report_id);
++uint8_t usb_get_idle_rate(usb_fs_report_t *const *timers, uint8_t report_id);
++uint8_t usb_shared_get_idle_rate(usb_fs_report_t *const *timers, uint8_t report_id);
+ 
+-bool usb_idle_timer_elapsed(usb_fs_report_t **timers, uint8_t report_id);
+-bool usb_shared_idle_timer_elapsed(usb_fs_report_t **timers, uint8_t report_id);
++bool usb_idle_timer_elapsed(usb_fs_report_t *const *timers, uint8_t report_id);
++bool usb_shared_idle_timer_elapsed(usb_fs_report_t *const *timers, uint8_t report_id);
+ 
+ bool usb_get_idle_cb(USBDriver *driver);
+ bool usb_set_idle_cb(USBDriver *driver);
+--- a/tmk_core/protocol/chibios/usb_report_handling.c
++++ b/tmk_core/protocol/chibios/usb_report_handling.c
+@@ -13,10 +13,10 @@
+ #include "report.h"
+ 
+ extern usb_endpoint_in_t     usb_endpoints_in[USB_ENDPOINT_IN_COUNT];
+-extern usb_endpoint_in_lut_t usb_endpoint_interface_lut[TOTAL_INTERFACES];
+-
+-void usb_set_report(usb_fs_report_t **reports, const uint8_t *data, size_t length) {
+-    if (*reports == NULL) {
++extern const usb_endpoint_in_lut_t usb_endpoint_interface_lut[TOTAL_INTERFACES];
++
++void usb_set_report(usb_fs_report_t *const *reports, const uint8_t *data, size_t length) {
++    if (*reports == NULL || length > sizeof((*reports)->data)) {
+         return;
+     }
+ 
+@@ -25,8 +25,9 @@
+     memcpy(&(*reports)->data, data, length);
+ }
+ 
+-void usb_get_report(usb_fs_report_t **reports, uint8_t report_id, usb_fs_report_t *report) {
++void usb_get_report(usb_fs_report_t *const *reports, uint8_t report_id, usb_fs_report_t *report) {
+     (void)report_id;
++    report->length = 0;
+     if (*reports == NULL) {
+         return;
+     }
+@@ -35,7 +36,7 @@
+     memcpy(&report->data, &(*reports)->data, report->length);
+ }
+ 
+-void usb_reset_report(usb_fs_report_t **reports) {
++void usb_reset_report(usb_fs_report_t *const *reports) {
+     if (*reports == NULL) {
+         return;
+     }
+@@ -45,7 +46,10 @@
+     (*reports)->last_report = 0;
+ }
+ 
+-void usb_shared_set_report(usb_fs_report_t **reports, const uint8_t *data, size_t length) {
++void usb_shared_set_report(usb_fs_report_t *const *reports, const uint8_t *data, size_t length) {
++    if (length == 0 || length > QMK_USB_REPORT_STORAGE_SIZE) {
++        return;
++    }
+     uint8_t report_id = data[0];
+ 
+     if (report_id > REPORT_ID_COUNT || reports[report_id] == NULL) {
+@@ -57,7 +61,8 @@
+     memcpy(&reports[report_id]->data, data, length);
+ }
+ 
+-void usb_shared_get_report(usb_fs_report_t **reports, uint8_t report_id, usb_fs_report_t *report) {
++void usb_shared_get_report(usb_fs_report_t *const *reports, uint8_t report_id, usb_fs_report_t *report) {
++    report->length = 0;
+     if (report_id > REPORT_ID_COUNT || reports[report_id] == NULL) {
+         return;
+     }
+@@ -66,7 +71,7 @@
+     memcpy(&report->data, &reports[report_id]->data, report->length);
+ }
+ 
+-void usb_shared_reset_report(usb_fs_report_t **reports) {
++void usb_shared_reset_report(usb_fs_report_t *const *reports) {
+     for (int i = 0; i <= REPORT_ID_COUNT; i++) {
+         if (reports[i] == NULL) {
+             continue;
+@@ -94,7 +99,7 @@
+         return false;
+     }
+ 
+-    usb_report_storage_t *report_storage = usb_endpoints_in[ep].report_storage;
++    const usb_report_storage_t *report_storage = usb_endpoints_in[ep].report_storage;
+ 
+     if (report_storage == NULL) {
+         return false;
+@@ -102,6 +107,9 @@
+ 
+     report_storage->get_report(report_storage->reports, report_id, &report);
+ 
++    if (report.length == 0) {
++        return false;
++    }
+     usbSetupTransfer(driver, (uint8_t *)report.data, report.length, NULL);
+ 
+     return true;
+@@ -109,7 +117,7 @@
+ 
+ static bool run_idle_task = false;
+ 
+-void usb_set_idle_rate(usb_fs_report_t **reports, uint8_t report_id, uint8_t idle_rate) {
++void usb_set_idle_rate(usb_fs_report_t *const *reports, uint8_t report_id, uint8_t idle_rate) {
+     (void)report_id;
+ 
+     if (*reports == NULL) {
+@@ -121,7 +129,7 @@
+     run_idle_task |= idle_rate != 0;
+ }
+ 
+-uint8_t usb_get_idle_rate(usb_fs_report_t **reports, uint8_t report_id) {
++uint8_t usb_get_idle_rate(usb_fs_report_t *const *reports, uint8_t report_id) {
+     (void)report_id;
+ 
+     if (*reports == NULL) {
+@@ -131,7 +139,7 @@
+     return (*reports)->idle_rate / 4;
+ }
+ 
+-bool usb_idle_timer_elapsed(usb_fs_report_t **reports, uint8_t report_id) {
++bool usb_idle_timer_elapsed(usb_fs_report_t *const *reports, uint8_t report_id) {
+     (void)report_id;
+ 
+     if (*reports == NULL) {
+@@ -150,7 +158,7 @@
+     return chTimeI2MS(chVTTimeElapsedSinceX(last_report)) >= idle_rate;
+ }
+ 
+-void usb_shared_set_idle_rate(usb_fs_report_t **reports, uint8_t report_id, uint8_t idle_rate) {
++void usb_shared_set_idle_rate(usb_fs_report_t *const *reports, uint8_t report_id, uint8_t idle_rate) {
+     // USB spec demands that a report_id of 0 would set the idle rate for all
+     // reports of that endpoint, but this can easily lead to resource
+     // exhaustion, therefore we deliberalty break the spec at this point.
+@@ -163,7 +171,7 @@
+     run_idle_task |= idle_rate != 0;
+ }
+ 
+-uint8_t usb_shared_get_idle_rate(usb_fs_report_t **reports, uint8_t report_id) {
++uint8_t usb_shared_get_idle_rate(usb_fs_report_t *const *reports, uint8_t report_id) {
+     if (report_id > REPORT_ID_COUNT || reports[report_id] == NULL) {
+         return 0;
+     }
+@@ -171,7 +179,7 @@
+     return reports[report_id]->idle_rate / 4;
+ }
+ 
+-bool usb_shared_idle_timer_elapsed(usb_fs_report_t **reports, uint8_t report_id) {
++bool usb_shared_idle_timer_elapsed(usb_fs_report_t *const *reports, uint8_t report_id) {
+     if (report_id > REPORT_ID_COUNT || reports[report_id] == NULL) {
+         return false;
+     }
+@@ -197,7 +205,7 @@
+     bool                   non_zero_idle_rate_found = false;
+ 
+     for (int ep = 0; ep < USB_ENDPOINT_IN_COUNT; ep++) {
+-        usb_report_storage_t *report_storage = usb_endpoints_in[ep].report_storage;
++        const usb_report_storage_t *report_storage = usb_endpoints_in[ep].report_storage;
+ 
+         if (report_storage == NULL) {
+             continue;
+@@ -253,7 +261,7 @@
+         return false;
+     }
+ 
+-    usb_report_storage_t *report_storage = usb_endpoints_in[ep].report_storage;
++    const usb_report_storage_t *report_storage = usb_endpoints_in[ep].report_storage;
+ 
+     if (report_storage == NULL) {
+         return false;
+@@ -282,7 +290,7 @@
+         return false;
+     }
+ 
+-    usb_report_storage_t *report_storage = usb_endpoints_in[ep].report_storage;
++    const usb_report_storage_t *report_storage = usb_endpoints_in[ep].report_storage;
+ 
+     if (report_storage == NULL) {
+         return false;
+--- a/tmk_core/protocol/chibios/usb_driver.h
++++ b/tmk_core/protocol/chibios/usb_driver.h
+@@ -35,10 +35,10 @@
+  *   Given `USBv1/hal_usb_lld.h` marks the field as "not currently used" this code file
+  *   makes the assumption this is safe to avoid littering with preprocessor directives.
+  */
+-#define QMK_USB_ENDPOINT_IN(mode, ep_size, ep_num, _buffer_capacity, _usb_requests_cb, _report_storage)           \
++#define QMK_USB_ENDPOINT_IN(_index, mode, ep_size, ep_num, _buffer_capacity, _usb_requests_cb, _report_storage)           \
+     {                                                                                                             \
+         .usb_requests_cb = _usb_requests_cb, .report_storage = _report_storage,                                   \
+-        .ep_config =                                                                                              \
++        .ep_config = &(const USBEndpointConfig)                                                                                              \
+             {                                                                                                     \
+                 mode,                           /* EP Mode */                                                     \
+                 NULL,                           /* SETUP packet notification callback */                          \
+@@ -46,11 +46,11 @@
+                 NULL,                           /* OUT notification callback */                                   \
+                 ep_size,                        /* IN maximum packet size */                                      \
+                 0,                              /* OUT maximum packet size */                                     \
+-                NULL,                           /* IN Endpoint state */                                           \
++                &usb_endpoints_in[_index].ep_in_state,                           /* IN Endpoint state */                                           \
+                 NULL,                           /* OUT endpoint state */                                          \
+                 usb_lld_endpoint_fields         /* USB driver specific endpoint fields */                         \
+             },                                                                                                    \
+-        .config = {                                                                                               \
++        .config = &(const usb_endpoint_config_t){                                                                                               \
+             .usbp            = &USB_DRIVER,                                                                       \
+             .ep              = ep_num,                                                                            \
+             .buffer_capacity = _buffer_capacity,                                                                  \
+@@ -61,9 +61,9 @@
+ 
+ #if !defined(USB_ENDPOINTS_ARE_REORDERABLE)
+ 
+-#    define QMK_USB_ENDPOINT_OUT(mode, ep_size, ep_num, _buffer_capacity)                                            \
++#    define QMK_USB_ENDPOINT_OUT(_index, mode, ep_size, ep_num, _buffer_capacity)                                            \
+         {                                                                                                            \
+-            .ep_config =                                                                                             \
++            .ep_config = &(const USBEndpointConfig)                                                                                             \
+                 {                                                                                                    \
+                     mode,                            /* EP Mode */                                                   \
+                     NULL,                            /* SETUP packet notification callback */                        \
+@@ -72,10 +72,10 @@
+                     0,                               /* IN maximum packet size */                                    \
+                     ep_size,                         /* OUT maximum packet size */                                   \
+                     NULL,                            /* IN Endpoint state */                                         \
+-                    NULL,                            /* OUT endpoint state */                                        \
++                    &usb_endpoints_out[_index].ep_out_state,                            /* OUT endpoint state */                                        \
+                     usb_lld_endpoint_fields          /* USB driver specific endpoint fields */                       \
+                 },                                                                                                   \
+-            .config = {                                                                                              \
++            .config = &(const usb_endpoint_config_t){                                                                                              \
+                 .usbp            = &USB_DRIVER,                                                                      \
+                 .ep              = ep_num,                                                                           \
+                 .buffer_capacity = _buffer_capacity,                                                                 \
+@@ -86,10 +86,10 @@
+ 
+ #else
+ 
+-#    define QMK_USB_ENDPOINT_IN_SHARED(mode, ep_size, ep_num, _buffer_capacity, _usb_requests_cb, _report_storage)    \
++#    define QMK_USB_ENDPOINT_IN_SHARED(_index, mode, ep_size, ep_num, _buffer_capacity, _usb_requests_cb, _report_storage)    \
+         {                                                                                                             \
+             .usb_requests_cb = _usb_requests_cb, .is_shared = true, .report_storage = _report_storage,                \
+-            .ep_config =                                                                                              \
++            .ep_config = &(const USBEndpointConfig)                                                                                              \
+                 {                                                                                                     \
+                     mode,                            /* EP Mode */                                                    \
+                     NULL,                            /* SETUP packet notification callback */                         \
+@@ -97,11 +97,11 @@
+                     usb_endpoint_out_rx_complete_cb, /* OUT notification callback */                                  \
+                     ep_size,                         /* IN maximum packet size */                                     \
+                     ep_size,                         /* OUT maximum packet size */                                    \
+-                    NULL,                            /* IN Endpoint state */                                          \
+-                    NULL,                            /* OUT endpoint state */                                         \
++                    &usb_endpoints_in[_index].ep_in_state,                            /* IN Endpoint state */                                          \
++                    &usb_endpoints_in[_index].ep_out_state,                            /* OUT endpoint state */                                         \
+                     usb_lld_endpoint_fields          /* USB driver specific endpoint fields */                        \
+                 },                                                                                                    \
+-            .config = {                                                                                               \
++            .config = &(const usb_endpoint_config_t){                                                                                               \
+                 .usbp            = &USB_DRIVER,                                                                       \
+                 .ep              = ep_num,                                                                            \
+                 .buffer_capacity = _buffer_capacity,                                                                  \
+@@ -112,13 +112,13 @@
+ 
+ /* The current assumption is that there are no standalone OUT endpoints, so the
+  * OUT endpoint is always initialized by the IN endpoint. */
+-#    define QMK_USB_ENDPOINT_OUT(mode, ep_size, ep_num, _buffer_capacity)                                            \
++#    define QMK_USB_ENDPOINT_OUT(_index, mode, ep_size, ep_num, _buffer_capacity)                                            \
+         {                                                                                                            \
+-            .ep_config =                                                                                             \
++            .ep_config = &(const USBEndpointConfig)                                                                                             \
+                 {                                                                                                    \
+                     0 /* Already defined in the IN endpoint */                                                       \
+                 },                                                                                                   \
+-            .config = {                                                                                              \
++            .config = &(const usb_endpoint_config_t){                                                                                              \
+                 .usbp            = &USB_DRIVER,                                                                      \
+                 .ep              = ep_num,                                                                           \
+                 .buffer_capacity = _buffer_capacity,                                                                 \
+@@ -158,23 +158,23 @@
+ 
+ typedef struct {
+     output_buffers_queue_t obqueue;
+-    USBEndpointConfig      ep_config;
++    const USBEndpointConfig *ep_config;
+     USBInEndpointState     ep_in_state;
+ #if defined(USB_ENDPOINTS_ARE_REORDERABLE)
+     USBOutEndpointState ep_out_state;
+     bool                is_shared;
+ #endif
+-    usb_endpoint_config_t config;
++    const usb_endpoint_config_t *config;
+     usbreqhandler_t       usb_requests_cb;
+     bool                  timed_out;
+-    usb_report_storage_t *report_storage;
++    const usb_report_storage_t *report_storage;
+ } usb_endpoint_in_t;
+ 
+ typedef struct {
+     input_buffers_queue_t ibqueue;
+-    USBEndpointConfig     ep_config;
++    const USBEndpointConfig *ep_config;
+     USBOutEndpointState   ep_out_state;
+-    usb_endpoint_config_t config;
++    const usb_endpoint_config_t *config;
+     bool                  timed_out;
+ } usb_endpoint_out_t;
+ 
+--- a/tmk_core/protocol/chibios/usb_driver.c
++++ b/tmk_core/protocol/chibios/usb_driver.c
+@@ -19,12 +19,12 @@
+ static void usb_start_receive(usb_endpoint_out_t *endpoint) {
+     /* If the USB driver is not in the appropriate state then transactions
+        must not be started.*/
+-    if ((usbGetDriverStateI(endpoint->config.usbp) != USB_ACTIVE)) {
++    if ((usbGetDriverStateI(endpoint->config->usbp) != USB_ACTIVE)) {
+         return;
+     }
+ 
+     /* Checking if there is already a transaction ongoing on the endpoint.*/
+-    if (usbGetReceiveStatusI(endpoint->config.usbp, endpoint->config.ep)) {
++    if (usbGetReceiveStatusI(endpoint->config->usbp, endpoint->config->ep)) {
+         return;
+     }
+ 
+@@ -35,7 +35,7 @@
+     }
+ 
+     /* Buffer found, starting a new transaction.*/
+-    usbStartReceiveI(endpoint->config.usbp, endpoint->config.ep, buffer, endpoint->ibqueue.bsize - sizeof(size_t));
++    usbStartReceiveI(endpoint->config->usbp, endpoint->config->ep, buffer, endpoint->ibqueue.bsize - sizeof(size_t));
+ }
+ 
+ /**
+@@ -58,18 +58,18 @@
+ 
+     /* If the USB endpoint is not in the appropriate state then transactions
+        must not be started.*/
+-    if ((usbGetDriverStateI(endpoint->config.usbp) != USB_ACTIVE)) {
++    if ((usbGetDriverStateI(endpoint->config->usbp) != USB_ACTIVE)) {
+         return;
+     }
+ 
+     /* Checking if there is already a transaction ongoing on the endpoint.*/
+-    if (!usbGetTransmitStatusI(endpoint->config.usbp, endpoint->config.ep)) {
++    if (!usbGetTransmitStatusI(endpoint->config->usbp, endpoint->config->ep)) {
+         /* Trying to get a full buffer.*/
+         size_t   n;
+         uint8_t *buffer = obqGetFullBufferI(&endpoint->obqueue, &n);
+         if (buffer != NULL) {
+             /* Buffer found, starting a new transaction.*/
+-            usbStartTransmitI(endpoint->config.usbp, endpoint->config.ep, buffer, n);
++            usbStartTransmitI(endpoint->config->usbp, endpoint->config->ep, buffer, n);
+         }
+     }
+ }
+@@ -79,20 +79,17 @@
+ /*===========================================================================*/
+ 
+ void usb_endpoint_in_init(usb_endpoint_in_t *endpoint) {
+-    usb_endpoint_config_t *config = &endpoint->config;
+-    endpoint->ep_config.in_state  = &endpoint->ep_in_state;
++    const usb_endpoint_config_t *config = endpoint->config;
+ 
+ #if defined(USB_ENDPOINTS_ARE_REORDERABLE)
+     if (endpoint->is_shared) {
+-        endpoint->ep_config.out_state = &endpoint->ep_out_state;
+-    }
++        }
+ #endif
+     obqObjectInit(&endpoint->obqueue, true, config->buffer, config->buffer_size, config->buffer_capacity, obnotify, endpoint);
+ }
+ 
+ void usb_endpoint_out_init(usb_endpoint_out_t *endpoint) {
+-    usb_endpoint_config_t *config = &endpoint->config;
+-    endpoint->ep_config.out_state = &endpoint->ep_out_state;
++    const usb_endpoint_config_t *config = endpoint->config;
+     ibqObjectInit(&endpoint->ibqueue, true, config->buffer, config->buffer_size, config->buffer_capacity, ibnotify, endpoint);
+ }
+ 
+@@ -100,8 +97,8 @@
+     osalDbgCheck(endpoint != NULL);
+ 
+     osalSysLock();
+-    osalDbgAssert((usbGetDriverStateI(endpoint->config.usbp) == USB_STOP) || (usbGetDriverStateI(endpoint->config.usbp) == USB_READY), "invalid state");
+-    endpoint->config.usbp->in_params[endpoint->config.ep - 1U] = endpoint;
++    osalDbgAssert((usbGetDriverStateI(endpoint->config->usbp) == USB_STOP) || (usbGetDriverStateI(endpoint->config->usbp) == USB_READY), "invalid state");
++    endpoint->config->usbp->in_params[endpoint->config->ep - 1U] = endpoint;
+     endpoint->timed_out                                        = false;
+     osalSysUnlock();
+ }
+@@ -110,8 +107,8 @@
+     osalDbgCheck(endpoint != NULL);
+ 
+     osalSysLock();
+-    osalDbgAssert((usbGetDriverStateI(endpoint->config.usbp) == USB_STOP) || (usbGetDriverStateI(endpoint->config.usbp) == USB_READY), "invalid state");
+-    endpoint->config.usbp->out_params[endpoint->config.ep - 1U] = endpoint;
++    osalDbgAssert((usbGetDriverStateI(endpoint->config->usbp) == USB_STOP) || (usbGetDriverStateI(endpoint->config->usbp) == USB_READY), "invalid state");
++    endpoint->config->usbp->out_params[endpoint->config->ep - 1U] = endpoint;
+     endpoint->timed_out                                         = false;
+     osalSysUnlock();
+ }
+@@ -120,7 +117,7 @@
+     osalDbgCheck(endpoint != NULL);
+ 
+     osalSysLock();
+-    endpoint->config.usbp->in_params[endpoint->config.ep - 1U] = NULL;
++    endpoint->config->usbp->in_params[endpoint->config->ep - 1U] = NULL;
+ 
+     bqSuspendI(&endpoint->obqueue);
+     obqResetI(&endpoint->obqueue);
+@@ -135,7 +132,7 @@
+     osalDbgCheck(endpoint != NULL);
+ 
+     osalSysLock();
+-    osalDbgAssert((usbGetDriverStateI(endpoint->config.usbp) == USB_STOP) || (usbGetDriverStateI(endpoint->config.usbp) == USB_READY), "invalid state");
++    osalDbgAssert((usbGetDriverStateI(endpoint->config->usbp) == USB_STOP) || (usbGetDriverStateI(endpoint->config->usbp) == USB_READY), "invalid state");
+ 
+     bqSuspendI(&endpoint->ibqueue);
+     ibqResetI(&endpoint->ibqueue);
+@@ -166,7 +163,7 @@
+ }
+ 
+ void usb_endpoint_in_configure_cb(usb_endpoint_in_t *endpoint) {
+-    usbInitEndpointI(endpoint->config.usbp, endpoint->config.ep, &endpoint->ep_config);
++    usbInitEndpointI(endpoint->config->usbp, endpoint->config->ep, endpoint->ep_config);
+     obqResetI(&endpoint->obqueue);
+     bqResumeX(&endpoint->obqueue);
+ }
+@@ -176,7 +173,7 @@
+      * therefore if we share an endpoint with an IN endpoint, it is already
+      * initialized. */
+ #if !defined(USB_ENDPOINTS_ARE_REORDERABLE)
+-    usbInitEndpointI(endpoint->config.usbp, endpoint->config.ep, &endpoint->ep_config);
++    usbInitEndpointI(endpoint->config->usbp, endpoint->config->ep, endpoint->ep_config);
+ #endif
+     ibqResetI(&endpoint->ibqueue);
+     bqResumeX(&endpoint->ibqueue);
+@@ -239,7 +236,7 @@
+     size_t size = usbGetReceiveTransactionSizeX(usbp, ep);
+     if (size > 0) {
+         /* Posting the filled buffer in the queue.*/
+-        ibqPostFullBufferI(&endpoint->ibqueue, usbGetReceiveTransactionSizeX(endpoint->config.usbp, endpoint->config.ep));
++        ibqPostFullBufferI(&endpoint->ibqueue, usbGetReceiveTransactionSizeX(endpoint->config->usbp, endpoint->config->ep));
+     }
+ 
+     /* The endpoint cannot be busy, we are in the context of the callback, so a
+@@ -251,10 +248,10 @@
+ }
+ 
+ bool usb_endpoint_in_send(usb_endpoint_in_t *endpoint, const uint8_t *data, size_t size, sysinterval_t timeout, bool buffered) {
+-    osalDbgCheck((endpoint != NULL) && (data != NULL) && (size > 0U) && (size <= endpoint->config.buffer_size));
+-
+-    osalSysLock();
+-    if (usbGetDriverStateI(endpoint->config.usbp) != USB_ACTIVE) {
++    osalDbgCheck((endpoint != NULL) && (data != NULL) && (size > 0U) && (size <= endpoint->config->buffer_size));
++
++    osalSysLock();
++    if (usbGetDriverStateI(endpoint->config->usbp) != USB_ACTIVE) {
+         osalSysUnlock();
+         return false;
+     }
+@@ -314,7 +311,7 @@
+     osalDbgCheck(endpoint != NULL);
+ 
+     osalSysLock();
+-    bool inactive = obqIsEmptyI(&endpoint->obqueue) && !usbGetTransmitStatusI(endpoint->config.usbp, endpoint->config.ep);
++    bool inactive = obqIsEmptyI(&endpoint->obqueue) && !usbGetTransmitStatusI(endpoint->config->usbp, endpoint->config->ep);
+     osalSysUnlock();
+ 
+     return inactive;
+@@ -324,7 +321,7 @@
+     osalDbgCheck((endpoint != NULL) && (data != NULL) && (size > 0U));
+ 
+     osalSysLock();
+-    if (usbGetDriverStateI(endpoint->config.usbp) != USB_ACTIVE) {
++    if (usbGetDriverStateI(endpoint->config->usbp) != USB_ACTIVE) {
+         osalSysUnlock();
+         return 0;
+     }
+--- a/tmk_core/protocol/chibios/usb_endpoints.h
++++ b/tmk_core/protocol/chibios/usb_endpoints.h
+@@ -129,7 +129,7 @@
+ 
+ #define IS_VALID_USB_ENDPOINT_IN_LUT(i) ((i) >= 0 && (i) < USB_ENDPOINT_IN_COUNT)
+ 
+-extern usb_endpoint_in_lut_t usb_endpoint_interface_lut[TOTAL_INTERFACES];
++extern const usb_endpoint_in_lut_t usb_endpoint_interface_lut[TOTAL_INTERFACES];
+ 
+ typedef enum {
+ #if defined(RAW_ENABLE)
+--- a/tmk_core/protocol/chibios/usb_endpoints.c
++++ b/tmk_core/protocol/chibios/usb_endpoints.c
+@@ -12,7 +12,7 @@
+ usb_endpoint_in_t usb_endpoints_in[USB_ENDPOINT_IN_COUNT] = {
+ // clang-format off
+ #if defined(SHARED_EP_ENABLE)
+-    [USB_ENDPOINT_IN_SHARED] = QMK_USB_ENDPOINT_IN(USB_EP_MODE_TYPE_INTR, SHARED_EPSIZE, SHARED_IN_EPNUM, SHARED_IN_CAPACITY, NULL,
++    [USB_ENDPOINT_IN_SHARED] = QMK_USB_ENDPOINT_IN(USB_ENDPOINT_IN_SHARED, USB_EP_MODE_TYPE_INTR, SHARED_EPSIZE, SHARED_IN_EPNUM, SHARED_IN_CAPACITY, NULL,
+     QMK_USB_REPORT_STORAGE(
+         &usb_shared_get_report,
+         &usb_shared_set_report,
+@@ -49,60 +49,60 @@
+ // clang-format on
+ 
+ #if !defined(KEYBOARD_SHARED_EP)
+-    [USB_ENDPOINT_IN_KEYBOARD] = QMK_USB_ENDPOINT_IN(USB_EP_MODE_TYPE_INTR, KEYBOARD_EPSIZE, KEYBOARD_IN_EPNUM, KEYBOARD_IN_CAPACITY, NULL, QMK_USB_REPORT_STORAGE_DEFAULT(sizeof(report_keyboard_t))),
++    [USB_ENDPOINT_IN_KEYBOARD] = QMK_USB_ENDPOINT_IN(USB_ENDPOINT_IN_KEYBOARD, USB_EP_MODE_TYPE_INTR, KEYBOARD_EPSIZE, KEYBOARD_IN_EPNUM, KEYBOARD_IN_CAPACITY, NULL, QMK_USB_REPORT_STORAGE_DEFAULT(sizeof(report_keyboard_t))),
+ #endif
+ 
+ #if defined(MOUSE_ENABLE) && !defined(MOUSE_SHARED_EP)
+-    [USB_ENDPOINT_IN_MOUSE] = QMK_USB_ENDPOINT_IN(USB_EP_MODE_TYPE_INTR, MOUSE_EPSIZE, MOUSE_IN_EPNUM, MOUSE_IN_CAPACITY, NULL, QMK_USB_REPORT_STORAGE_DEFAULT(sizeof(report_mouse_t))),
++    [USB_ENDPOINT_IN_MOUSE] = QMK_USB_ENDPOINT_IN(USB_ENDPOINT_IN_MOUSE, USB_EP_MODE_TYPE_INTR, MOUSE_EPSIZE, MOUSE_IN_EPNUM, MOUSE_IN_CAPACITY, NULL, QMK_USB_REPORT_STORAGE_DEFAULT(sizeof(report_mouse_t))),
+ #endif
+ 
+ #if defined(JOYSTICK_ENABLE) && !defined(JOYSTICK_SHARED_EP)
+-    [USB_ENDPOINT_IN_JOYSTICK] = QMK_USB_ENDPOINT_IN(USB_EP_MODE_TYPE_INTR, JOYSTICK_EPSIZE, JOYSTICK_IN_EPNUM, JOYSTICK_IN_CAPACITY, NULL, QMK_USB_REPORT_STORAGE_DEFAULT(sizeof(report_joystick_t))),
++    [USB_ENDPOINT_IN_JOYSTICK] = QMK_USB_ENDPOINT_IN(USB_ENDPOINT_IN_JOYSTICK, USB_EP_MODE_TYPE_INTR, JOYSTICK_EPSIZE, JOYSTICK_IN_EPNUM, JOYSTICK_IN_CAPACITY, NULL, QMK_USB_REPORT_STORAGE_DEFAULT(sizeof(report_joystick_t))),
+ #endif
+ 
+ #if defined(DIGITIZER_ENABLE) && !defined(DIGITIZER_SHARED_EP)
+-    [USB_ENDPOINT_IN_DIGITIZER] = QMK_USB_ENDPOINT_IN(USB_EP_MODE_TYPE_INTR, DIGITIZER_EPSIZE, DIGITIZER_IN_EPNUM, DIGITIZER_IN_CAPACITY, NULL, QMK_USB_REPORT_STORAGE_DEFAULT(sizeof(report_digitizer_t))),
++    [USB_ENDPOINT_IN_DIGITIZER] = QMK_USB_ENDPOINT_IN(USB_ENDPOINT_IN_DIGITIZER, USB_EP_MODE_TYPE_INTR, DIGITIZER_EPSIZE, DIGITIZER_IN_EPNUM, DIGITIZER_IN_CAPACITY, NULL, QMK_USB_REPORT_STORAGE_DEFAULT(sizeof(report_digitizer_t))),
+ #endif
+ 
+ #if defined(CONSOLE_ENABLE)
+ #    if defined(USB_ENDPOINTS_ARE_REORDERABLE)
+-    [USB_ENDPOINT_IN_CONSOLE] = QMK_USB_ENDPOINT_IN_SHARED(USB_EP_MODE_TYPE_INTR, CONSOLE_EPSIZE, CONSOLE_IN_EPNUM, CONSOLE_IN_CAPACITY, NULL, QMK_USB_REPORT_STORAGE_DEFAULT(CONSOLE_EPSIZE)),
++    [USB_ENDPOINT_IN_CONSOLE] = QMK_USB_ENDPOINT_IN_SHARED(USB_ENDPOINT_IN_CONSOLE, USB_EP_MODE_TYPE_INTR, CONSOLE_EPSIZE, CONSOLE_IN_EPNUM, CONSOLE_IN_CAPACITY, NULL, QMK_USB_REPORT_STORAGE_DEFAULT(CONSOLE_EPSIZE)),
+ #    else
+-    [USB_ENDPOINT_IN_CONSOLE] = QMK_USB_ENDPOINT_IN(USB_EP_MODE_TYPE_INTR, CONSOLE_EPSIZE, CONSOLE_IN_EPNUM, CONSOLE_IN_CAPACITY, NULL, QMK_USB_REPORT_STORAGE_DEFAULT(CONSOLE_EPSIZE)),
++    [USB_ENDPOINT_IN_CONSOLE] = QMK_USB_ENDPOINT_IN(USB_ENDPOINT_IN_CONSOLE, USB_EP_MODE_TYPE_INTR, CONSOLE_EPSIZE, CONSOLE_IN_EPNUM, CONSOLE_IN_CAPACITY, NULL, QMK_USB_REPORT_STORAGE_DEFAULT(CONSOLE_EPSIZE)),
+ #    endif
+ #endif
+ 
+ #if defined(RAW_ENABLE)
+ #    if defined(USB_ENDPOINTS_ARE_REORDERABLE)
+-    [USB_ENDPOINT_IN_RAW] = QMK_USB_ENDPOINT_IN_SHARED(USB_EP_MODE_TYPE_INTR, RAW_EPSIZE, RAW_IN_EPNUM, RAW_IN_CAPACITY, NULL, QMK_USB_REPORT_STORAGE_DEFAULT(RAW_EPSIZE)),
++    [USB_ENDPOINT_IN_RAW] = QMK_USB_ENDPOINT_IN_SHARED(USB_ENDPOINT_IN_RAW, USB_EP_MODE_TYPE_INTR, RAW_EPSIZE, RAW_IN_EPNUM, RAW_IN_CAPACITY, NULL, QMK_USB_REPORT_STORAGE_DEFAULT(RAW_EPSIZE)),
+ #    else
+-    [USB_ENDPOINT_IN_RAW] = QMK_USB_ENDPOINT_IN(USB_EP_MODE_TYPE_INTR, RAW_EPSIZE, RAW_IN_EPNUM, RAW_IN_CAPACITY, NULL, QMK_USB_REPORT_STORAGE_DEFAULT(RAW_EPSIZE)),
++    [USB_ENDPOINT_IN_RAW] = QMK_USB_ENDPOINT_IN(USB_ENDPOINT_IN_RAW, USB_EP_MODE_TYPE_INTR, RAW_EPSIZE, RAW_IN_EPNUM, RAW_IN_CAPACITY, NULL, QMK_USB_REPORT_STORAGE_DEFAULT(RAW_EPSIZE)),
+ #    endif
+ #endif
+ 
+ #if defined(PLOVER_HID_ENABLE)
+-    [USB_ENDPOINT_IN_PLOVER_HID] = QMK_USB_ENDPOINT_IN(USB_EP_MODE_TYPE_INTR, PLOVER_HID_EPSIZE, PLOVER_HID_IN_EPNUM, PLOVER_HID_IN_CAPACITY, NULL, QMK_USB_REPORT_STORAGE_DEFAULT(PLOVER_HID_EPSIZE)),
++    [USB_ENDPOINT_IN_PLOVER_HID] = QMK_USB_ENDPOINT_IN(USB_ENDPOINT_IN_PLOVER_HID, USB_EP_MODE_TYPE_INTR, PLOVER_HID_EPSIZE, PLOVER_HID_IN_EPNUM, PLOVER_HID_IN_CAPACITY, NULL, QMK_USB_REPORT_STORAGE_DEFAULT(PLOVER_HID_EPSIZE)),
+ #endif
+ 
+ #if defined(MIDI_ENABLE)
+ #    if defined(USB_ENDPOINTS_ARE_REORDERABLE)
+-    [USB_ENDPOINT_IN_MIDI] = QMK_USB_ENDPOINT_IN_SHARED(USB_EP_MODE_TYPE_BULK, MIDI_STREAM_EPSIZE, MIDI_STREAM_IN_EPNUM, MIDI_STREAM_IN_CAPACITY, NULL, NULL),
++    [USB_ENDPOINT_IN_MIDI] = QMK_USB_ENDPOINT_IN_SHARED(USB_ENDPOINT_IN_MIDI, USB_EP_MODE_TYPE_BULK, MIDI_STREAM_EPSIZE, MIDI_STREAM_IN_EPNUM, MIDI_STREAM_IN_CAPACITY, NULL, NULL),
+ #    else
+-    [USB_ENDPOINT_IN_MIDI] = QMK_USB_ENDPOINT_IN(USB_EP_MODE_TYPE_BULK, MIDI_STREAM_EPSIZE, MIDI_STREAM_IN_EPNUM, MIDI_STREAM_IN_CAPACITY, NULL, NULL),
++    [USB_ENDPOINT_IN_MIDI] = QMK_USB_ENDPOINT_IN(USB_ENDPOINT_IN_MIDI, USB_EP_MODE_TYPE_BULK, MIDI_STREAM_EPSIZE, MIDI_STREAM_IN_EPNUM, MIDI_STREAM_IN_CAPACITY, NULL, NULL),
+ #    endif
+ #endif
+ 
+ #if defined(VIRTSER_ENABLE)
+ #    if defined(USB_ENDPOINTS_ARE_REORDERABLE)
+-    [USB_ENDPOINT_IN_CDC_DATA] = QMK_USB_ENDPOINT_IN_SHARED(USB_EP_MODE_TYPE_BULK, CDC_EPSIZE, CDC_IN_EPNUM, CDC_IN_CAPACITY, virtser_usb_request_cb, NULL),
++    [USB_ENDPOINT_IN_CDC_DATA] = QMK_USB_ENDPOINT_IN_SHARED(USB_ENDPOINT_IN_CDC_DATA, USB_EP_MODE_TYPE_BULK, CDC_EPSIZE, CDC_IN_EPNUM, CDC_IN_CAPACITY, virtser_usb_request_cb, NULL),
+ #    else
+-    [USB_ENDPOINT_IN_CDC_DATA] = QMK_USB_ENDPOINT_IN(USB_EP_MODE_TYPE_BULK, CDC_EPSIZE, CDC_IN_EPNUM, CDC_IN_CAPACITY, virtser_usb_request_cb, NULL),
++    [USB_ENDPOINT_IN_CDC_DATA] = QMK_USB_ENDPOINT_IN(USB_ENDPOINT_IN_CDC_DATA, USB_EP_MODE_TYPE_BULK, CDC_EPSIZE, CDC_IN_EPNUM, CDC_IN_CAPACITY, virtser_usb_request_cb, NULL),
+ #    endif
+-    [USB_ENDPOINT_IN_CDC_SIGNALING] = QMK_USB_ENDPOINT_IN(USB_EP_MODE_TYPE_INTR, CDC_NOTIFICATION_EPSIZE, CDC_NOTIFICATION_EPNUM, CDC_SIGNALING_DUMMY_CAPACITY, NULL, NULL),
++    [USB_ENDPOINT_IN_CDC_SIGNALING] = QMK_USB_ENDPOINT_IN(USB_ENDPOINT_IN_CDC_SIGNALING, USB_EP_MODE_TYPE_INTR, CDC_NOTIFICATION_EPSIZE, CDC_NOTIFICATION_EPNUM, CDC_SIGNALING_DUMMY_CAPACITY, NULL, NULL),
+ #endif
+ };
+ 
+-usb_endpoint_in_lut_t usb_endpoint_interface_lut[TOTAL_INTERFACES] = {
++const usb_endpoint_in_lut_t usb_endpoint_interface_lut[TOTAL_INTERFACES] = {
+ #if !defined(KEYBOARD_SHARED_EP)
+     [KEYBOARD_INTERFACE] = USB_ENDPOINT_IN_KEYBOARD,
+ #endif
+@@ -147,14 +147,14 @@
+ 
+ usb_endpoint_out_t usb_endpoints_out[USB_ENDPOINT_OUT_COUNT] = {
+ #if defined(RAW_ENABLE)
+-    [USB_ENDPOINT_OUT_RAW] = QMK_USB_ENDPOINT_OUT(USB_EP_MODE_TYPE_INTR, RAW_EPSIZE, RAW_OUT_EPNUM, RAW_OUT_CAPACITY),
++    [USB_ENDPOINT_OUT_RAW] = QMK_USB_ENDPOINT_OUT(USB_ENDPOINT_OUT_RAW, USB_EP_MODE_TYPE_INTR, RAW_EPSIZE, RAW_OUT_EPNUM, RAW_OUT_CAPACITY),
+ #endif
+ 
+ #if defined(MIDI_ENABLE)
+-    [USB_ENDPOINT_OUT_MIDI] = QMK_USB_ENDPOINT_OUT(USB_EP_MODE_TYPE_BULK, MIDI_STREAM_EPSIZE, MIDI_STREAM_OUT_EPNUM, MIDI_STREAM_OUT_CAPACITY),
++    [USB_ENDPOINT_OUT_MIDI] = QMK_USB_ENDPOINT_OUT(USB_ENDPOINT_OUT_MIDI, USB_EP_MODE_TYPE_BULK, MIDI_STREAM_EPSIZE, MIDI_STREAM_OUT_EPNUM, MIDI_STREAM_OUT_CAPACITY),
+ #endif
+ 
+ #if defined(VIRTSER_ENABLE)
+-    [USB_ENDPOINT_OUT_CDC_DATA] = QMK_USB_ENDPOINT_OUT(USB_EP_MODE_TYPE_BULK, CDC_EPSIZE, CDC_OUT_EPNUM, CDC_OUT_CAPACITY),
++    [USB_ENDPOINT_OUT_CDC_DATA] = QMK_USB_ENDPOINT_OUT(USB_ENDPOINT_OUT_CDC_DATA, USB_EP_MODE_TYPE_BULK, CDC_EPSIZE, CDC_OUT_EPNUM, CDC_OUT_CAPACITY),
+ #endif
+ };

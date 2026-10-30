@@ -1,0 +1,27 @@
+{
+  "purpose": "Wire-format references, not linked/vendored dependencies or a full Vial port",
+  "vial_version": 6,
+  "via_version": 9,
+  "references": {
+    "vial-qmk/quantum/vial.c": {
+      "url": "https://github.com/vial-kb/vial-qmk/blob/dd43959ae5c08d8a28d38a1acf7b04e86b14a344/quantum/vial.c",
+      "sha256": "713c5a9ba680a3bd39f25fea00cbff66d9506ef8951be33b36aed50b0cc4b52b"
+    },
+    "vial-qmk/quantum/via.h": {
+      "url": "https://github.com/vial-kb/vial-qmk/blob/dd43959ae5c08d8a28d38a1acf7b04e86b14a344/quantum/via.h",
+      "sha256": "82cfa43bbc57818509735c3c567fe1ea7ea28284ad9aebf1cfda3fe34206e8a9"
+    },
+    "vial-qmk/quantum/keycodes.h": {
+      "url": "https://github.com/vial-kb/vial-qmk/blob/dd43959ae5c08d8a28d38a1acf7b04e86b14a344/quantum/keycodes.h",
+      "sha256": "0a4cf54e4d2bd33fdbc12492fca88446545769abce7ab38bbd790c4aa019f523"
+    },
+    "vial-qmk/util/vial_generate_definition.py": {
+      "url": "https://github.com/vial-kb/vial-qmk/blob/dd43959ae5c08d8a28d38a1acf7b04e86b14a344/util/vial_generate_definition.py",
+      "sha256": "ecd4b1ffeae61a1918ef704eff47f67e2f55ec48944a34a357af6a48abd4caae"
+    },
+    "vial-gui/src/main/python/protocol/keyboard_comm.py": {
+      "url": "https://github.com/vial-kb/vial-gui/blob/aef8222a2d0429a183b2ed692d5f9efcfd383f08/src/main/python/protocol/keyboard_comm.py",
+      "sha256": "d71b73a6217c5d12a05ff0cd3c85ea06b8f9df798cfb5f1a783207af4623ecdb"
+    }
+  }
+}

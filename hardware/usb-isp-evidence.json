@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-29",
+  "scope": "reviewed diagnostic evidence, no flash dump",
+  "oem_usb": {
+    "vid": "0951",
+    "pid": "16d2",
+    "bcdDevice": "2112",
+    "interface": 0,
+    "report_descriptor_sha256": "225f708546bcd693001522ee72ae5a866fcb674dd433eba3687974b1ac128bdc"
+  },
+  "isp_response": {
+    "family_byte": 32,
+    "chip_byte": 2,
+    "inferred_family": "SN32F26x",
+    "word12_raw_uninterpreted": 2,
+    "security_raw": 0,
+    "interpreted_security": "CS0",
+    "checksum": "0x27d1"
+  },
+  "version_query_ack": true,
+  "checksum_query_ack": true,
+  "oem_reenumerated": true,
+  "user_confirmed_typing_after_return": true,
+  "flash_written": false,
+  "protection_changed": false,
+  "dump_obtained": false,
+  "failed_application_recovery_verified": false,
+  "report": "docs/usb-isp-and-startup.md"
+}

@@ -1,0 +1,8 @@
+{
+  "tmk_core/protocol/chibios/usb_report_handling.h": "407111c0fec8b55c7faa8395fa52dc8f521df0edbf74e86dff9d651c47ce3d52",
+  "tmk_core/protocol/chibios/usb_report_handling.c": "4509d861943e5b1ceb73c8bd7658a43b34c1dc98c6a47575ee0bf99ecb8a7daa",
+  "tmk_core/protocol/chibios/usb_driver.h": "2161b0d604be7436dd5cac449093e8bc24582bcbc5222649b735e0043cb9cfe7",
+  "tmk_core/protocol/chibios/usb_driver.c": "8d06e59bd4c0c195fee6b4a9eba82b83a25893aea977a56616a1a56972c36273",
+  "tmk_core/protocol/chibios/usb_endpoints.h": "e12a3b5a2aa45c6df301592989f9a1240fdf5e17fe968f1b39253321b834bdd5",
+  "tmk_core/protocol/chibios/usb_endpoints.c": "8f063df86d9381b1673deb341d27fb1c08f1e603b0134c4cab4cc50d39cc740c"
+}

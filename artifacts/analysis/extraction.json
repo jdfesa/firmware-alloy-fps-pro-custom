@@ -1,0 +1,28 @@
+{
+  "source_type": "third_party_mirror_not_authenticated",
+  "source_repo": "IRus/blog",
+  "source_commit": "f280a57181cb8166c1031d064869fa83d3f0d5a9",
+  "zip_sha256": "d023babeea8fb4305d727fe550f9bdc57e9a1fc82fe909b9072cbb066a297a6e",
+  "exe_sha256": "c192c4a2e678d416778b0dd042abb215489f8dba4e20e9130d43904d144ceada",
+  "resource_sha256": "045dc26ec2159eff8200e121eb1694adf668d8b3908c53993ad963fbfcb9f4b5",
+  "hex_sha256": "560d61f2748ce9b2fd0cc9f93dc73350fd85ddcaab04f8d0c095b0d2ad1ba56d",
+  "dll_sha256": "d55364022e2683d909d8f502095abcf98aca5ad872ead87e95666972beb2da3b",
+  "analysis_sha256": "787a054754c0604a16f2bcb636c68f8269ce0042e5c777bbf6cd56f8512ed7b2",
+  "hex_address_ranges": [
+    [
+      0,
+      26391
+    ],
+    [
+      30716,
+      30719
+    ]
+  ],
+  "analysis_fill_byte": 255,
+  "analysis_padding_is_not_read_from_device": true,
+  "bootloader_present_in_hex": false,
+  "executed": false,
+  "dump_of_connected_device": false,
+  "restoration_verified": false,
+  "rea_resources_evidence": "ev_92b2a7f1bc47af8ad6b24984ddf3af14a384cfc10c902e3a6dd3f10f2795ae28"
+}

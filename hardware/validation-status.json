@@ -1,0 +1,23 @@
+{
+  "case_must_remain_closed": true,
+  "unit_revision_matched": false,
+  "matrix_behavior_validated": false,
+  "bootloader_path_verified": true,
+  "original_recovery_verified": false,
+  "arm_build_and_memory_verified": true,
+  "arm_verification_scope": "real Cortex-M0 compile/link and static linker bounds only; runtime stack/high-water not measured",
+  "jumploader_path_verified": false,
+  "runtime_stability_verified": false,
+  "status": "OEM_ISP_cycle_verified; jumploader_and_custom42_fn_compiled; NOT_READY_TO_FLASH",
+  "bootloader_verification_scope": "OEM -> ISP queries -> OEM reenumeration; user confirmed typing; NOT recovery after failed application",
+  "mcu_family_observed": "SN32F26x (ISP protocol family 0x20 / chip 0x02); exact package/PCB unverified",
+  "usb_access_available_over_ssh": true,
+  "jumploader_compiled": true,
+  "jumploader_runtime_verified": false,
+  "evidence_report": "docs/usb-isp-and-startup.md",
+  "vial_protocol_stage": "read-only Vial6/VIA9 prototype compiled; not editable, not USB/GUI tested",
+  "vial_gui_detection_verified": false,
+  "vial_persistent_remapping_verified": false,
+  "vial_evidence_report": "docs/vial-readonly-prototype.md",
+  "usb_access_available_over_ssh_scope": "Historical Linux SSH ISP cycle; current SSH source host is macOS. User reports HyperX on local Linux; no new USB access attempted."
+}

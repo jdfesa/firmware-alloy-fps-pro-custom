@@ -1,0 +1,37 @@
+{
+  "keymap": "default",
+  "architecture": "ARM Cortex-M0",
+  "native_arm_build": true,
+  "qmk_revision": "62973ee48a976c6f7cc6d4f7b198bd48a2fdfe60",
+  "gcc": "arm-none-eabi-gcc (xPack GNU Arm Embedded GCC x86_64) 12.3.1 20230626",
+  "source_hashes": {
+    "firmware/keyboards/hyperx/alloy_fps_pro/config.h": "84bbd68fb7b3906b44e33c9492ea3562b611f87ef6d79f7616717e6f5a061ecd",
+    "firmware/keyboards/hyperx/alloy_fps_pro/keyboard.json": "003d262f035c836fe39f71c6d8c697e5e99378d4e68e03e4af98c4543708312e",
+    "firmware/keyboards/hyperx/alloy_fps_pro/keymap-metadata.json": "ce2e6684a527895428d6d4374429986efa0323168b9253824f5afbcacba30802",
+    "firmware/keyboards/hyperx/alloy_fps_pro/keymaps/custom42/keymap.c": "577e377dd42de1620887409a5e5172713fd6863de27fbcb5d429a960e3de1c20",
+    "firmware/keyboards/hyperx/alloy_fps_pro/keymaps/default/keymap.c": "8d1eba7e7d380f03dc10eaf9b8867ce8c1f492dfdd3b9460de95481934d10a72",
+    "firmware/keyboards/hyperx/alloy_fps_pro/rules.mk": "b15a58312bc404545fa9c33687ef5557698a16462ca9aa5684355716269a13de"
+  },
+  "binary_sha256": "646be183c794dc3042c3e1589562f42701d1ae9ccd71e9d8547434ed232b95af",
+  "elf_sha256": "30c585d81f7aa1e83c265ac2185928b4fa7711d361ce670d4e2f39912ed1bfbf",
+  "memory": {
+    "binary_bytes": 16868,
+    "binary_load_address": 512,
+    "flash_upper_exclusive": 30720,
+    "flash_application_capacity": 30208,
+    "requires_jumploader": true,
+    "vectors_at_zero": false,
+    "ram_bytes": 2048,
+    "ram_reserved_through_heap_base": 1960,
+    "heap_bytes": 88,
+    "main_irq_stack_bytes": 224,
+    "process_stack_bytes": 480,
+    "data_bytes": 280,
+    "bss_bytes": 972,
+    "runtime_stack_high_water_measured": false
+  },
+  "flash_approved": false,
+  "device_tested": false,
+  "original_recovery_verified": false,
+  "warning": "Application at 0x200. Needs a compatible jumploader; NOT an image to write at zero."
+}

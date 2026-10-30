@@ -1,0 +1,52 @@
+# Local artifacts are private by default. Only reviewed metadata is public.
+/artifacts/*
+!/artifacts/analysis/
+/artifacts/analysis/*
+!/artifacts/analysis/arm-build-custom42.json
+!/artifacts/analysis/arm-build-default.json
+!/artifacts/analysis/extraction.json
+!/artifacts/analysis/vendor-provenance.json
+/build/
+
+# Local agent/cloud configuration, credentials and private working material.
+/.agents/
+/.codex/
+/.aws/
+/.ssh/
+/private/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+.netrc
+id_rsa
+id_ed25519
+
+# Editor locks can include local account, machine and file paths.
+.~lock.*#
+*.swp
+*.swo
+*~
+.DS_Store
+*.log
+__pycache__/
+*.pyc
+
+# Do not accidentally publish firmware/updaters or unreviewed label photos.
+*.bin
+*.elf
+*.hex
+*.uf2
+*.exe
+*.dll
+*.zip
+*.rar
+*.tar
+*.tar.gz
+*.jpg
+*.jpeg
+*.png
+*.heic

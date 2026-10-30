@@ -1,0 +1,8 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
+#pragma once
+#define RAW_IN_CAPACITY 1
+#define RAW_OUT_CAPACITY 1
+#define KEYBOARD_IN_CAPACITY 1
+#define SERIAL_NUMBER "EXPERIMENTAL"
+#define LAYER_STATE_8BIT
+#define QMK_USB_REPORT_STORAGE_SIZE 32
