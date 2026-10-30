@@ -13,6 +13,7 @@
 /.codex/
 /.aws/
 /.ssh/
+/tmp
 /private/
 .env
 .env.*
