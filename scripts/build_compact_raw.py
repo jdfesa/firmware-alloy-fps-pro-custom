@@ -20,6 +20,9 @@ def main(keymap="raw_compact"):
     if keymap == "vial_readonly":
         from generate_vial_readonly import generate
         generate(check=True)
+    if keymap == "vial_editable":
+        from generate_vial_editable import generate
+        generate(check=True)
     shutil.copytree(build.SOURCE, build.QMK / "keyboards/hyperx/alloy_fps_pro", dirs_exist_ok=True)
     patch = build.ROOT / "patches/qmk/compact-usb.patch"
     preimages = patch.with_name("compact-usb-preimages.json")
