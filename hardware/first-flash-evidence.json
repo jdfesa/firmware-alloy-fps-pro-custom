@@ -1,0 +1,76 @@
+{
+  "date": "2026-10-30",
+  "stage": "QMK default typed; cold Escape ISP verified; Vial read-only RAW discovery and map reads passed",
+  "first_image": {
+    "sha256": "78f0fa942cec435ebe7eaaea4d160b79b9cc5e961d3c3792e6c9155cc4441173",
+    "offset": 0,
+    "end_exclusive": 17408,
+    "reports_64_bytes": 272,
+    "keymap": "default",
+    "jumploader_bytes": 512
+  },
+  "preflight": {
+    "family": "SN32F26x",
+    "security": "CS0",
+    "checksum": "0x27d1"
+  },
+  "programming": {
+    "completion_ack": true,
+    "last_word_echo_matches": true,
+    "checksum_after": "0x1ad2",
+    "image_sum16": "0xc98f",
+    "checksum_domain_verified": false,
+    "flash_readback_verified": false,
+    "erase_command_sent": false,
+    "security_command_sent": false
+  },
+  "rescue_after_return_user": {
+    "escape_held_by_user": true,
+    "usb": {
+      "vid": "0c45",
+      "pid": "7010",
+      "bcdDevice": "0100"
+    },
+    "version_and_checksum_queries_acknowledged": true
+  },
+  "qmk_after_escape_released": {
+    "usb": {
+      "vid": "feed",
+      "pid": "a11f",
+      "bcdDevice": "0001",
+      "product": "Alloy FPS Pro custom EXPERIMENTAL"
+    },
+    "user_typing_confirmed": true,
+    "typing_scope": "User returned the requested phrase hola qmk; full matrix, Enter and Backspace not separately confirmed."
+  },
+  "cold_plug_escape_rescue_verified": true,
+  "failed_application_recovery_tested": false,
+  "oem_backup_obtained": false,
+  "oem_restore_tested": false,
+  "vial_editing_verified": false,
+  "report": "docs/first-flash-trial.md",
+  "cold_plug_escape_rescue_scope": "User unplugged/replugged only HyperX holding Escape; ISP enumerated and answered F260/CS0/checksum0x1ad2. QMK Bootmagic also enabled; no exclusive attribution to jumploader Escape branch and no deliberately corrupt app test.",
+  "vial_readonly_trial": {
+    "app_offset": 512,
+    "end_exclusive": 20032,
+    "bytes": 19520,
+    "reports": 305,
+    "image_sha256": "8c67bf9da395b51f14b1c06a7ac3d65b1178b16ffb75621e341b67bb1579fcb4",
+    "jumploader_rewritten": false,
+    "completion_ack": true,
+    "last_word_echo_matches": true,
+    "checksum_after": "0x13bd",
+    "usb_product": "Alloy FPS Pro Vial READ-ONLY",
+    "raw_descriptor_sha256": "b464b2658e8e41b89af847112efa3c3059c330864e10094425c0b92d55e24d89",
+    "via_protocol": 9,
+    "vial_protocol": 6,
+    "definition_bytes": 336,
+    "definition_sha256": "5234fd1b5a7e879c2d03b7d40967d1c2b8ce6a8c4a6a7858c96138604f2010e1",
+    "layers": 4,
+    "map_bytes": 896,
+    "map_sha256": "eba250d37a8c7f0a7ab04873df7ced345b7543fea0849c46ef37ebf6a650ae9f",
+    "gui_detection_tested": true,
+    "editing_enabled": false,
+    "gui_detection_evidence": "User reported seeing HyperX READ-ONLY in vial.rocks; no assistant screenshot."
+  }
+}

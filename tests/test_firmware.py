@@ -106,7 +106,13 @@ class FirmwareTests(unittest.TestCase):
     def test_not_flash_ready(self):
         status = json.loads((ROOT / "hardware/validation-status.json").read_text())
         self.assertIn("original_recovery_verified", readiness.missing(status))
-        self.assertIn("jumploader_path_verified", readiness.missing(status))
+        # First-flash evidence now supports the installed startup path; the
+        # general checklist still lacks OEM recovery and full matrix validation.
+        self.assertTrue(status["jumploader_path_verified"])
+        evidence = json.loads((ROOT / "hardware/first-flash-evidence.json").read_text())
+        self.assertTrue(evidence["cold_plug_escape_rescue_verified"])
+        self.assertTrue(evidence["qmk_after_escape_released"]["user_typing_confirmed"])
+        self.assertFalse(evidence["failed_application_recovery_tested"])
         self.assertEqual(readiness.missing({key: "true" for key in readiness.REQUIRED}), list(readiness.REQUIRED))
         run = subprocess.run(["python3", str(ROOT / "scripts/check_port_readiness.py")], capture_output=True, text=True)
         self.assertEqual(run.returncode, 2)

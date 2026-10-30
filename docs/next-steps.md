@@ -1,5 +1,21 @@
 # Cómo seguir sin abrir el teclado
 
+## Hito real de esta sesión — 2026-10-30
+
+QMK default ya se flasheó y el usuario escribió `hola qmk`. Escape al reconectar
+volvió a un ISP que responde. Después se instaló `vial_readonly` conservando el
+arranque: consultas RAW de identidad/definición/cuatro capas verificadas y el
+usuario confirmó detección en **vial.rocks**. Sigue sin edición en esa versión.
+
+Nuevo candidato `vial_editable`: base inglesa completa salvo cinco posiciones
+averiadas, cuatro capas, backend físico por páginas y unlock Tab+Caps. **Build y
+tests, aún pendiente instalar/validar remapeo persistente**. Ver
+[el ensayo real](first-flash-trial.md) y [la variante editable](vial-editable.md).
+La ruta de los enlaces es relativa a la raíz del repo. Evidencia saneada en
+`hardware/first-flash-evidence.json`. No confundir estos hitos con estabilidad,
+backup OEM o recuperación de una app deliberadamente dañada.
+
+
 Actualizado: **2026-10-30**. Esta es la guía de relevo del proyecto.
 
 ## 0. Prioridad nueva: rescate mínimo y primera prueba, no perfección previa

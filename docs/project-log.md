@@ -221,3 +221,39 @@ Foto superior y, si el usuario acepta abrir **solo el HyperX desconectado**, fot
   jumploader436B/512, mismo hash4d336e11 previo. RAM1960/2048, no runtime aún.
 - Plan, fuentes y límites: [primer ensayo](first-flash-trial.md). Ninguna
   evidencia de hardware se cambia antes de observar el resultado.
+
+## 2026-10-30 — Primer flasheo real y arranque USB de QMK
+
+- Ejecutado el instalador revisado con imagen17408B,offset0,272reports y
+  consentimiento del usuario, quien mantuvo Escape. Sin erase explícito,
+  cambios de seguridad, updater propietario ni intervención del Silakka54.
+- ACK y eco finalcorrectos; checksumISP cambió0x27d1→0x1ad2. No readback ni
+  dominiochecksum demostrado. Los datos públicos incluyen esta limitación.
+- Escape+RETURN_USER llevó a0c45:7010; ISP respondióF260/CS0/checksum.
+  Tras soltarEscape, RETURN_USER llevó aQMK FEED:A11F/bcd0001.
+- No afirmar estabilidad/matriz completa/Vial editable a partir deenumeración.
+  Confirmación humana y prueba de reconexión física todavía pendientes.
+- 73tests pasan enLinux/macOS. Commit fuente f3adf1a creado enmacOS y enviado
+  aorigin/main mediante el Linuxautenticado (credencialmacOS inválida),
+  importando el commit exacto porbundle, sin transferir credenciales.
+
+## 2026-10-30 — Vial real detectado y candidato editable
+
+- Usuario escribió `hola qmk` con default. Cold plug con Escape volvió a ISP.
+- App-only vial_readonly instalada sin reescribir arranque:305reportes,checksum
+  0x13bd. Consultas RAW reales:VIA9/Vial6,definición336B ymapa896B/cuatrocapas.
+  Usuario confirma HyperX READ-ONLY en vial.rocks. No inferir edición de esto.
+- Añadido probe_vial.py con selección exclusiva de RAW del HyperX y comandos
+  de lectura; no matriz de switches, ni comandos arbitrarios, ni Silakka54.
+- El usuario reportó Enter yotrasteclas ausentes: custom42_fn las marcabaKC_NO.
+  Se eligió baseinglesa82posiciones excluyendo las5averiadas para elnuevoeditable.
+  Usuario aclaró que54uotranúmero sirve; editar ypersistir aldesconectar manda.
+- Nuevo vial_editable: snapshots porpáginas64B en0x7000..0x7800,commit separado,
+  CRC+readback,lockfísico Tab+Caps,SET_KEYCODE/SET_BUFFER ylectura por escaneo.
+  Reserva linker/build/instalador; sinBootmagic deapp para aislar rescatejumploader.
+  No seadaptó directamente el modelo4B/FF: manual describe erase0 ypáginas64B.
+- 83tests pasan enmacOS;52.275 cortes simulados yASan/UBSan. No son cortes
+  reales ni certificación de desgaste. Compilación ARM:21372B antes delcambio
+  deUIDdevariante,1968/2048B reservados,80Bheap, pilas224/480sinrecortar.
+- Documento deoperación/riesgos: docs/vial-editable.md. Todavía no seha instalado
+  este candidato ni probado edición/persistencia alregistrar esteapartado.

@@ -68,3 +68,19 @@ reescritura de arranque puede dejarlo sin rescate cerrado.
 
 El checklist general conserva las evidencias aún pendientes. La aceptación del
 riesgo residual permite este ensayo, no cambiar los indicadores anticipadamente.
+
+## Resultados observados de la primera escritura
+
+- Conjunto17408B,272reportes, rango `[0,0x4400)`, SHA256
+  `78f0fa942cec435ebe7eaaea4d160b79b9cc5e961d3c3792e6c9155cc4441173`.
+- F260/CS0/checksum0x27d1 reconfirmados antes de CMD5. ACK final y eco
+  correctos; checksumposterior0x1ad2 frente asum16local0xc98f: **no readback**.
+- RETURN_USER con Escape pulsado: reenumeración0c45:7010/bcd0100, versión y
+  checksumISP respondieron. Al soltarEscape y repetir retorno: QMK enumera
+  FEED:A11F/bcd0001, producto Alloy FPS Pro custom EXPERIMENTAL.
+- Usuario escribió `hola qmk`. Después desconectó/reconectó solo HyperX con
+  Escape; ISP reenumeró y respondió F260/CS0/checksum0x1ad2. QMK Bootmagic
+  también está habilitado: no atribuir exclusivamente esta entrada al
+  jumploader sin aislarlo. No prueba de app deliberadamente corrupta.
+- Datos públicos saneados: `hardware/first-flash-evidence.json`. No incluye
+  serial, ruta de hidraw, puerto privado ni credenciales.
