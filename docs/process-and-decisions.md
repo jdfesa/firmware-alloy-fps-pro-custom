@@ -62,7 +62,7 @@ en hechos ni presentar una receta universal. Estado actual: [README](../README.m
 - Backend real, formatos y whitelist: [editable](vial-editable.md), fuentes C.
 - Descubrimiento desktop: [util.py oficial e42622c](https://github.com/vial-kb/vial-gui/blob/e42622c352b69eff523a467718db487ab9c9cbf2/src/main/python/util.py).
 - Transporte Feature: [contrato hidapi](https://libusb.info/hidapi/group__API.html),
-  [adaptador Mac](macos-update.md), tests y evidencia saneada.
+  [adaptador Mac](usb-update.md), tests y evidencia saneada.
 - Cronología y resultados: [bitácora](project-log.md),
   `hardware/first-flash-evidence.json` y `hardware/validation-status.json`.
 

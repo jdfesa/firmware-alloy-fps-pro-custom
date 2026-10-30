@@ -1,4 +1,4 @@
-# Actualización acotada desde macOS
+# Transportes USB y actualización acotada
 
 > [!WARNING]
 > Este transporte fue probado en una unidad. No es un flasher universal ni una
@@ -16,7 +16,15 @@ cero más 64 bytes en ambos buffers Feature. El adaptador exige 65 bytes, ACK ye
 reutiliza la secuencia F260 revisada en [el primer ensayo](first-flash-trial.md).
 No se ejecuta el actualizador propietario ni la herramienta upstream completa.
 
-## Límites del adaptador
+## Elegir un backend compatible, no dos sistemas
+
+El protocolo del teclado no requiere dos equipos. El instalador tiene dos
+backends: Linux/hidraw para primera instalación o actualización revisadas, y
+macOS/hidapi con `--mac` para actualización app-only. El segundo no es requisito
+del primero. No se implementó/validó un backend Windows. La GUI de Vial no
+sustituye el transporte ISP de instalación. Ver [requisitos](reproduction.md).
+
+## Límites del adaptador hidapi
 
 `flash_trial.py --mac` selecciona una única colección ISP 0c45:7010/release0100,
 interfaz 0 (o -1 si hidapi no informa), y exige su ruta vigente explícita.

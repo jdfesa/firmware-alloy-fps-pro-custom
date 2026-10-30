@@ -53,7 +53,7 @@ FeatureReportISP, no RAW. Escape entró al ISP con Bootmagic de app deshabilitad
 F260 / CS0  y checksum previo0xeb27 comprobados.335 reportes enviados una sola vez,
 ACK/eco correctos, checksum posterior0x9ac7. Retorno explícito sin Escape confirmó
 TKL416 B y los896 B del mapa idénticos al snapshot previo. No reescritura dearranque,
-bancos oISP; no lectura completa de flash. [ProcedimientoMac](macos-update.md).
+bancos oISP; no lectura completa de flash. [ProcedimientoMac](usb-update.md).
 Edición posterior desdeVialdesktop y salida humana verificadas como se detalla abajo.
 
 ## Referencia voluntaria del Silakka54

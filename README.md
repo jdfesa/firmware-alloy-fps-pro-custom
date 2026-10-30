@@ -38,7 +38,7 @@ las revisiones de este modelo.
 | Vial de escritorio y web | Detección confirmada; se corrigió la marca USB necesaria para descubrirlo en escritorio. |
 | Cuatro capas y edición persistente | Cambios desde GUI, lectura completa del mapa antes/después de reconectar y salida física confirmadas. |
 | Mapa de prueba restaurado | Las cuatro capas coinciden otra vez con el mapa inicial; no quedaron las tres E de la prueba. |
-| Actualización desde macOS | Transporte ISP acotado y app-only probado, preservando los rangos de arranque y mapas. ACK/eco no son lectura completa de flash. |
+| Actualización USB acotada | Transporte ISP acotado y app-only probado, preservando los rangos de arranque y mapas. ACK/eco no son lectura completa de flash. |
 | Escape → ISP | Comprobado al conectar con Bootmagic de la app deshabilitado; no se probó una app deliberadamente corrupta. |
 
 **No es Vial-QMK completo.** No hay iluminación, macros, combos, tap-dance,
@@ -49,7 +49,7 @@ variante. Las cinco posiciones averiadas no se repararon por firmware.
 
 ![TKL completo en Vial de escritorio, con cinco posiciones deshabilitadas](docs/images/vial-tkl-full.png)
 
-Captura aportada por el usuario en macOS/Vial 0.7.5. El teclado superior muestra
+Captura aportada por el usuario en Vial 0.7.5. El teclado superior muestra
 **87 posiciones físicas y 82 utilizables**. Las cinco casillas vacías entre 7 y
 Backspace son `8 9 0 - =`, mantenidas en `KC_NO` por su avería; **no faltan del
 dibujo**. La paleta inferior de Vial ofrece más funciones de las que admite este
@@ -66,7 +66,8 @@ firmware: que aparezcan en la interfaz no significa que estén implementadas.
 > **no borra el mapa ni impide usarlo**. No hay que repetirlo por cada asignación.
 
 1. Abrir **un solo cliente** Vial y seleccionar el HyperX.
-2. En la barra superior de macOS, elegir **Security → Unlock**.
+2. Desde el menú de Vial, elegir **Security → Unlock**. Si el menú no está en
+   la ventana, buscarlo en la barra de menús del sistema.
 3. Mantener **Tab + Caps Lock físicos** hasta completar la barra; después soltar.
    Pulsarlos sin iniciar Unlock no hace nada. En el GUI de referencia tarda unos 4 s.
 4. Seleccionar la capa y la tecla destino en el dibujo superior; elegir su nueva
@@ -113,10 +114,30 @@ programación.** Ver [procedimiento y límites](docs/safety-and-recovery.md).
 | Riesgos, qué NO hacer y diferencias entre rescate y backup | [Seguridad y recuperación](docs/safety-and-recovery.md) |
 | Máquinas, compiladores, dependencias y reproducción | [Prerrequisitos y reproducción](docs/reproduction.md) |
 | Entender cómo se llegó a las conclusiones | [Proceso y decisiones](docs/process-and-decisions.md) |
-| Actualizar una unidad ya instalada, con alcance acotado | [Transporte macOS](docs/macos-update.md) |
+| Actualizar una unidad ya instalada, con alcance acotado | [Transportes USB](docs/usb-update.md) |
 | Retomar el proyecto y priorizar trabajo pendiente | [Continuación](docs/next-steps.md) |
 | Consultar evidencia de hardware y cronología | [Evidencia](hardware/first-flash-evidence.json), [bitácora](docs/project-log.md) |
 | Comprender fuentes, mapas y experimentos | [Firmware](firmware/README.md) |
+
+## Qué necesitás hacer
+
+```mermaid
+flowchart TD
+    A{"Objetivo"} -->|Editar el mapa| B["Firmware compatible ya instalado y Vial"]
+    B --> C["Security → Unlock, luego Tab + Caps"]
+    C --> D["Asignaciones admitidas guardadas en el teclado"]
+    A -->|Reconstruir firmware| E["Fuentes, revisiones, compilador ARM y dependencias"]
+    E --> F["Tests y build sin USB"]
+    F --> G["Revisar manifiesto, hash y rangos"]
+    G --> H{"Identidad, protocolo y rescate revisados"}
+    H -->|No| I["Detenerse: compilar no autoriza flashear"]
+    H -->|Sí| J["Instalación por transporte USB compatible"]
+```
+
+La compilación requiere un entorno compatible con el toolchain; instalar exige
+un backend USB implementado para la plataforma utilizada. No se promete soporte
+universal. El [registro de reconstrucción](toolchains/reconstruction-record.json)
+identifica fuentes, dependencias, hashes y memoria del candidato probado.
 
 ## Beneficios y costes
 
@@ -142,9 +163,11 @@ toolchains/  Revisiones y fuentes fijadas para compilación/protocolo
 docs/        Guías actuales, decisiones, cronología e informes históricos
 ```
 
-La **Mac es la fuente principal y tiene conectado el HyperX**; Linux x86_64
-aporta el toolchain ARM. GitHub sincroniza las fuentes. Los comandos del proyecto
-usan RTK; los tests/builds no deben confundirse con flasheo.
+No hacen falta dos equipos ni dos sistemas operativos. El flujo separa
+configuración, compilación e instalación: un equipo con herramientas y transporte
+compatibles puede cubrirlo. Ver [requisitos reales y compatibilidad](docs/reproduction.md),
+no confundir los entornos del ensayo con una obligación de usarlos juntos.
+Los tests/builds no deben confundirse con flasheo.
 
 ## Investigación conservada
 
@@ -164,7 +187,7 @@ porque hayan sido superados por una prueba posterior.
 ## Publicación, respaldo y licencia
 
 GitHub respalda **lo versionado**, no el OEM del teclado. `build/`, `artifacts/`,
-`tmp/`, updater/DLL, herramientas, binarios, fotos y snapshots privados de mapas
+updater/DLL, herramientas, binarios, fotos y snapshots privados de mapas
 quedan ignorados. No se publican credenciales ni identificadores de etiqueta.
 Ver [revisión de publicación](docs/publication-review.md).
 

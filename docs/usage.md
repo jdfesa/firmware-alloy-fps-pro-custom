@@ -9,8 +9,8 @@ riesgos de instalación o actualización, leer [seguridad](safety-and-recovery.m
 > **Después de cada reconexión el teclado vuelve bloqueado.** Los mapas se
 > conservan y funcionan, pero no se aceptan escrituras hasta iniciar Unlock.
 
-En Vial de escritorio, seleccionar HyperX y abrir **Security → Unlock desde la
-barra superior de macOS**. Mantener Tab+Caps hasta completar la barra y soltar.
+En Vial de escritorio, seleccionar HyperX y abrir **Security → Unlock desde el
+menú del cliente**. Mantener Tab+Caps hasta completar la barra y soltar.
 El GUI consulta cada 200 ms; el protocolo requiere 20 pasos, aproximadamente 4 s.
 No basta pulsar la combinación sin abrir primero esa ventana.
 

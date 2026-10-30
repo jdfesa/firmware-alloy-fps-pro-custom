@@ -162,7 +162,7 @@ cualquier función. Una asignación ordinaria admitida NO requiere reflasheo.
 GitHub conserva el historial de fuentes, scripts, tests y evidencia pública
 saneada que se confirme y envíe. No es un backup del contenido OEM de esta unidad
 ni copia automáticamente lo ignorado: toolchain, binarios compilados, updater,
-DLL, fotos, logs privados, `tmp/` y snapshots locales de mapas quedan fuera.
+DLL, fotos, logs privados y snapshots locales de mapas quedan fuera.
 
 Los hashes y revisiones fijadas ayudan a reconstruir candidatos; no sustituyen
 preservar de forma privada los artefactos necesarios ni verificar su procedencia.

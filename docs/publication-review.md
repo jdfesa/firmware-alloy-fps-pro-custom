@@ -42,7 +42,7 @@ fotos, temporales del editor y configuraciones locales de agentes/cloud.
 Las reglas también previenen adiciones accidentales de varios formatos comunes
 de credenciales. No representan un detector exhaustivo de secretos.
 
-La selección se verificó con Git en un repositorio temporal dentro de `/tmp`,
+La selección se verificó con Git en un repositorio temporal en un directorio transitorio,
 usando esta carpeta únicamente como árbol de trabajo y sin modificar su `.git`.
 Se comprobaron 11 casos de exclusión, incluidos locks de editor, fotos,
 actualizador, configuración local y reportes crudos. No se usó `git add -f`.
@@ -132,7 +132,7 @@ público de Vial y documentos/evidencia de las dos actualizaciones app-only y la
 prueba GUI persistente. La marca `vial:f64c2b3c` es una constante pública de
 protocolo, no un serial individual. El UID de diseño permanece igual.
 
-El material de `tmp/`, updater añadido allí, capturas, toolchain, binarios y
+El material privado aportado, updater, capturas, toolchain, binarios y
 snapshots privados de mapas siguen ignorados; no se amplía la whitelist de cuatro
 JSON de `artifacts/analysis`. No se publica la dirección/credencial SSH, rutas
 personales ni información de etiqueta. Las referencias de Vial son fuentes
@@ -167,4 +167,18 @@ sin escritorio ajeno, cuentas, rutas, seriales deunidad ni contenido personal.
 Revisión de PNG: sin chunks de texto o rutas privadas; EXIF solo contiene
 anchura/altura y hay perfil de color. No se retocaron píxeles para simular teclas
 funcionales. Las cinco casillas `KC_NO` siguen vacías y el pie lo explica.
-La captura del error de comunicación queda privada en `tmp/`, no se publica.
+La captura del error de comunicación queda fuera del versionado, no se publica.
+
+## Registro de reconstrucción y presentación de requisitos
+
+Se retiraron del relato nombres incidentales de directorios privados, sin
+cambiar exclusiones o borrar evidencia técnica. Requisitos organizados por tarea:
+configuración, build e instalación; la tabla conserva restricciones reales de
+backend/toolchain, sin exigir dos sistemas o equipos. Se añade diagrama Mermaid.
+
+`toolchains/reconstruction-record.json` contiene solo hashes, revisiones,
+propiedades de la app ensayada y rutas relativas de fuentes propias. Se contrastó
+cada fuente contra el commit indicado. No contiene dumps, credenciales, rutas de
+usuario o una autorización de flash; tampoco garantiza bit-reproducibilidad limpia.
+La whitelist de artifacts no se amplía. Captura reemplazada por versión aportada
+con mejor zoom, mismo archivo permitido, sin retoques ni ventanas privadas.

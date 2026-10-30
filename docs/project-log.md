@@ -76,7 +76,7 @@ Foto superior y, si el usuario acepta abrir **solo el HyperX desconectado**, fot
 
 - El usuario quiere un repositorio público. Se revisaron los candidatos locales, sin subir archivos ni crear un remoto.
 - Retirada una referencia de ruta personal de `AGENTS.md`; ampliado `.gitignore` para excluir locks del editor, informes con rutas locales, desensamblado propietario, fotos y configuraciones locales. Se conservan solo cuatro JSON de evidencia revisados dentro de `artifacts/analysis`.
-- Verificada selección mediante Git aislado en `/tmp`, sin modificar el `.git` del proyecto: 11 casos de exclusión pasan y no se detectan patrones sensibles revisados entre los candidatos públicos. No equivale a auditar historial: `git status` no pudo operar sobre este proyecto en la sesión.
+- Verificada selección mediante Git aislado en un directorio transitorio, sin modificar el `.git` del proyecto: 11 casos de exclusión pasan y no se detectan patrones sensibles revisados entre los candidatos públicos. No equivale a auditar historial: `git status` no pudo operar sobre este proyecto en la sesión.
 - Creada [la revisión de publicación](publication-review.md), con límites de la auditoría, comprobaciones previas al push y licencia aún pendiente.
 - Propuesto `hyperx-alloy-fps-pro-qmk` como nombre público. No se renombró la carpeta ni se publicó nada.
 
@@ -260,7 +260,7 @@ Foto superior y, si el usuario acepta abrir **solo el HyperX desconectado**, fot
 
 ## 2026-10-30 — Reanudación en Mac y primera edición persistente real
 
-- Leídas instrucciones/captura privadas en `tmp/`; añadido `/tmp/` a.gitignore.
+- Leídas instrucciones/captura privadas aportadas por el usuario; exclusiones privadas comprobadas.
   HyperX movido por el usuario aMac; Linux ahora se reserva para compilar.
 - Confirmado candidato editable previamente instalado, contradiciendo el estado
   antiguo de README/AGENTS. No se descartaron los cambios de evidencia existentes.
@@ -289,7 +289,7 @@ Foto superior y, si el usuario acepta abrir **solo el HyperX desconectado**, fot
 
 ## 2026-10-30 — Actualización TKL real desde macOS por SSH
 
-- Revisión de la fuenteMac b91224f y de `tmp/intento_0` sin sobrescribir avances.
+- Revisión de la fuenteMac b91224f y del material privado aportado sin sobrescribir avances.
   Linux previo conservado; revisión aislada y subidas con hashes depreimagen.
 - AdaptadorISP hidapi FeatureReport separado deRAW; ID0+64B enambos sentidos,
   selección única ISP/ruta vigente, app-only0x200..0x7000, sin erase/security,
@@ -390,3 +390,16 @@ Foto superior y, si el usuario acepta abrir **solo el HyperX desconectado**, fot
 - Commits e65d64f/53525fe/b7ee763 creados ypush verificado desdeMac. HTTPSsincredenciales
   falló; SSHpreexistente autenticado permitió push sin copiar credenciales. Solo
   pushURLlocal cambió aSSH; fetchHTTPSpermanece. Publicación no incluye OEM/builds.
+
+## 2026-10-30 — Requisitos y reconstrucción pública afinados
+
+- Por pedido del usuario, retiradas referencias narrativas a directorios privados
+  irrelevantes, manteniendo exclusiones y la evidencia técnica completa.
+- Requisitos separados por tarea; no se necesitan dos equipos/sistemas juntos.
+  Se conservan restricciones reales de toolchain/backend y entornos ensayados,
+  diferenciándolos de requisitos. Diagrama Mermaid del flujo en README.
+- Registro de reconstrucción público con commit/hash de todas las fuentes,
+  dependencias, parche, compilador, artefacto, geometría y límites de verificación.
+  Fuentes verificadas contra el commit53525fe; no se publicaron builds ni OEM.
+- Captura pública reemplazada por versión aportada con mejor zoom y mismo alcance:
+ 87posiciones dibujadas,5vacías/deshabilitadas,82útiles. Sin cambios de firmware.

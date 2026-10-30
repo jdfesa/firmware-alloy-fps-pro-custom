@@ -28,12 +28,11 @@ verificado conF260/CS0, ACK/eco final y retorno explícito; no readback de flash
 **GUI verificada:** remapeo persistente sin recompilar; desktop detecta tras
 corregir la marcaUSB pública deVial. Fiabilidad general de reconexión pendiente.21412B deapp,
 1968/2048B deRAM con pilas; no es Vial-QMK completo ni firmware estable.
-Procedimiento: [actualizaciónMac](macos-update.md).
+Procedimiento: [actualizaciónMac](usb-update.md).
 
 **Topología actual:** fuente y HyperX en **macOS local**. Linux remoto se usa
 solo para compilar. No consultar ni tocar el Silakka54; únicamente se leyó el
-archivo público que el usuario ofreció como referencia. `tmp/` es privado e
-ignorado por Git. Detalles y evidencia: [Vial editable](vial-editable.md),
+archivo público que el usuario ofreció como referencia. El material privado se mantiene fuera de Git. Detalles y evidencia: [Vial editable](vial-editable.md),
 `hardware/first-flash-evidence.json`.
 
 Los informes de2026-10-29 conservan historia anterior a la instalación; no

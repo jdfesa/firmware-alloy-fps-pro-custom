@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "purpose": "Reconstruction provenance for the tested full-graphic candidate; NOT flash authorization or OEM backup",
+  "date": "2026-10-30",
+  "target": {
+    "model": "HyperX Alloy FPS Pro",
+    "sku": "HX-KB4RD1-US",
+    "mcu_family_observed": "SN32F26x",
+    "mcu_package_and_pcb_revision_verified": false,
+    "matrix_rows": 14,
+    "matrix_cols": 8,
+    "physical_positions": 87,
+    "usable_positions": 82
+  },
+  "firmware_source_commit": "53525fef8eb58367e70cb7fe0c5da2b7316fbbd4",
+  "dependency_lock": {
+    "path": "toolchains/build-lock.json",
+    "sha256": "a0bea7f7db5a6f6fbcf69c95471b56d08b9e18e4a429570049b910cc95512440"
+  },
+  "protocol_lock": {
+    "path": "toolchains/vial-protocol-lock.json",
+    "sha256": "7e8417d3f368f19b8146d6a92a5f45f1de4c85f4c621430b27bfbf2e6e4b739a"
+  },
+  "qmk_revision": "62973ee48a976c6f7cc6d4f7b198bd48a2fdfe60",
+  "compiler": {
+    "distribution": "xPack arm-none-eabi-gcc",
+    "version": "12.3.1-1.2",
+    "prepared_archive_platform": "linux-x64",
+    "archive_sha256": "771dfb9d10e7339ac40f3a32be9cd287405c537ca0bf16e1dbf6fa6f1fc1dd2a"
+  },
+  "patch": {
+    "path": "patches/qmk/compact-usb.patch",
+    "sha256": "9b7e8726fd4731d13eacac50de8619963e1eed4db13b7fe8aeeb83320ed92eae",
+    "preimages_path": "patches/qmk/compact-usb-preimages.json",
+    "preimages_sha256": "3f1bd384ab3049d22d10386e20add31d978cdf75a8f5f5e9ce56ad93d63ee2bc"
+  },
+  "source_hashes": {
+    "firmware/keyboards/hyperx/alloy_fps_pro/config.h": "84bbd68fb7b3906b44e33c9492ea3562b611f87ef6d79f7616717e6f5a061ecd",
+    "firmware/keyboards/hyperx/alloy_fps_pro/keyboard.json": "003d262f035c836fe39f71c6d8c697e5e99378d4e68e03e4af98c4543708312e",
+    "firmware/keyboards/hyperx/alloy_fps_pro/keymap-metadata.json": "9b9d3cccc79d089c6dd7b4943aa39e0529ff835048906a22e6461919d6c348d4",
+    "firmware/keyboards/hyperx/alloy_fps_pro/keymaps/custom42/keymap.c": "577e377dd42de1620887409a5e5172713fd6863de27fbcb5d429a960e3de1c20",
+    "firmware/keyboards/hyperx/alloy_fps_pro/keymaps/custom42_fn/keymap.c": "c878401fc92606d533244307ddffdb76f570e5b1509675debb53aee17bf680e4",
+    "firmware/keyboards/hyperx/alloy_fps_pro/keymaps/default/keymap.c": "8d1eba7e7d380f03dc10eaf9b8867ce8c1f492dfdd3b9460de95481934d10a72",
+    "firmware/keyboards/hyperx/alloy_fps_pro/keymaps/raw_compact/config.h": "24aa331b747b1b881dc49e28542e2b9e89d327a754ac9e632045e43edb5801fe",
+    "firmware/keyboards/hyperx/alloy_fps_pro/keymaps/raw_compact/keymap.c": "39afb606eaa5f394ea0e8833b2a332cce16130fc90be2a5030ee82d39879f997",
+    "firmware/keyboards/hyperx/alloy_fps_pro/keymaps/raw_compact/rules.mk": "96b7c0c8fe8fa24507ac7399bc8c6e3c320e8fff53e4955f2ad083e074dc0367",
+    "firmware/keyboards/hyperx/alloy_fps_pro/keymaps/vial_editable/base_keymap.c": "f5a8e5a1c60ced15bb9397ef347c03ba7055981236c0ebef55383606ddd622f3",
+    "firmware/keyboards/hyperx/alloy_fps_pro/keymaps/vial_editable/config.h": "7efb8e68575dc490479262b9fc1d138241bd23bde4ef241ddd7f31d1ccd37362",
+    "firmware/keyboards/hyperx/alloy_fps_pro/keymaps/vial_editable/definition.h": "6365ff17c83fb3f3795c06ed593a6f8ac7fe8991d4686c1c8ef57e6eb2956e7a",
+    "firmware/keyboards/hyperx/alloy_fps_pro/keymaps/vial_editable/flash_backend.c": "e6fe82449d01d2a3e7c252ba56d229d11bb733b58c2c4803fc4b057f4097a7c4",
+    "firmware/keyboards/hyperx/alloy_fps_pro/keymaps/vial_editable/keymap.c": "c0ec3c465b81ac1e81a924aad0455f73156f9baa81bb195ac0c5970c65c14346",
+    "firmware/keyboards/hyperx/alloy_fps_pro/keymaps/vial_editable/map_reserve.ld": "723f40ae0ed594f1c3a7f3d2e489de5e6d87f1d44c97aa7f3d5e2312be33d571",
+    "firmware/keyboards/hyperx/alloy_fps_pro/keymaps/vial_editable/page_store.c": "be139e86d647dfd5bb5b9577c5d3aeb3f8c8fc007ad1a0d78cea588851dc2ebc",
+    "firmware/keyboards/hyperx/alloy_fps_pro/keymaps/vial_editable/page_store.h": "31b202a3cfebd547dda818086dbdfc08581d15b8456f0210f06bea7d325e0db0",
+    "firmware/keyboards/hyperx/alloy_fps_pro/keymaps/vial_editable/protocol.c": "45c1658bff03065a663257ac3a58819f593b0ccf67f4d25e91431c37f8f1cded",
+    "firmware/keyboards/hyperx/alloy_fps_pro/keymaps/vial_editable/protocol.h": "fab590a445fab1731bbf93cc0c229f7d8882ab4706192fc05b0751ab92c561c2",
+    "firmware/keyboards/hyperx/alloy_fps_pro/keymaps/vial_editable/rules.mk": "817378366954027b52c7f0a6dbe666d33fdcfe1cc62a08c1be9a1b9645ede44f",
+    "firmware/keyboards/hyperx/alloy_fps_pro/keymaps/vial_editable/vial.json": "6373e1a3be7f35b6f4cc939e18cddce9e95642b3fe6ec8f53f01882546bf62bb",
+    "firmware/keyboards/hyperx/alloy_fps_pro/keymaps/vial_readonly/config.h": "7a58c837afd45103f9bd4614e274513fd51e30c862cda6ac07cd25c7d9a97658",
+    "firmware/keyboards/hyperx/alloy_fps_pro/keymaps/vial_readonly/definition.h": "b929a121527140ebe2a909d651100c29f3311c5f7daf43dbddb6a02f43371e51",
+    "firmware/keyboards/hyperx/alloy_fps_pro/keymaps/vial_readonly/keymap.c": "82f7a52b4ff19204cd6342e5ac519f96abfcfda5319948fdc8ba105f4c60f5fa",
+    "firmware/keyboards/hyperx/alloy_fps_pro/keymaps/vial_readonly/protocol.c": "bca6f662b1c22f5230b89ce427798d49d3b9af9769cbf9fffae092c3b633f556",
+    "firmware/keyboards/hyperx/alloy_fps_pro/keymaps/vial_readonly/protocol.h": "4b0f9b1e6cfecd71b3304a5e425fe1e1e7426d6e2e5d31626b23048c97487b33",
+    "firmware/keyboards/hyperx/alloy_fps_pro/keymaps/vial_readonly/rules.mk": "7e248b0c5604302a4f738462859459753c9f61dafcb0d94fb7fc5f808bb0a630",
+    "firmware/keyboards/hyperx/alloy_fps_pro/keymaps/vial_readonly/vial.json": "f15deb0c6fb4eb8dcccdc6e05d112ce82af87eb473ef207b0017e25e2c5b0689",
+    "firmware/keyboards/hyperx/alloy_fps_pro/rules.mk": "b15a58312bc404545fa9c33687ef5557698a16462ca9aa5684355716269a13de"
+  },
+  "build_driver_hashes": {
+    "scripts/build_compact_raw.py": "40a54a851235de0bda8355c55fdf08db344bc352e09d20c1190a6ee2b8202cb4",
+    "scripts/build_firmware.py": "2c3d856eab5e56be234c8ef92ae93e6ebc005bcb00959dbe59191eb661e7f227",
+    "scripts/qmk_build_cli.py": "a879278dabfcdbda87ce588d1bf80236cfd1b72c27ccc746615d29708e294d63",
+    "scripts/verified_patch.py": "da35cd9117d86367b53c22a85e8cea73128d75a5012c5f66bd0784f8aaa6413d",
+    "scripts/generate_vial_editable.py": "585bf65dc90b416d733aa1ed91230df19105eda819c67d19874550a0115d9057"
+  },
+  "artifact": {
+    "keymap": "vial_editable",
+    "application_sha256": "e2e5a234d70910955cd9c245aef9b6025e3bdb815a9d28217c510074c020f614",
+    "application_bytes": 21412,
+    "load_address": 512,
+    "padded_image_sha256": "d251bb70ded32c1434488556ec8e4a4ef01ab674520e12a4111ab2bc40a582a0",
+    "padded_image_bytes": 21440,
+    "end_exclusive": 21952,
+    "reports_64_bytes": 335,
+    "definition_xz_bytes": 416,
+    "definition_xz_sha256": "fd6c0f6731e8d00462c9d976ca9ed842fcf75935f3fcbd8d06ae807fa091b383"
+  },
+  "memory": {
+    "binary_bytes": 21412,
+    "binary_load_address": 512,
+    "flash_upper_exclusive": 30720,
+    "flash_application_capacity": 30208,
+    "requires_jumploader": true,
+    "vectors_at_zero": false,
+    "ram_bytes": 2048,
+    "ram_reserved_through_heap_base": 1968,
+    "heap_bytes": 80,
+    "main_irq_stack_bytes": 224,
+    "process_stack_bytes": 480,
+    "data_bytes": 388,
+    "bss_bytes": 868,
+    "runtime_stack_high_water_measured": false
+  },
+  "storage": {
+    "application_end_limit_exclusive": 28672,
+    "bank0": [
+      28672,
+      29696
+    ],
+    "bank1": [
+      29696,
+      30720
+    ],
+    "page_bytes": 64,
+    "bank_bytes": 1024,
+    "map_bytes": 896,
+    "header_bytes": 64,
+    "commit_bytes": 64,
+    "schema_magic": "AVP2",
+    "layers": 4,
+    "mutation_requires_vial_physical_unlock": true
+  },
+  "jumploader_reference": {
+    "padded_bytes": 512,
+    "padded_sha256": "4d336e112ad7a413748667baf1f8bac2ff12acd39b5e8dc23e85e879671ac1e1",
+    "installed_region_readback_verified": false,
+    "cold_escape_isp_observed": true
+  },
+  "scope": {
+    "gui_persistence_and_restore_verified": true,
+    "runtime_stack_high_water_measured": false,
+    "oem_backup_obtained": false,
+    "oem_restore_verified": false,
+    "failed_application_recovery_tested": false,
+    "checksum_domain_verified": false,
+    "full_flash_readback_verified": false,
+    "clean_environment_bit_reproducibility_verified": false,
+    "note": "Provision exact dependencies separately; compare a fresh artifact and manifest. Do not apply recorded hashes/checksums blindly to another unit."
+  }
+}

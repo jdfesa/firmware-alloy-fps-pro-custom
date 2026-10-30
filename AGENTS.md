@@ -23,18 +23,20 @@ verificado conF260 / CS0, ACK/eco final y retorno explícito; no readback de fla
 **GUI verificada:** remapeo persistente sin recompilar; desktop detecta tras
 corregir la marcaUSB pública deVial. Fiabilidad general de reconexión pendiente.21 412 B de app,
 1968/2048B deRAM con pilas; no es Vial-QMK completo ni firmware estable.
-Procedimiento: [actualizaciónMac](docs/macos-update.md).
+Procedimiento: [actualizaciónMac](docs/usb-update.md).
 
 **Topología actual:** fuente y HyperX en **macOS local**. Linux remoto se usa
 solo para compilar. No consultar ni tocar el Silakka54; únicamente se leyó el
-archivo público que el usuario ofreció como referencia. `tmp/` es privado e
-ignorado por Git. Detalles y evidencia: [Vial editable](docs/vial-editable.md),
+archivo público que el usuario ofreció como referencia. El material privado se mantiene fuera de Git. Detalles y evidencia: [Vial editable](docs/vial-editable.md),
 `hardware/first-flash-evidence.json`.
 
 Las reglas RTK se incluyen abajo para que este archivo sea portable y no
 dependa de rutas personales de la máquina de desarrollo.
 
 ## Fuente única de trabajo
+
+Esta topología es la organización del mantenedor, no un requisito de que un lector
+disponga de dos máquinas o sistemas. Ver docs/reproduction.md para compatibilidad.
 
 - La copia macOS local es la fuente principal elegida por el usuario. Linux
   remoto por SSH aporta el toolchain; **HyperX conectado a macOS local**. No
