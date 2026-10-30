@@ -1,8 +1,69 @@
 # Vial editable experimental: páginas físicas y cuatro capas
 
-2026-10-30. Candidato nuevo; consultar hardware/first-flash-evidence.json para
+2026-10-30. Candidato editable instalado; geometría TKL nueva solo compilada.
+Consultar hardware/first-flash-evidence.json para
 separar compilación de pruebas reales. No es todo Vial-QMK: sin macros, combos,
 encoders, iluminación, ajustes QMK ni comandos de arranque remotos.
+
+## Prueba real en macOS — 2026-10-30
+
+El candidato de definición eléctrica376B ya estaba instalado al retomar.
+`probe_vial.py --mac` seleccionó únicamente FEED:A11F/usageFF60:61, nunca la
+colección de teclado ni el Silakka54. Un timeout inicial desapareció al cerrar
+los otros clientes y reconectar; no se aisló la causa ni se considera resuelta
+la fiabilidad de conexión. Después se verificó:
+
+1. Identidad/definición/mapa de cuatro capas coincidentes con la evidencia previa.
+2. Desbloqueo físico Tab+Caps; SET_KEYCODE de Q[0,2,1]0x0014→Z0x001d.
+3. ACK en269ms y relectura completa896B idéntica salvo esa tecla.
+4. Usuario desconectó/reconectó sinEscape: Q escribió `z`; RAW conservó el mapa.
+5. Nuevo desbloqueo; restauración deQ en266ms. Otra reconexión: usuario confirmó
+   `q` y RAW recuperó el hash del mapa original. El dispositivo volvió bloqueado.
+
+**Esto comprueba edición y persistencia del núcleo, no todavía la GUI.** No se
+cambió la aplicación, el jumploader ni el ISP durante estas dos transacciones.
+No se ejecutó el updater propietario ni se accedió al Silakka54 físico.
+Evidencia pública saneada en `hardware/first-flash-evidence.json`; copia privada
+previa del mapa en `build/trial/mac-q-to-z.json`, que no debe borrarse durante
+una prueba pendiente. El script se niega a sobrescribir una prueba existente.
+
+## Por qué no editaba la GUI y cómo operar
+
+El firmware exige desbloqueo para **todas** las escrituras. La GUI de referencia
+solo lo solicita automáticamente para RESET; para teclas normales puede mostrar
+optimistamente un cambio que fue rechazado. Elegir explícitamente
+**Security → Unlock**, mantener **Tab + Caps Lock físicos** durante el progreso
+(aproximadamente2s), soltar y recién después editar. Al reconectar hay que
+volver a desbloquear. No es unlock/unprotect del MCU: no cambia protección flash.
+Si el nombre del menú difiere según versión, buscar la opción de desbloqueo;
+no usar reset, bootloader o borrado como sustituto. Confirmar cambios releyendo
+tras reconectar; no confiar solo en el dibujo. No dejar varios clientes abiertos.
+
+La geometría instalada es una cuadrícula eléctrica14×8, no una mitad de un
+teclado dividido. El generador nuevo `scripts/generate_vial_editable.py` coloca
+las82 teclas sanas en seis filas físicas ANSI TKL, con anchos reales y bloque
+de navegación. Conserva identidad propia, matriz y mapas; no imita el VID/PID
+del Silakka ni de otro fabricante. Los cinco espacios averiados se mantienen
+como huecos, sin ofrecer teclas inexistentes o prometidas como reparadas.
+La definición está en flash, no ocupa un mapa nuevo en RAM. Build real TKL:
+21412B de app,1968/2048B reservados,80B de heap y pilas224/480 sin reducir.
+Imagen app-only21440B,335reportes, rango `[0x200,0x55c0)`. Hashes en la evidencia.
+**No instalada aún:** el HyperX conserva la definición eléctrica376B. El
+instalador actual `flash_trial.py --apply` usa Linux/hidraw; no usarlo enMac ni
+asumir que el nuevo transporte RAW permite flashear. Antes de instalar desdeMac,
+adaptar/verificar el transporte ISP FeatureReport, consultar F260/CS0/checksum,
+comprobar Escape con Bootmagic deapp deshabilitado y preservar arranque/bancos.
+
+## Referencia voluntaria del Silakka54
+
+Se leyó únicamente el [respaldo público ofrecido por el usuario](https://github.com/jdfesa/mydotfiles/tree/main/hardware/silakka54).
+Usa cuatro capas con asignaciones útiles y otras transparentes; sirve como
+referencia ergonómica de42 posiciones usadas, no como archivo importable1:1
+sobre otra matriz. Básicos, símbolos con modificadores, mod-tap y layer-tap
+0..3 entran en el subconjunto actual. **One-shot Shift y multimedia/volumen**
+presentes en esa referencia no están admitidos; tampoco macros/combos/tap-dance.
+No eliminar silenciosamente esas funciones ni prometer una copia exacta.
+El mapa final de42 teclas debe acordarse; por ahora se conserva base inglesa82.
 
 ## Base y protocolo
 

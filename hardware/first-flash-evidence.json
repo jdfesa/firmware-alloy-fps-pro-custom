@@ -1,6 +1,6 @@
 {
   "date": "2026-10-30",
-  "stage": "QMK default typed; cold Escape ISP verified; Vial read-only RAW discovery and map reads passed",
+  "stage": "Installed editable candidate: physical RAW remap and cold persistence verified; GUI editing and physical TKL candidate pending",
   "first_image": {
     "sha256": "78f0fa942cec435ebe7eaaea4d160b79b9cc5e961d3c3792e6c9155cc4441173",
     "offset": 0,
@@ -47,7 +47,7 @@
   "failed_application_recovery_tested": false,
   "oem_backup_obtained": false,
   "oem_restore_tested": false,
-  "vial_editing_verified": false,
+  "vial_editing_verified": true,
   "report": "docs/first-flash-trial.md",
   "cold_plug_escape_rescue_scope": "User unplugged/replugged only HyperX holding Escape; ISP enumerated and answered F260/CS0/checksum0x1ad2. QMK Bootmagic also enabled; no exclusive attribution to jumploader Escape branch and no deliberately corrupt app test.",
   "vial_readonly_trial": {
@@ -72,5 +72,76 @@
     "gui_detection_tested": true,
     "editing_enabled": false,
     "gui_detection_evidence": "User reported seeing HyperX READ-ONLY in vial.rocks; no assistant screenshot."
+  },
+  "vial_editable_trial": {
+    "app_sha256": "ca909b10bf913262afe932d12c4a1e1ccb2a9bbe20b69db7cb47ce61ddce45eb",
+    "image_sha256": "f83b1b3242c23f1bfadbf4a227b978e8e423acd3b35e613b58666f951e2b9945",
+    "app_offset": 512,
+    "end_exclusive": 21888,
+    "image_bytes": 21376,
+    "reports": 334,
+    "jumploader_rewritten": false,
+    "completion_ack": true,
+    "last_word_echo_matches": true,
+    "checksum_after": "0x4f20",
+    "usb_product": "Alloy FPS Pro Vial EDITABLE TEST",
+    "app_bootmagic_enabled": false,
+    "definition_bytes": 376,
+    "definition_sha256": "0579cc20354bec6e9eddc5d715d1ffd09c590d846740b5a2f00e6552db9ac382",
+    "initial_map_sha256": "94944d6c7fbb36e7215fbb822b35b4d208e82ed6c6063822cc95d6857dd0a1b3",
+    "visible_positions": 82,
+    "layers": 4,
+    "reserved_ram_bytes": 1968,
+    "heap_bytes": 80,
+    "runtime_stack_high_water_measured": false,
+    "persistent_edit_verified": true,
+    "macos_persistence_trial": {
+      "date": "2026-10-30",
+      "transport": "hidapi RAW usage FF60/61; only FEED:A11F selected",
+      "physical_unlock": "Tab+Caps confirmed twice",
+      "coordinate": [
+        0,
+        2,
+        1
+      ],
+      "original_keycode": "0x0014",
+      "test_keycode": "0x001d",
+      "before_map_sha256": "94944d6c7fbb36e7215fbb822b35b4d208e82ed6c6063822cc95d6857dd0a1b3",
+      "test_map_sha256": "f1b5d4952e90bb7b7ac04ac5270010eed920857204fe406a296ef12f823e19be",
+      "only_expected_key_changed": true,
+      "write_ack_seconds": 0.269165,
+      "cold_reconnect_test_map_readback_verified": true,
+      "user_physical_q_emitted_z_after_reconnect": true,
+      "reconnect_relocked": true,
+      "original_map_restored_and_readback_verified": true,
+      "restore_ack_seconds": 0.26614,
+      "user_physical_q_emitted_q_after_restore_reconnect": true,
+      "cold_reconnect_restored_map_readback_verified": true,
+      "gui_editing_tested": false,
+      "application_reflashed": false,
+      "jumploader_rewritten": false,
+      "scope": "One key on layer 0, two explicit edits, two cold reconnects. Not full GUI/stack/matrix/stability validation. Initial RAW timeout cleared after closing other clients and cold reconnect; cause not isolated."
+    }
+  },
+  "vial_editing_scope": "Physical Vial SET_KEYCODE via bounded script, full-map readback and human output after cold reconnect; not GUI workflow.",
+  "vial_tkl_candidate": {
+    "installed": false,
+    "app_sha256": "3561ec8ce97f25ca8cbee6081dbf1a01d22a94d18f9a04fd6041a5f37ae74095",
+    "app_bytes": 21412,
+    "image_sha256": "dd1f768f21b7352eb88b43d881ccba3f23b949cd081e190d188457210d647393",
+    "image_bytes": 21440,
+    "offset": 512,
+    "end_exclusive": 21952,
+    "reports": 335,
+    "reserved_ram_bytes": 1968,
+    "heap_bytes": 80,
+    "visible_positions": 82,
+    "physical_rows": 6,
+    "map_bank_range_untouched": [
+      28672,
+      30720
+    ],
+    "jumploader_preserved": true,
+    "runtime_stack_high_water_measured": false
   }
 }

@@ -7,6 +7,7 @@
 !/artifacts/analysis/extraction.json
 !/artifacts/analysis/vendor-provenance.json
 /build/
+/tmp/
 
 # Local agent/cloud configuration, credentials and private working material.
 /.agents/

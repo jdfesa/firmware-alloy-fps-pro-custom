@@ -1,20 +1,25 @@
 # Objetivo y reglas de este proyecto
 
-## Hito real de esta sesión — 2026-10-30
+## Estado actual — 2026-10-30
 
-QMK default ya se flasheó y el usuario escribió `hola qmk`. Escape al reconectar
-volvió a un ISP que responde. Después se instaló `vial_readonly` conservando el
-arranque: consultas RAW de identidad/definición/cuatro capas verificadas y el
-usuario confirmó detección en **vial.rocks**. Sigue sin edición en esa versión.
+**El candidato `vial_editable` está instalado y ya hizo un remapeo persistente real.**
+En la Mac se desbloqueó con Tab+Caps, se cambió Q→Z por el protocolo Vial y se
+releyeron los896 bytes: solo cambió esa tecla. Tras desconectar/reconectar, el
+usuario confirmó `z` y la relectura mantuvo el cambio. Se restauró Q, se repitió
+la reconexión y se verificaron tanto `q` como el mapa original completo.
+No se reflasheó la aplicación ni el arranque para esta prueba.
 
-Nuevo candidato `vial_editable`: base inglesa completa salvo cinco posiciones
-averiadas, cuatro capas, backend físico por páginas y unlock Tab+Caps. **Build y
-tests, aún pendiente instalar/validar remapeo persistente**. Ver
-[el ensayo real](docs/first-flash-trial.md) y [la variante editable](docs/vial-editable.md).
-La ruta de los enlaces es relativa a la raíz del repo. Evidencia saneada en
-`hardware/first-flash-evidence.json`. No confundir estos hitos con estabilidad,
-backup OEM o recuperación de una app deliberadamente dañada.
+**Aún pendiente:** probar el flujo de edición en la GUI y la fiabilidad al
+reconectar. La definición instalada dibuja la matriz eléctrica14×8; las fuentes
+ya generan un **TKL ANSI de un solo cuerpo con82 posiciones sanas**, conservando
+los huecos de8/9/0/-/=. La mejora ya compiló:21412B de app y1968/2048B de RAM; **aún no instalada**.
+Cuatro capas caben; no es Vial-QMK completo ni firmware declarado estable.
 
+**Topología actual:** fuente y HyperX en **macOS local**. Linux remoto se usa
+solo para compilar. No consultar ni tocar el Silakka54; únicamente se leyó el
+archivo público que el usuario ofreció como referencia. `tmp/` es privado e
+ignorado por Git. Detalles y evidencia: [Vial editable](docs/vial-editable.md),
+`hardware/first-flash-evidence.json`.
 
 Las reglas RTK se incluyen abajo para que este archivo sea portable y no
 dependa de rutas personales de la máquina de desarrollo.
@@ -22,8 +27,8 @@ dependa de rutas personales de la máquina de desarrollo.
 ## Fuente única de trabajo
 
 - La copia macOS local es la fuente principal elegida por el usuario. Linux
-  remoto por SSH aporta el toolchain y **allí está conectado el HyperX**. No
-  hace falta moverlo para código/build. GitHub es el punto de sincronización.
+  remoto por SSH aporta el toolchain; **HyperX conectado a macOS local**. No
+  mover el teclado a Linux para compilar. GitHub es el punto de sincronización.
 - El trabajo SSH inicial es la base; no descartarlo. Antes de sincronizar,
   comparar cambios y no sobrescribir archivos distintos sin revisión.
 - README es la entrada única; los múltiples archivos forman un solo repo.
@@ -68,7 +73,8 @@ suponer que ya se dispone de su mapa exacto.
   lo rechazó expresamente por riesgo de daño. No volver a pedir fotos internas.
 - **No tocar el Silakka54**: no flashearlo, reconfigurarlo, consultar su
   configuración ni capturar sus entradas. Solo usar una exportación si el
-  usuario proporciona voluntariamente un archivo ya existente.
+  usuario proporciona voluntariamente un archivo ya existente; ofreció como
+  referencia pública `mydotfiles/hardware/silakka54`, sin permiso para hardware.
 - Teclas averiadas reportadas: `8 9 0 - =`; Backspace funciona. El mapa
   `custom42` no utiliza esas posiciones. No prometer repararlas por firmware.
 - Una autorización general para experimentar no valida un protocolo, offset
@@ -79,7 +85,7 @@ suponer que ya se dispone de su mapa exacto.
 - No sustituir el proyecto por un remapeador del PC o adaptador externo sin
   explicar la diferencia y acordar ese cambio de objetivo con el usuario.
 
-## Estado verificado al 2026-10-29 — actualizado tras SSH
+## Historial al 2026-10-29 — no confundir con el estado actual de arriba
 
 - OEM `0951:16d2`, `bcdDevice=2112`; puerto sysfs circunstancial, no identidad fija.
 - Ciclo OEM→ISP→OEM verificado sin flash; usuario confirmó escritura posterior.
@@ -97,7 +103,7 @@ suponer que ya se dispone de su mapa exacto.
   ISP pendiente. NO declarar imagen idéntica, auténtica ni restaurable.
 - Fuentes nuevas, evidencias y continuación: `docs/usb-isp-and-startup.md`.
 
-## Presupuesto Vial
+## Presupuesto Vial — historia previa al candidato editable
 
 - Iluminación ya deshabilitada. Raw HID upstream con colas mínimas2392 B; sin tapping y
   serial constante2240 B, ambos exceden2048 B antes de Vial/mapa editable.
@@ -123,8 +129,8 @@ suponer que ya se dispone de su mapa exacto.
    auxiliar sin asumir conocimientos de firmware.
 2. Consultar [el informe ARM](docs/arm-build-and-boot.md), la
    [bitácora](docs/project-log.md) y `hardware/validation-status.json`.
-3. La próxima investigación es **arranque, protocolo USB y recuperación con
-   carcasa cerrada**, no reinstalar herramientas ni recompilar sin propósito. La exportación DLL ReadData es un wrapper de GET_FEATURE, no evidencia de lectura flash.
+3. Próximo: completar la GUI y geometría TKL; conservar el arranque y los
+   bancos del mapa en cualquier actualización. No repetir ensayos ya verificados. La exportación DLL ReadData es un wrapper de GET_FEATURE, no evidencia de lectura flash.
 4. No cambiar validaciones a `true` por conveniencia. Vincular cada afirmación
    nueva con evidencia, alcance y limitaciones. Separar inferencias de hechos.
 

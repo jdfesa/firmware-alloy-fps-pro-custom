@@ -26,6 +26,7 @@ class VialProbeTests(unittest.TestCase):
                 if p==[1]: return bytes([1,0,9])+bytes(29)
                 if p==[0xfe,0]: return bytes([6])+bytes(31)
                 if p==[0xfe,1]: return len(compressed).to_bytes(4,"little")+bytes(28)
+                if p==[0xfe,5]: return bytes([0,0,2,0,3,0])+bytes([255])*26
                 if p[:2]==[0xfe,2]:
                     off=(p[2]+p[3]*256)*32
                     return compressed[off:off+32].ljust(32,b"\0")
@@ -37,4 +38,6 @@ class VialProbeTests(unittest.TestCase):
         self.assertEqual(result["definition_name"],"test READ-ONLY")
         self.assertFalse(result["configuration_editing_tested"])
         self.assertFalse(result["gui_detection_tested"])
+        self.assertFalse(result["unlocked"])
+        self.assertEqual(result["unlock_coordinates"],[[2,0],[3,0]])
         self.assertTrue(all(p[0] in (1,0xfe,0x11,0x12) for p in requests))

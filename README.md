@@ -1,45 +1,29 @@
 # HyperX Alloy FPS Pro: viabilidad de firmware propio
 
-## Hito real de esta sesión — 2026-10-30
+## Estado actual — 2026-10-30
 
-QMK default ya se flasheó y el usuario escribió `hola qmk`. Escape al reconectar
-volvió a un ISP que responde. Después se instaló `vial_readonly` conservando el
-arranque: consultas RAW de identidad/definición/cuatro capas verificadas y el
-usuario confirmó detección en **vial.rocks**. Sigue sin edición en esa versión.
+**El candidato `vial_editable` está instalado y ya hizo un remapeo persistente real.**
+En la Mac se desbloqueó con Tab+Caps, se cambió Q→Z por el protocolo Vial y se
+releyeron los896 bytes: solo cambió esa tecla. Tras desconectar/reconectar, el
+usuario confirmó `z` y la relectura mantuvo el cambio. Se restauró Q, se repitió
+la reconexión y se verificaron tanto `q` como el mapa original completo.
+No se reflasheó la aplicación ni el arranque para esta prueba.
 
-Nuevo candidato `vial_editable`: base inglesa completa salvo cinco posiciones
-averiadas, cuatro capas, backend físico por páginas y unlock Tab+Caps. **Build y
-tests, aún pendiente instalar/validar remapeo persistente**. Ver
-[el ensayo real](docs/first-flash-trial.md) y [la variante editable](docs/vial-editable.md).
-La ruta de los enlaces es relativa a la raíz del repo. Evidencia saneada en
-`hardware/first-flash-evidence.json`. No confundir estos hitos con estabilidad,
-backup OEM o recuperación de una app deliberadamente dañada.
+**Aún pendiente:** probar el flujo de edición en la GUI y la fiabilidad al
+reconectar. La definición instalada dibuja la matriz eléctrica14×8; las fuentes
+ya generan un **TKL ANSI de un solo cuerpo con82 posiciones sanas**, conservando
+los huecos de8/9/0/-/=. La mejora ya compiló:21412B de app y1968/2048B de RAM; **aún no instalada**.
+Cuatro capas caben; no es Vial-QMK completo ni firmware declarado estable.
 
+**Topología actual:** fuente y HyperX en **macOS local**. Linux remoto se usa
+solo para compilar. No consultar ni tocar el Silakka54; únicamente se leyó el
+archivo público que el usuario ofreció como referencia. `tmp/` es privado e
+ignorado por Git. Detalles y evidencia: [Vial editable](docs/vial-editable.md),
+`hardware/first-flash-evidence.json`.
 
-**Prioridad acordada al2026-10-30:** [primera prueba con rescate mínimo](docs/next-steps.md#0-prioridad-nueva-rescate-mínimo-y-primera-prueba-no-perfección-previa)
-para poder cargar otro candidato si QMK falla, sin esperar restauración OEM
-perfecta ni Vial completo. Esta vía de rescate todavía debe sustentarse/probarse;
-no elimina el riesgo del primer reemplazo del arranque.
-
-**Estado al 2026-10-29:** QMK compilado con cuatro capas; variante `custom42_fn`
-con 42 posiciones + F1–F12. **Primer ciclo USB OEM → ISP → OEM comprobado en la
-unidad**, familia SN32F26x y seguridad CS0 reportadas; usuario confirmó que sigue
-escribiendo. Jumploader propio compilado (436 B), **no instalado ni validado**.
-**62 pruebas pasan en Linux/macOS; todavía sin flasheo ni Vial completo.** No hay backup
-propio ni recuperación demostrada ante una aplicación inválida.
-
-**Nuevo código:** [prototipo Vial de solo lectura](docs/vial-readonly-prototype.md)
-compilado para ARM:19460 B flash,1952/2048 B RAM, cuatro capas y tapping
-conservados. Identidad, definición y lectura de mapas comprobadas en host;
-**sin edición persistente ni detección real en Vial**.
-
-**Avance de almacenamiento:** [mapa editable simulado en C](docs/vial-map-store.md),
-sin copia RAM del mapa, estado8 B y29.266 escenarios de fallos. No está
-conectado a la flash física ni al protocolo de escritura del firmware.
-
-**Novedades y continuación:** [informe USB/arranque e instalación pendiente](docs/usb-isp-and-startup.md).
-Los informes anteriores conservan contexto histórico; la limitación USB del
-entorno anterior quedó superada al trabajar por SSH.
+Los informes de2026-10-29 conservan historia anterior a la instalación; no
+usar sus frases «no instalado» como estado actual. La recuperación OEM y la
+recuperación de una aplicación deliberadamente dañada siguen sin comprobarse.
 
 ## Un solo proyecto, varios archivos
 
@@ -49,7 +33,7 @@ herramientas; `tests/` sus pruebas; `hardware/`, `toolchains/` y `docs/` las
 evidencias y documentación. Este README es el punto de entrada único.
 
 La copia **macOS local** es la fuente principal de edición. **Linux remoto
-por SSH** conserva el toolchain y el HyperX conectado. Se compararon ambas
+por SSH** conserva el toolchain; el HyperX ahora está conectado a esta Mac. Se compararon ambas
 copias por hashes y se revisaron sus diferencias antes de consolidarlas:
 ningún código remoto faltaba aquí. No editar los dos árboles independientemente.
 El repositorio de sincronización elegido por el usuario es
@@ -88,11 +72,13 @@ Se documentará cada avance diferenciando lo observado, lo inferido y lo pendien
 
 ## Conclusión provisional
 
-**El objetivo funcional —capas sobre unas 42 teclas sanas— es viable por varias vías. Ya se compiló QMK con cuatro capas y una matriz inferida 14 × 8: `custom42` ocupa 17316 B y `default` 16868 B. Ambos caben estáticamente en el MCU candidato, pero no se probaron en esta unidad. Existe ahora un prototipo de lectura del protocolo Vial; el remapeo Vial nativo completo no está integrado ni garantizado.**
-
-El [informe ARM](docs/arm-build-and-boot.md) detalla el límite actual: aplicación enlazada en `0x200` con dependencia de un arranque auxiliar, recuperación sin verificar y solo 88 B de heap tras reservar pilas y datos en 2 KB de RAM. No es una medida de margen de pila en ejecución. Por SSH ya se consultó el ISP, pero no se probó el firmware nuevo.
-
-No hace falta reconstruir una copia exacta del firmware propietario: el camino preferible, si el hardware lo permite, es portar una base abierta que reemplace sus funciones. La ingeniería inversa se limitaría al hardware y a los aspectos de actualización/recuperación que realmente hagan falta.
+**Sí funciona el remapeo básico persistente en este hardware:** hay prueba real
+de una edición, corte de alimentación y restauración, mediante el mismo
+SET_KEYCODE que usa Vial. No es necesario recompilar para cada cambio permitido.
+Falta terminar la experiencia GUI, instalar la geometría física y validar más
+teclas/capas. No se promete importar directamente toda la configuración del
+Silakka54: iluminación, macros, combos, multimedia y one-shot no están habilitados.
+Consultar [alcance, desbloqueo y limitaciones](docs/vial-editable.md).
 
 ## 1. Identidad observada del teclado conectado
 

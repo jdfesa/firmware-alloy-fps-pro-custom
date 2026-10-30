@@ -1,24 +1,34 @@
 # Cómo seguir sin abrir el teclado
 
-## Hito real de esta sesión — 2026-10-30
+## Estado actual — 2026-10-30
 
-QMK default ya se flasheó y el usuario escribió `hola qmk`. Escape al reconectar
-volvió a un ISP que responde. Después se instaló `vial_readonly` conservando el
-arranque: consultas RAW de identidad/definición/cuatro capas verificadas y el
-usuario confirmó detección en **vial.rocks**. Sigue sin edición en esa versión.
+**El candidato `vial_editable` está instalado y ya hizo un remapeo persistente real.**
+En la Mac se desbloqueó con Tab+Caps, se cambió Q→Z por el protocolo Vial y se
+releyeron los896 bytes: solo cambió esa tecla. Tras desconectar/reconectar, el
+usuario confirmó `z` y la relectura mantuvo el cambio. Se restauró Q, se repitió
+la reconexión y se verificaron tanto `q` como el mapa original completo.
+No se reflasheó la aplicación ni el arranque para esta prueba.
 
-Nuevo candidato `vial_editable`: base inglesa completa salvo cinco posiciones
-averiadas, cuatro capas, backend físico por páginas y unlock Tab+Caps. **Build y
-tests, aún pendiente instalar/validar remapeo persistente**. Ver
-[el ensayo real](first-flash-trial.md) y [la variante editable](vial-editable.md).
-La ruta de los enlaces es relativa a la raíz del repo. Evidencia saneada en
-`hardware/first-flash-evidence.json`. No confundir estos hitos con estabilidad,
-backup OEM o recuperación de una app deliberadamente dañada.
+**Aún pendiente:** probar el flujo de edición en la GUI y la fiabilidad al
+reconectar. La definición instalada dibuja la matriz eléctrica14×8; las fuentes
+ya generan un **TKL ANSI de un solo cuerpo con82 posiciones sanas**, conservando
+los huecos de8/9/0/-/=. La mejora ya compiló:21412B de app y1968/2048B de RAM; **aún no instalada**.
+Cuatro capas caben; no es Vial-QMK completo ni firmware declarado estable.
 
+**Topología actual:** fuente y HyperX en **macOS local**. Linux remoto se usa
+solo para compilar. No consultar ni tocar el Silakka54; únicamente se leyó el
+archivo público que el usuario ofreció como referencia. `tmp/` es privado e
+ignorado por Git. Detalles y evidencia: [Vial editable](vial-editable.md),
+`hardware/first-flash-evidence.json`.
 
 Actualizado: **2026-10-30**. Esta es la guía de relevo del proyecto.
 
-## 0. Prioridad nueva: rescate mínimo y primera prueba, no perfección previa
+## Plan histórico de la primera instalación (ya realizada)
+
+Las secciones0–5 siguientes preservan los criterios del ensayo inicial, no
+el estado actual. Para continuar ahora, seguir `vial-editable.md`.
+
+## 0. Prioridad entonces acordada: rescate mínimo y primera prueba, no perfección previa
 
 El usuario pide avanzar hacia un primer ensayo sin prolongar indefinidamente
 la preparación. Acepta iterar con un segundo candidato si el primero falla,

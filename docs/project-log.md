@@ -257,3 +257,32 @@ Foto superior y, si el usuario acepta abrir **solo el HyperX desconectado**, fot
   deUIDdevariante,1968/2048B reservados,80Bheap, pilas224/480sinrecortar.
 - Documento deoperación/riesgos: docs/vial-editable.md. Todavía no seha instalado
   este candidato ni probado edición/persistencia alregistrar esteapartado.
+
+## 2026-10-30 — Reanudación en Mac y primera edición persistente real
+
+- Leídas instrucciones/captura privadas en `tmp/`; añadido `/tmp/` a.gitignore.
+  HyperX movido por el usuario aMac; Linux ahora se reserva para compilar.
+- Confirmado candidato editable previamente instalado, contradiciendo el estado
+  antiguo de README/AGENTS. No se descartaron los cambios de evidencia existentes.
+- Transporte hidapi local aislado, selección única de RAW FEED:A11F/FF60:61.
+  No se abre colección bootkeyboard ni se captura matriz/entradas. Timeout inicial
+  desapareció con clientes cerrados y reconexión; causa aún no aislada.
+- Prueba física completada con el usuario: Tab+Caps, Q→Z, ACK269ms y mapa completo
+  coincidente salvoQ; cold reconnect, salida`z` y mismo hashRAW. RestauraciónQ,
+  ACK266ms, segundo cold reconnect, salida`q` y hashoriginal. Relock comprobado.
+- Se registra persistencia de **una tecla por protocoloVial**, no edición GUI
+  ni estabilidad general. No reflasheo deapp/arranque, eraseISP ni desprotección.
+- Hallado desajuste deoperación: firmware exige unlock para todoSET, mientras
+  GUI solo lopide automáticamente paraRESET. Se documenta desbloqueo explícito.
+- Nuevo generador TKL82/seisfilas con espacios para5averiadas, tests degeometría
+  y comprobación determinista antes debuild. No cambia matriz/UID/mapa almacenado.
+- FuenteSilakka pública leída voluntariamente: cuatrocapas útiles, one-shot y
+  multimedia presentes pero no admitidos por subconjuntoactual; no acceso físico.
+- Comparación de fuentesLinux:60idénticas,5diferencias revisadas,ningún archivo
+  exclusivo remoto. Se prepara buildaislado, sin sobrescribir su árbol previo.
+- Build real TKL completado enLinux aislado:21412B app,1968/2048B RAM,80Bheap;
+  app-only21440B/335reportes en0x200..0x55c0. Artefactos traídos aMac y hashes
+  de todas las fuentes delmanifest cotejados. Candidatoanterior conservado en
+  build/trial/installed-editable-before-tkl. **No seinstaló la mejoraTKL.**
+- Suite local ampliada:96tests pasan. Falta adaptar/verificar transporteISP
+  Mac antes deactualizar, y probar ediciónGUI real con geometría física.

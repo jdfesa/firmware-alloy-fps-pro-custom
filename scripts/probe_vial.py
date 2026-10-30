@@ -11,6 +11,7 @@ import os
 from pathlib import Path
 import select
 import time
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 IDENTITY = ("feed", "a11f")
@@ -87,10 +88,13 @@ def inspect(dev):
         if response[:4] != bytes([0x12,offset>>8,offset&255,count]):
             raise ValueError("bad map response header")
         codes += response[4:4+count]
+    lock = dev.query([0xfe,5])
     return {"via_protocol":9,"vial_protocol":6,"uid_hex":identity[4:12].hex(),
             "definition_name":definition.get("name"),"definition_bytes":size,
             "definition_sha256":hashlib.sha256(compressed).hexdigest(),
             "layers":layers,"map_bytes":len(codes),"map_sha256":hashlib.sha256(codes).hexdigest(),
+            "unlocked":bool(lock[0]),"unlock_in_progress":bool(lock[1]),
+            "unlock_coordinates":[list(lock[i:i+2]) for i in range(2,32,2) if 255 not in lock[i:i+2]],
             "read_only_commands":True,"configuration_editing_tested":False,
             "gui_detection_tested":False}
 
@@ -98,7 +102,18 @@ def inspect(dev):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--port")
+    parser.add_argument("--mac", action="store_true", help="read only the unique HyperX RAW collection via hidapi")
     args=parser.parse_args()
+    if args.mac:
+        if args.port or sys.platform != 'darwin':
+            parser.error('--mac requires macOS and cannot be combined with --port')
+        from hyperx_hid import HidRawDevice
+        dev = HidRawDevice()
+        try:
+            print(json.dumps(inspect(dev),indent=2))
+        finally:
+            dev.close()
+        return
     if not args.port:
         print(json.dumps({"metadata_only":True,"interfaces":inventory()},indent=2));return
     dev=RawDevice(args.port)
