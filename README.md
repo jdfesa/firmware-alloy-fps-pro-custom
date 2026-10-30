@@ -1,3 +1,5 @@
+[🇬🇧 Read in English](README.en.md)
+
 # HyperX Alloy FPS Pro — firmware QMK con configuración Vial
 
 Port experimental independiente para **HyperX Alloy FPS Pro HX-KB4RD1-US**,
