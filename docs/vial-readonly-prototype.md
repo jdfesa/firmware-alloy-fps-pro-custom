@@ -1,5 +1,11 @@
 # Prototipo de lectura Vial: código y límites
 
+> [!NOTE]
+> Informe de una fase anterior, conservado por su evidencia y fuentes. No usar
+> sus estados provisionales como estado actual ni sus comandos como receta universal.
+> Leer primero [README](../README.md), [estado](status-and-limits.md) y
+> [seguridad/recuperación](safety-and-recovery.md).
+
 **2026-10-29. Compilado para ARM, no instalado.** `vial_readonly` implementa
 un subconjunto de lectura de **Vial 6 / VIA 9** encima del parche USB compacto
 ya existente. No es el port completo de Vial-QMK, no permite configurar teclas

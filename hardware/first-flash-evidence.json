@@ -1,6 +1,6 @@
 {
   "date": "2026-10-30",
-  "stage": "Installed editable candidate: physical RAW remap and cold persistence verified; GUI editing and physical TKL candidate pending",
+  "stage": "87-position TKL definition installed; 82 usable keys; Vial GUI persistence and restoration verified; experimental",
   "first_image": {
     "sha256": "78f0fa942cec435ebe7eaaea4d160b79b9cc5e961d3c3792e6c9155cc4441173",
     "offset": 0,
@@ -123,9 +123,9 @@
       "scope": "One key on layer 0, two explicit edits, two cold reconnects. Not full GUI/stack/matrix/stability validation. Initial RAW timeout cleared after closing other clients and cold reconnect; cause not isolated."
     }
   },
-  "vial_editing_scope": "Physical Vial SET_KEYCODE via bounded script, full-map readback and human output after cold reconnect; not GUI workflow.",
+  "vial_editing_scope": "Vial desktop GUI edits of three layer1 keys, full-map readback before/after cold reconnect, user-confirmed Fn+A -> E. Earlier bounded-script Q->Z test remains historical.",
   "vial_tkl_candidate": {
-    "installed": false,
+    "installed": true,
     "app_sha256": "3561ec8ce97f25ca8cbee6081dbf1a01d22a94d18f9a04fd6041a5f37ae74095",
     "app_bytes": 21412,
     "image_sha256": "dd1f768f21b7352eb88b43d881ccba3f23b949cd081e190d188457210d647393",
@@ -142,6 +142,128 @@
       30720
     ],
     "jumploader_preserved": true,
-    "runtime_stack_high_water_measured": false
+    "runtime_stack_high_water_measured": false,
+    "transport": "macOS hidapi FeatureReport ID0 plus64B",
+    "completion_ack": true,
+    "last_word_echo_matches": true,
+    "checksum_before": "0xeb27",
+    "checksum_after": "0x9ac7",
+    "definition_bytes": 416,
+    "definition_sha256": "c9767f7794520e63a84b916b1fd61229f0bfe853be771d24f32e6791ff0468b4",
+    "definition_name": "Alloy FPS Pro EDITABLE TEST (ANSI TKL)",
+    "full_map_preserved": true,
+    "map_sha256_before_and_after": "94944d6c7fbb36e7215fbb822b35b4d208e82ed6c6063822cc95d6857dd0a1b3",
+    "flash_readback_verified": false,
+    "checksum_domain_verified": false,
+    "erase_command_sent": false,
+    "security_command_sent": false,
+    "gui_editing_tested": false,
+    "gui_layout_confirmed_by_user": true,
+    "gui_layout_scope": "User confirmed the complete TKL excluding the five known failed positions in the web GUI; reports editing still unavailable, pending screenshot/unlock diagnosis."
+  },
+  "macos_isp_trial": {
+    "family": "SN32F26x",
+    "security": "CS0",
+    "isp_usb": {
+      "vid": "0c45",
+      "pid": "7010",
+      "bcdDevice": "0100",
+      "interface": 0,
+      "usage_page": 12,
+      "usage": 1
+    },
+    "cold_plug_escape_verified": true,
+    "application_bootmagic_enabled": false,
+    "failed_application_recovery_tested": false,
+    "scope": "Escape held by user at cold plug enumerated responsive ISP with Bootmagic disabled in installed application; no deliberately corrupt app test."
+  },
+  "vial_desktop_marker_candidate": {
+    "installed": true,
+    "app_sha256": "9d0f5740282adad75e947b19f0b863435f0901bec267ca4c68d4ada33a486450",
+    "image_sha256": "dca8d2dbe8461622c5e950c0feb6db6131b5c732868fea272338366a490f45b1",
+    "app_bytes": 21412,
+    "image_bytes": 21440,
+    "offset": 512,
+    "end_exclusive": 21952,
+    "reports": 335,
+    "reserved_ram_bytes": 1968,
+    "public_discovery_marker": "vial:f64c2b3c",
+    "unit_serial_recorded": false,
+    "desktop_detection_verified": true,
+    "gui_editing_tested": true,
+    "completion_ack": true,
+    "last_word_echo_matches": true,
+    "checksum_before": "0x9ac7",
+    "checksum_after": "0x53cd",
+    "public_marker_observed_over_usb": true,
+    "flash_readback_verified": false,
+    "full_map_preservation_readback_verified": false,
+    "desktop_detection_scope": "User confirmed HyperX visible in Vial desktop after unplug/replug without Escape; editing still reported unavailable, being guided through explicit unlock.",
+    "full_map_matches_original_except_three_gui_changes": true
+  },
+  "vial_gui_trial": {
+    "client": "Vial desktop on macOS",
+    "physical_unlock": "Security -> Unlock, then Tab+Caps; completed by user",
+    "layer": 1,
+    "coordinates": [
+      [
+        3,
+        1
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        3
+      ]
+    ],
+    "physical_keys": [
+      "A",
+      "S",
+      "D"
+    ],
+    "old_keycode": "0x0001 (transparent)",
+    "new_keycode": "0x0008 (E)",
+    "map_sha256": "43bd852163fdda53321418ec0ba18772ea2f0775a81e247ac3a5ebc7c495b888",
+    "full_map_readback_before_reconnect": true,
+    "full_map_identical_after_cold_reconnect": true,
+    "reconnect_relocked": true,
+    "user_confirmed_fn_a_emits_e_on_mac": true,
+    "restoration_requested": true,
+    "restoration_verified": true,
+    "scope": "Three GUI-edited keys on layer 1, 896-byte readback before/after user cold reconnect, physical output confirmed. Proposed Q->Z trial did not occur; Q on layer0 unchanged. Not complete GUI feature, matrix, stack or stability validation.",
+    "restoration_method": "Vial desktop GUI after explicit physical unlock; no scripted map writes",
+    "restored_map_sha256": "94944d6c7fbb36e7215fbb822b35b4d208e82ed6c6063822cc95d6857dd0a1b3",
+    "restored_full_map_matches_original": true,
+    "restored_cold_reconnect_verified": true,
+    "restored_relocked": true
+  },
+  "vial_full_graphic_trial": {
+    "installed": true,
+    "app_sha256": "e2e5a234d70910955cd9c245aef9b6025e3bdb815a9d28217c510074c020f614",
+    "image_sha256": "d251bb70ded32c1434488556ec8e4a4ef01ab674520e12a4111ab2bc40a582a0",
+    "app_bytes": 21412,
+    "image_bytes": 21440,
+    "offset": 512,
+    "end_exclusive": 21952,
+    "reports": 335,
+    "completion_ack": true,
+    "last_word_echo_matches": true,
+    "checksum_before": "0x828d",
+    "checksum_after": "0x316d",
+    "definition_bytes": 416,
+    "definition_sha256": "fd6c0f6731e8d00462c9d976ca9ed842fcf75935f3fcbd8d06ae807fa091b383",
+    "visible_positions": 87,
+    "usable_positions": 82,
+    "failed_positions_still_zero_in_all_layers": true,
+    "full_map_matches_restored_original": true,
+    "map_sha256": "94944d6c7fbb36e7215fbb822b35b4d208e82ed6c6063822cc95d6857dd0a1b3",
+    "reserved_ram_bytes": 1968,
+    "jumploader_rewritten": false,
+    "map_banks_rewritten_by_installer": false,
+    "flash_readback_verified": false,
+    "gui_screenshot_verified": false
   }
 }

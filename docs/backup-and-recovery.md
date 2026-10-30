@@ -1,10 +1,16 @@
 # Respaldo y recuperación antes del port
 
+> [!NOTE]
+> Informe de una fase anterior, conservado por su evidencia y fuentes. No usar
+> sus estados provisionales como estado actual ni sus comandos como receta universal.
+> Leer primero [README](../README.md), [estado](status-and-limits.md) y
+> [seguridad/recuperación](safety-and-recovery.md).
+
 Actualizado: 2026-10-30.
 
 **Prioridad acordada:** el usuario acepta una primera prueba con recuperación
 mínima para cargar otro candidato, sin exigir restauración OEM perfecta. Ver
-[el criterio actualizado](next-steps.md#0-prioridad-nueva-rescate-mínimo-y-primera-prueba-no-perfección-previa).
+[el criterio actualizado](first-trial-planning-history.md).
 Los requisitos de preservar el ISP, conocer protocolo/rangos y mantener la
 carcasa cerrada siguen vigentes. Esto cambia el alcance buscado, no la evidencia:
 ni el rescate de una app fallida ni la restauración OEM están aún comprobados.

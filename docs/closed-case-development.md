@@ -1,5 +1,11 @@
 # Desarrollo con carcasa cerrada — 2026-10-29
 
+> [!NOTE]
+> Informe de una fase anterior, conservado por su evidencia y fuentes. No usar
+> sus estados provisionales como estado actual ni sus comandos como receta universal.
+> Leer primero [README](../README.md), [estado](status-and-limits.md) y
+> [seguridad/recuperación](safety-and-recovery.md).
+
 ## Restricción y alcance
 
 El usuario **no abrirá el HyperX** y autoriza avanzar cuidadosamente con un firmware personalizado. Se reemplaza la propuesta de fotos internas por investigación de archivos, metadatos USB y protocolo cuando sea accesible. El Silakka54 sigue excluido de toda operación.

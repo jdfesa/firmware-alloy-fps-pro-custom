@@ -2,18 +2,28 @@
 
 ## Estado actual — 2026-10-30
 
-**El candidato `vial_editable` está instalado y ya hizo un remapeo persistente real.**
-En la Mac se desbloqueó con Tab+Caps, se cambió Q→Z por el protocolo Vial y se
-releyeron los896 bytes: solo cambió esa tecla. Tras desconectar/reconectar, el
-usuario confirmó `z` y la relectura mantuvo el cambio. Se restauró Q, se repitió
-la reconexión y se verificaron tanto `q` como el mapa original completo.
-No se reflasheó la aplicación ni el arranque para esta prueba.
+Leer el [estado, capacidades y límites](docs/status-and-limits.md) para operación, memoria y mejoras posibles.
 
-**Aún pendiente:** probar el flujo de edición en la GUI y la fiabilidad al
-reconectar. La definición instalada dibuja la matriz eléctrica14×8; las fuentes
-ya generan un **TKL ANSI de un solo cuerpo con82 posiciones sanas**, conservando
-los huecos de8/9/0/-/=. La mejora ya compiló:21412B de app y1968/2048B de RAM; **aún no instalada**.
-Cuatro capas caben; no es Vial-QMK completo ni firmware declarado estable.
+**Firmware TKL editable instalado; edición desde Vial de escritorio y
+persistencia comprobadas.** Tras iniciar `Security → Unlock` y mantenerTab+Caps,
+el usuario asignóE aA/S/D de capa1 desde la GUI. Se releyeron los896 B antes y
+después de reconectar sin Escape: mismo mapa, y Fn+A escribióE eneditorMac.
+La Q de capa0 no cambió; no presentar esto como un ensayoGUI deQ→Z.
+El usuario restauró esas tres posiciones desde GUI tras repetir Unlock.
+La relectura de 896 B después de otra reconexión volvió al mapa original completo. La prueba anterior por scriptQ→Z ysu
+restauración siguen documentadas como historia separada.
+
+**TKL ANSI instalado desde macOS:**87 posiciones dibujadas,82 sanas y cuatro capas;
+8/9/0/-/= siguen deshabilitadas aunque ahora se dibujan por estética. Se escribió solo la aplicación en `[0x200,0x55c0)`;
+arranque y bancos excluidos del rango. La definición TKL416 B respondió y los896
+bytes del mapa quedaron idénticos al snapshot previo. Escape al reconectar
+entró al ISP con Bootmagic de app deshabilitado. Transporte FeatureReportMac
+verificado conF260 / CS0, ACK/eco final y retorno explícito; no readback de flash.
+
+**GUI verificada:** remapeo persistente sin recompilar; desktop detecta tras
+corregir la marcaUSB pública deVial. Fiabilidad general de reconexión pendiente.21 412 B de app,
+1968/2048B deRAM con pilas; no es Vial-QMK completo ni firmware estable.
+Procedimiento: [actualizaciónMac](docs/macos-update.md).
 
 **Topología actual:** fuente y HyperX en **macOS local**. Linux remoto se usa
 solo para compilar. No consultar ni tocar el Silakka54; únicamente se leyó el
@@ -40,7 +50,7 @@ dependa de rutas personales de la máquina de desarrollo.
 
 Crear firmware propio para el **HyperX Alloy FPS Pro HX-KB4RD1-US**, con unas
 42 posiciones útiles y capas de números, símbolos y navegación. La base actual
-es SonixQMK. **Vial es una segunda fase**, no una función ya implementada.
+es SonixQMK. **El subconjunto Vial editable ya está instalado y verificado; no es Vial-QMK completo.**
 La configuración debe aproximarse al flujo del usuario en su Silakka54, no
 suponer que ya se dispone de su mapa exacto.
 
@@ -65,7 +75,7 @@ suponer que ya se dispone de su mapa exacto.
 - Mantener carcasa cerrada, Silakka54 excluido y prohibiciones de desprotección,
   borrado masivo, rangos adivinados y ejecución del updater propietario. No
   marcar evidencia como verificada por esta aceptación del riesgo residual.
-- Plan acotado y criterio de ensayo: `docs/next-steps.md`, sección0.
+- Plan acotado y criterio de ensayo: `docs/first-trial-planning-history.md`, sección0 (histórico).
 
 ## Límites obligatorios
 
@@ -125,8 +135,9 @@ suponer que ya se dispone de su mapa exacto.
 
 ## Antes de continuar
 
-1. Leer primero [el informe USB/arranque](docs/usb-isp-and-startup.md) y [la guía de continuación](docs/next-steps.md), que explica el arranque
-   auxiliar sin asumir conocimientos de firmware.
+1. Leer primero README, [estado/límites](docs/status-and-limits.md),
+   [seguridad](docs/safety-and-recovery.md) y [continuación](docs/next-steps.md).
+   Los informes USB/arranque son antecedentes, no el estado actual.
 2. Consultar [el informe ARM](docs/arm-build-and-boot.md), la
    [bitácora](docs/project-log.md) y `hardware/validation-status.json`.
 3. Próximo: completar la GUI y geometría TKL; conservar el arranque y los

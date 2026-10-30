@@ -124,3 +124,37 @@ limpia sin herramientas/binarios propietarios: algunos tests que los requieren
 se omiten explícitamente. No se publican imágenes instalables ni una release
 estable. Sigue pendiente elegir una licencia global y revisar atribuciones antes
 de invitar a reutilizar; se conservan los encabezados SPDX existentes.
+
+## Actualización macOS, descubrimiento desktop y pruebas GUI
+
+Se revisan el adaptador ISP hidapi, flags del instalador, tests, marcador USB
+público de Vial y documentos/evidencia de las dos actualizaciones app-only y la
+prueba GUI persistente. La marca `vial:f64c2b3c` es una constante pública de
+protocolo, no un serial individual. El UID de diseño permanece igual.
+
+El material de `tmp/`, updater añadido allí, capturas, toolchain, binarios y
+snapshots privados de mapas siguen ignorados; no se amplía la whitelist de cuatro
+JSON de `artifacts/analysis`. No se publica la dirección/credencial SSH, rutas
+personales ni información de etiqueta. Las referencias de Vial son fuentes
+primarias públicas; el código de GUI descargado para lectura queda en artefactos
+ignorados, no se vende ni incorpora como dependencia del firmware.
+
+El usuario pidió explícitamente Conventional Commits en inglés y push desde
+la Mac al remoto existente. Se revisará el índice real antes de cada commit.
+El resultado se sigue denominando experimental: no publicar release estable ni
+confundir backup de fuentes en GitHub con restauración OEM. Licencia global y
+atribuciones siguen pendientes antes de invitar a reutilización general.
+
+## Organización pública y gráfico de 87 posiciones
+
+Se reorganiza el README con callouts WARNING/IMPORTANT, modelo exacto, origen
+del caso, ausencia de backup/restauración OEM y distinción entre desbloqueo de
+edición y modo ISP por Escape. Se añaden guías de uso, seguridad, reproducción,
+proceso/decisiones y límites; se preservan documentos anteriores rotulados como
+históricos, sin sustituir inferencias por hechos.
+
+El cambio visual generado muestra87 posiciones, pero mantiene solo82 útiles;
+no cambia matriz, mapas, UID o whitelist. Se publica fuente/tests/evidencia, no
+el binario instalado. Una captura futura deberá revisarse y sanearse antes de
+permitir un archivo de imagen específico; no se abre una excepción general para
+fotos o artefactos privados. La whitelist de JSON de artifacts no cambia.

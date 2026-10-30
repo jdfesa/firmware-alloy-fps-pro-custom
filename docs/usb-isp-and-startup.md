@@ -1,5 +1,11 @@
 # USB real, arranque auxiliar y preparación de instalación
 
+> [!NOTE]
+> Informe de una fase anterior, conservado por su evidencia y fuentes. No usar
+> sus estados provisionales como estado actual ni sus comandos como receta universal.
+> Leer primero [README](../README.md), [estado](status-and-limits.md) y
+> [seguridad/recuperación](safety-and-recovery.md).
+
 **2026-10-29 — avance experimental; todavía sin flasheo.** Este informe sustituye
 la limitación anterior de acceso USB: trabajando por SSH, los nodos sí son
 accesibles. No se instaló ningún remapeador, no se ejecutó el actualizador/DLL

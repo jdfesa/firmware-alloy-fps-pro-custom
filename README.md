@@ -1,171 +1,164 @@
-# HyperX Alloy FPS Pro: viabilidad de firmware propio
+# HyperX Alloy FPS Pro — firmware QMK con configuración Vial
 
-## Estado actual — 2026-10-30
+Port experimental independiente para **HyperX Alloy FPS Pro HX-KB4RD1-US**,
+TKL ANSI. Conserva el controlador original: no usa un remapeador del PC ni un
+adaptador externo. Basado en SonixQMK, con un subconjunto propio del protocolo Vial.
 
-**El candidato `vial_editable` está instalado y ya hizo un remapeo persistente real.**
-En la Mac se desbloqueó con Tab+Caps, se cambió Q→Z por el protocolo Vial y se
-releyeron los896 bytes: solo cambió esa tecla. Tras desconectar/reconectar, el
-usuario confirmó `z` y la relectura mantuvo el cambio. Se restauró Q, se repitió
-la reconexión y se verificaron tanto `q` como el mapa original completo.
-No se reflasheó la aplicación ni el arranque para esta prueba.
+> [!WARNING]
+> **Uso bajo tu propia responsabilidad. Una primera instalación puede dejar el
+> teclado inutilizable. El éxito en esta unidad NO garantiza compatibilidad con
+> otra, aunque tenga el mismo nombre o SKU.**
+>
+> **No tenemos un backup OEM de esta unidad ni un procedimiento comprobado para
+> devolverla exactamente al firmware de fábrica.** La imagen de referencia
+> analizada no es ese backup. Se instaló y probó una entrada de rescate por Escape,
+> pero **rescate no significa backup ni garantía contra cualquier bloqueo**.
+> Si se pierde esa entrada, no hay una recuperación validada dentro del límite
+> de mantener la carcasa cerrada. Leer [riesgos y recuperación](docs/safety-and-recovery.md)
+> antes de considerar cualquier escritura. No hay una release declarada estable.
 
-**Aún pendiente:** probar el flujo de edición en la GUI y la fiabilidad al
-reconectar. La definición instalada dibuja la matriz eléctrica14×8; las fuentes
-ya generan un **TKL ANSI de un solo cuerpo con82 posiciones sanas**, conservando
-los huecos de8/9/0/-/=. La mejora ya compiló:21412B de app y1968/2048B de RAM; **aún no instalada**.
-Cuatro capas caben; no es Vial-QMK completo ni firmware declarado estable.
+## Por qué se hizo
 
-**Topología actual:** fuente y HyperX en **macOS local**. Linux remoto se usa
-solo para compilar. No consultar ni tocar el Silakka54; únicamente se leyó el
-archivo público que el usuario ofreció como referencia. `tmp/` es privado e
-ignorado por Git. Detalles y evidencia: [Vial editable](docs/vial-editable.md),
-`hardware/first-flash-evidence.json`.
+En la unidad del autor dejaron de funcionar cinco teclas: `8 9 0 - =`.
+Se decidió reutilizar las posiciones sanas con capas y un firmware configurable,
+acercando el flujo a una zona de unas 42 teclas. **Reescribir el firmware no
+reparó las teclas ni diagnosticó físicamente la causa**: no se comprobó continuidad
+ni se abrió la carcasa. La finalidad es aprovechar el resto, no prometer arreglar
+pistas, switches o diodos mediante software.
 
-Los informes de2026-10-29 conservan historia anterior a la instalación; no
-usar sus frases «no instalado» como estado actual. La recuperación OEM y la
-recuperación de una aplicación deliberadamente dañada siguen sin comprobarse.
+## Estado actual
 
-## Un solo proyecto, varios archivos
+Actualizado: **2026-10-30**. Resultados sobre una unidad, no certificación de todas
+las revisiones de este modelo.
 
-Esta carpeta reúne el trabajo original por SSH y todos los avances posteriores.
-No son proyectos distintos: `firmware/` contiene C/ASM y mapas; `scripts/` las
-herramientas; `tests/` sus pruebas; `hardware/`, `toolchains/` y `docs/` las
-evidencias y documentación. Este README es el punto de entrada único.
-
-La copia **macOS local** es la fuente principal de edición. **Linux remoto
-por SSH** conserva el toolchain; el HyperX ahora está conectado a esta Mac. Se compararon ambas
-copias por hashes y se revisaron sus diferencias antes de consolidarlas:
-ningún código remoto faltaba aquí. No editar los dos árboles independientemente.
-El repositorio de sincronización elegido por el usuario es
-[jdfesa/firmware-alloy-fps-pro-custom](https://github.com/jdfesa/firmware-alloy-fps-pro-custom).
-Se conservan herramientas/artefactos locales fuera de Git; los commits usan
-Conventional Commits en inglés. No hay sincronización automática.
-
-Los builds, referencias privadas y dependencias se conservan en `build/` y
-`artifacts/`, respetando `.gitignore`: no se sube la carpeta completa a GitHub.
-El toolchain importado es Linux x86_64, no ejecutable nativo de macOS. Las
-pruebas Python pueden ejecutarse localmente; los builds ARM siguen en Linux.
-
-**Vial y memoria:** [mediciones Raw HID, iluminación y alternativa de tres capas](docs/vial-memory-budget.md).
-
-## Seguimiento del proyecto
-
-- **Empezar aquí:** [qué se logró, qué significa el arranque auxiliar y cómo seguir sin abrir el teclado](docs/next-steps.md).
-- [Objetivo y reglas para futuras sesiones/agentes](AGENTS.md).
-- [Revisión antes de publicar en GitHub](docs/publication-review.md).
-- [Identificación del hardware y evidencia fotográfica](docs/hardware-identification.md).
-- [Plan de respaldo, recuperación y selección de base QMK](docs/backup-and-recovery.md).
-- [Bitácora de avances y pendientes](docs/project-log.md).
-- [Desarrollo sin abrir la carcasa: extracción y matriz reconstruida](docs/closed-case-development.md).
-- [Código del firmware y pruebas](firmware/README.md).
-- [Build ARM, memoria y requisito de arranque en 0x200](docs/arm-build-and-boot.md).
-
-Se documentará cada avance diferenciando lo observado, lo inferido y lo pendiente. No se incorporó la foto original al proyecto porque muestra identificadores de la unidad.
-
-## Objetivo y límites
-
-- Reutilizar el **HyperX Alloy FPS Pro** con aproximadamente 42 posiciones activas y capas que reproduzcan, en lo posible, el flujo de trabajo del usuario en su Silakka54.
-- **No modificar, flashear, reconfigurar ni capturar entradas del Silakka54**. Su configuración actual queda fuera del proyecto.
-- **No abrir el HyperX**: el usuario rechazó el desmontaje y autorizó continuar con inferencia, firmware de distribución y una ruta por USB. No volver a pedir fotos internas.
-- El usuario reporta que no funcionan cinco teclas, desde `8` hasta `=/+`, y que Backspace sí funciona. Confirmar leyendas/distribución física antes de mapearlas.
-- Se leyeron metadatos y fuentes y se realizó una consulta ISP acotada mediante hidraw únicamente sobre el HyperX, con retorno OEM confirmado. No se leyeron entradas de teclas ni se ejecutaron actualizadores. Capstone, SonixQMK y el compilador ARM están aislados dentro del proyecto; no se instalaron herramientas globalmente ni servicios.
-
-## Conclusión provisional
-
-**Sí funciona el remapeo básico persistente en este hardware:** hay prueba real
-de una edición, corte de alimentación y restauración, mediante el mismo
-SET_KEYCODE que usa Vial. No es necesario recompilar para cada cambio permitido.
-Falta terminar la experiencia GUI, instalar la geometría física y validar más
-teclas/capas. No se promete importar directamente toda la configuración del
-Silakka54: iluminación, macros, combos, multimedia y one-shot no están habilitados.
-Consultar [alcance, desbloqueo y limitaciones](docs/vial-editable.md).
-
-## 1. Identidad observada del teclado conectado
-
-Lectura de `/sys/bus/usb/devices/1-6` durante esta sesión:
-
-| Campo | Valor observado |
+| Resultado | Evidencia y límite |
 | --- | --- |
-| Fabricante | `Kingston` |
-| Producto | `HyperX Alloy FPS Pro Mechanical Gaming Keyboard` |
-| USB VID:PID | `0951:16d2` |
-| `bcdDevice` | `2112` |
-| USB | 2.00; 12 Mb/s (full-speed) |
-| Interfaces | 3 HID |
+| Firmware instalado y teclado funcional | Escritura humana confirmada; matriz completa y estabilidad prolongada no certificadas. |
+| TKL completo en Vial | 87 posiciones dibujadas; 82 útiles y cinco averiadas (`8 9 0 - =`) todavía deshabilitadas. |
+| Vial de escritorio y web | Detección confirmada; se corrigió la marca USB necesaria para descubrirlo en escritorio. |
+| Cuatro capas y edición persistente | Cambios desde GUI, lectura completa del mapa antes/después de reconectar y salida física confirmadas. |
+| Mapa de prueba restaurado | Las cuatro capas coinciden otra vez con el mapa inicial; no quedaron las tres E de la prueba. |
+| Actualización desde macOS | Transporte ISP acotado y app-only probado, preservando los rangos de arranque y mapas. ACK/eco no son lectura completa de flash. |
+| Escape → ISP | Comprobado al conectar con Bootmagic de la app deshabilitado; no se probó una app deliberadamente corrupta. |
 
-La ruta `1-6` puede cambiar al reconectar. Los identificadores USB no revelan el microcontrolador ni la revisión de PCB. `bcdDevice=2112` no demuestra por sí solo la versión exacta del firmware instalado. No se registraron números de serie.
+**No es Vial-QMK completo.** No hay iluminación, macros, combos, tap-dance,
+one-shot, multimedia/volumen, mouse keys o QMK Settings configurables en esta
+variante. Las cinco posiciones averiadas no se repararon por firmware.
 
-La fotografía inferior aportada después confirma **Alloy FPS Pro, SKU `HX-KB4RD1-US`**, referencia de etiqueta `3500241-001.A02LF` y alimentación nominal `5 V CC / 500 mA`. La referencia `A02LF` no se tratará como revisión de PCB sin verificar la serigrafía interna. El MCU sigue sin confirmarse físicamente.
+## Antes de editar: desbloquear
 
-Históricamente `lsusb` falló en el entorno inicial; la sesión SSH posterior sí dispone de nodos USB y permitió la consulta ISP documentada.
+> [!IMPORTANT]
+> **Si una tecla no cambia o el cambio no se guarda, comprobá primero el desbloqueo.
+> No reflashees para resolver un teclado simplemente bloqueado.**
+>
+> En esta variante hay que desbloquear **una vez por conexión, antes de editar**.
+> Desconectar, reiniciar o elegir Lock vuelve a bloquear las escrituras, pero
+> **no borra el mapa ni impide usarlo**. No hay que repetirlo por cada asignación.
 
-## 2. Microcontrolador candidato y antecedentes
+1. Abrir **un solo cliente** Vial y seleccionar el HyperX.
+2. En la barra superior de macOS, elegir **Security → Unlock**.
+3. Mantener **Tab + Caps Lock físicos** hasta completar la barra; después soltar.
+   Pulsarlos sin iniciar Unlock no hace nada. En el GUI de referencia tarda unos 4 s.
+4. Seleccionar la capa y la tecla destino en el dibujo superior; elegir su nueva
+   asignación con el mouse en el selector inferior.
+5. Cada asignación admitida se guarda automáticamente. No hay grabación final,
+   recompilación C ni necesidad de dejar Vial abierto para usar el mapa.
 
-- Un [desmontaje de primera mano de TweakTown](https://www.tweaktown.com/reviews/8405/hyperx-alloy-fps-pro-mechanical-gaming-keyboard-review/index.html#Inside-the-Alloy-FPS-Pro) identifica **Sonix SN32F268FG**, ARM Cortex-M0, 48 MHz, en la unidad reseñada. **No confirma el chip de la unidad del usuario**.
-- [SonixQMK](https://sonixqmk.github.io/SonixDocs/) documenta soporte para SN32F268. El código actual también incluye un [ejemplo mínimo SN32F260 con procesador SN32F268F](https://github.com/SonixQMK/qmk_firmware/blob/62973ee48a976c6f7cc6d4f7b198bd48a2fdfe60/keyboards/handwired/onekey/sn32f260/keyboard.json).
-- La [guía oficial de productos SONiX](https://www.sonix.com.tw/download/MCU.pdf) y la [hoja de datos SN32F260](https://www.sonix.com.tw/files/1/19A84D2F7217D8B4E060007F0100686A) especifican **32 KB de flash total, 2 KB de RAM de usuario y 256 B de FIFO USB**. La hoja de datos reserva 2 KB de la flash al bootloader.
-- SonixQMK advierte que [cada placa requiere mapear su matriz y periféricos](https://sonixqmk.github.io/SonixDocs/faq/), aunque comparta chip con otra.
+`▽` / `KC_TRNS` hereda la capa inferior; **no** es `KC_NO`/Disabled. Fn de la
+base activa la capa 1 mientras se mantiene (`MO(1)`). Ver [uso y diagnóstico](docs/usage.md).
 
-### Búsqueda acotada de un port existente
+## Escape al conectar: solo actualización o rescate
 
-Se consultó el árbol recursivo completo, no truncado, de `SonixQMK/qmk_firmware`, rama `sn32_develop`, SHA `62973ee48a976c6f7cc6d4f7b198bd48a2fdfe60`:
-
-- Bajo [`keyboards/hyperx`](https://github.com/SonixQMK/qmk_firmware/tree/62973ee48a976c6f7cc6d4f7b198bd48a2fdfe60/keyboards/hyperx) aparece `alloy_origins_core`, **no un port del FPS Pro**.
-- La búsqueda de issues/PRs con `alloy` en ese repositorio devolvió [PR #394: Alloy Origins Core](https://github.com/SonixQMK/qmk_firmware/pull/394), otro modelo.
-- Las búsquedas públicas adicionales por nombre/modelo no permitieron identificar un port listo del FPS Pro. Esto **no demuestra que nadie lo haya intentado** ni cubre trabajo privado o conversaciones de Discord.
-- El árbol completo de `vial-kb/vial-qmk`, rama `vial`, SHA `dd43959ae5c08d8a28d38a1acf7b04e86b14a344`, no mostró rutas HyperX ni SN32F260 por nombre. No se verificó una integración Vial/Sonix utilizable para este teclado.
-
-**No usar un binario del Origins Core, de otro HyperX ni de otro teclado con el mismo chip.** Los pines, la matriz, los LEDs y el mecanismo de arranque pueden ser distintos.
-
-## 3. Vial no es solo un archivo de distribución
-
-[Vial requiere firmware compatible](https://get.vial.today/docs/porting-to-vial.html), no basta con instalar la aplicación ni cargar un JSON sobre el firmware de fábrica.
-
-El presupuesto de memoria del MCU candidato es pequeño. La [documentación de tamaño de Vial](https://get.vial.today/docs/firmware-size.html) contempla reducir capas dinámicas, macros, combos, tap dance y otras funciones por límites de flash, RAM y almacenamiento persistente.
-
-Hipótesis a evaluar, no resultado demostrado:
-
-1. QMK mínimo con matriz, USB, debounce y capas definidas al compilar.
-2. Medir flash, RAM estática y margen de pila; comprobar almacenamiento persistente seguro si se busca configuración dinámica.
-3. Evaluar VIA/Vial como una fase adicional de integración, posiblemente con funciones reducidas.
-
-Usar solo 42 posiciones puede ahorrar parte del mapa, pero no elimina el coste de la pila USB, el sistema base ni las funciones dinámicas. No se promete iluminación, macros avanzadas o Vial completo.
-
-## 4. Las cinco teclas averiadas
-
-Existe un [reporte comunitario de primera mano con el mismo grupo `8, 9, 0, -, =`](https://www.reddit.com/r/HyperX/comments/1pmtkk8/fix_hyperx_alloy_fps_pro_dead_keys_8_9_0_fixed_by/). Su autor describe una pista de matriz interrumpida y una reparación mediante un puente.
-
-**Inferencia:** conviene investigar una conexión común de matriz antes de asumir cinco switches rotos o un fallo de firmware. No es un diagnóstico de esta unidad y no se deben copiar puntos de soldadura del reporte sin verificar revisión y continuidad de su PCB, con el teclado desconectado.
-
-Una pista abierta, un diodo o un switch dañado no se repara cambiando firmware. Si el resto de la matriz es estable, se pueden omitir esas posiciones y colocar números/símbolos en capas de teclas sanas. La reparación es una línea opcional, separada del objetivo de capas.
-
-## 5. Caminos posibles
-
-| Camino | Qué ofrece | Condiciones y límites |
+| Acción | Para qué sirve | Cuándo usarla |
 | --- | --- | --- |
-| Port QMK en MCU original | Capas dentro del teclado, sin software del PC durante el uso | Confirmar chip/revisión, mapear matriz, comprobar memoria y vía de recuperación. Riesgo de dejarlo sin funcionar al flashear. Vial es trabajo adicional, no garantizado. |
-| Prototipo por software, solo HyperX | Probar distribución, capas y tap/hold sin reemplazar firmware | Por ejemplo, [Kanata en Linux permite seleccionar dispositivos exactos](https://jtroo.github.io/config.html#linux-only-linux-dev). Debe usar una selección explícita del HyperX; nunca autodetección global que intercepte el Silakka54. Depende del PC y no es QMK/Vial nativo. No está instalado ni activado por este proyecto. |
-| Adaptador USB programable externo | Capas portátiles sin modificar internamente el HyperX | [HID Remapper](https://github.com/jfedor2/hid-remapper) tiene [capas y tap/hold](https://www.remapper.org/manual/). Usa su propia interfaz, no Vial/QMK. Requiere hardware host USB y validar compatibilidad con los reportes del HyperX. No se probó. |
-| Sustituir controlador o recablear | Ruta alternativa a QMK/Vial con un MCU soportado y más recursos | Inferencia de diseño: exige trabajo electrónico, identificar/aislar el controlador original, verificar niveles eléctricos y mapear la matriz. No conectar otro MCU en paralelo a ciegas. |
+| Conectar sin Escape | Arranque normal del firmware. | Uso diario y abrir Vial. |
+| Security → Unlock y después Tab+Caps | Autorizar escrituras del mapa en Vial. | Una vez por conexión antes de editar. No cambia el firmware de aplicación. |
+| Mantener Escape mientras se conecta el USB | Entrar al ISP antes de ejecutar la aplicación. | Actualización de firmware revisada o diagnóstico/rescate si la app no arranca. **No** para editar teclas normalmente. |
 
-El [conversor USB-USB incluido en Vial-QMK](https://github.com/vial-kb/vial-qmk/tree/dd43959ae5c08d8a28d38a1acf7b04e86b14a344/keyboards/converter/usb_usb) es otro antecedente, **no un producto Vial listo para este caso**: su README limita la entrada al protocolo HID Boot (6KRO), no NKRO genérico. Necesitaría validación y adaptación propias.
+En ISP el teclado no está en uso normal ni ofrece su configurador Vial. La entrada
+se verifica por metadatos/consultas; durante pruebas indicar cuándo soltar Escape.
+La programación nunca se inicia por el mero hecho de conectar con Escape.
+Si se entró accidentalmente **y no hay una escritura en curso**, una reconexión
+sin Escape permite intentar el arranque normal. **Nunca desconectar durante una
+programación.** Ver [procedimiento y límites](docs/safety-and-recovery.md).
 
-## 6. Adaptación desde el Silakka54
+## Modelo y alcance
 
-- Se pueden trasladar funciones a unas 42 posiciones sanas, números/símbolos a capas y navegación a una capa específica.
-- La selección concreta de teclas, capas y tiempos queda pendiente: no se leyó la configuración del Silakka54.
-- Se puede trabajar desde una copia de configuración que el usuario ya tenga, o desde una descripción de sus capas, sin interactuar con ese teclado.
-- No se puede reproducir por firmware la separación física, el escalonado por columnas ni el conjunto de teclas independientes de pulgar. Una barra espaciadora con un solo switch no se convierte en varios botones independientes.
-- En rutas externas/por software solo son asignables entradas que el firmware original efectivamente envíe; no asumir que `Fn` se transmite al host.
+- Unidad: **Alloy FPS Pro HX-KB4RD1-US**. No es Alloy FPS de tamaño completo ni
+  Alloy Origins Core; sus binarios no son intercambiables.
+- OEM observado: `0951:16d2`, `bcdDevice=2112`. Esos campos no identifican por sí
+  solos una PCB ni prueban identidad byte a byte del firmware.
+- ISP observado: familia **SN32F26x**, CS0. `SN32F268F/FG` es el candidato del
+  port, **no un encapsulado verificado físicamente en esta unidad**.
+- Matriz inferida de 14×8; 87 posiciones físicas, 82 ofrecidas en el editable.
+- Carcasa cerrada durante el proyecto. No se accedió al Silakka54 físico; solo
+  se usó la referencia pública ofrecida para entender el flujo de trabajo.
 
-## 7. Próximos pasos y condiciones antes de flashear
+## Por dónde empezar
 
-1. Mantener cerrada la carcasa. La identificación física opcional propuesta antes fue rechazada; continuar con evidencia de distribución y validación cerrada por USB cuando sea accesible.
-2. Contrastar la imagen y revisión sin desproteger ni borrar: el descriptor extraído coincide en VID/PID y bcdDevice, pero no demuestra identidad byte a byte de la unidad.
-3. La matriz se reconstruyó estáticamente; falta validar el comportamiento y la dirección eléctrica en esta revisión. No activar LEDs aún no estudiados.
-4. Completar el [plan de respaldo y recuperación](docs/backup-and-recovery.md). El paquete del espejo no es un dump propio ni garantiza restauración. **No desbloquear para copiar**.
-5. El build QMK/ARM y la comprobación estática de flash/RAM están completados. Falta comprobar máximos de pila y estabilidad en ejecución; las pruebas del anfitrión no sustituyen esa validación.
-6. Validar el jumploader requerido, entrada/salida y recuperación del bootloader antes de escribir. No escribir el `.bin` desde cero ni conservar a ciegas los vectores OEM. No borrar/sustituir el bootloader como primer experimento.
-7. Probar luego las capas provisionales; evaluar Vial solo con una base funcional y memoria/persistencia comprobadas.
+| Necesidad | Documento |
+| --- | --- |
+| Entender qué funciona, qué falta, memoria y mejoras posibles | [Estado y límites](docs/status-and-limits.md) |
+| Usar Vial, desbloquear y diagnosticar cambios que no guardan | [Uso diario](docs/usage.md) |
+| Riesgos, qué NO hacer y diferencias entre rescate y backup | [Seguridad y recuperación](docs/safety-and-recovery.md) |
+| Máquinas, compiladores, dependencias y reproducción | [Prerrequisitos y reproducción](docs/reproduction.md) |
+| Entender cómo se llegó a las conclusiones | [Proceso y decisiones](docs/process-and-decisions.md) |
+| Actualizar una unidad ya instalada, con alcance acotado | [Transporte macOS](docs/macos-update.md) |
+| Retomar el proyecto y priorizar trabajo pendiente | [Continuación](docs/next-steps.md) |
+| Consultar evidencia de hardware y cronología | [Evidencia](hardware/first-flash-evidence.json), [bitácora](docs/project-log.md) |
+| Comprender fuentes, mapas y experimentos | [Firmware](firmware/README.md) |
 
-**El usuario autorizó avanzar con cuidado; esa autorización no sustituye validación técnica. No se flasheará el port con recuperación/geometría sin verificar. `scripts/check_port_readiness.py` informa los pendientes; no realiza operaciones sobre el teclado.**
+## Beneficios y costes
+
+**Beneficios:** reutilizar el teclado sin electrónica adicional, remapear y
+organizar capas desde Vial, conservarlas sin software residente y tener fuentes,
+revisiones y pruebas documentadas. Se puede usar una zona de unas 42 teclas sin
+perder las demás posiciones sanas.
+
+**Costes y riesgos:** reemplaza el comportamiento OEM, pierde su retroiluminación
+con este port, no tiene todas las funciones de Vial y trabaja con solo 2 KB de
+RAM en el modelo de plataforma. Hay riesgo de bloqueo, sin vuelta OEM comprobada;
+una revisión diferente necesita su propia validación. No se promete reparar teclas,
+vida de flash ilimitada ni estabilidad completa. Ver [el análisis detallado](docs/status-and-limits.md).
+
+## Organización del repositorio
+
+```text
+firmware/    Port C/ASM, jumploader, keymaps y experimentos
+scripts/     Generación, build, medición y herramientas USB acotadas
+tests/       Pruebas host, simulación de fallos y validaciones de herramientas
+hardware/    Matriz inferida y evidencia pública saneada, con alcance explícito
+toolchains/  Revisiones y fuentes fijadas para compilación/protocolo
+docs/        Guías actuales, decisiones, cronología e informes históricos
+```
+
+La **Mac es la fuente principal y tiene conectado el HyperX**; Linux x86_64
+aporta el toolchain ARM. GitHub sincroniza las fuentes. Los comandos del proyecto
+usan RTK; los tests/builds no deben confundirse con flasheo.
+
+## Investigación conservada
+
+Estos documentos son antecedentes fechados, no el estado actual:
+[identificación](docs/hardware-identification.md),
+[extracción y matriz](docs/closed-case-development.md),
+[primer build ARM](docs/arm-build-and-boot.md),
+[USB y arranque](docs/usb-isp-and-startup.md),
+[primer ensayo](docs/first-flash-trial.md),
+[presupuesto Vial](docs/vial-memory-budget.md),
+[prototipo de lectura](docs/vial-readonly-prototype.md),
+[almacén simulado](docs/vial-map-store.md),
+[evaluación inicial](docs/initial-feasibility-history.md).
+Se mantienen para reconstruir los razonamientos y sus fuentes, no se borran
+porque hayan sido superados por una prueba posterior.
+
+## Publicación, respaldo y licencia
+
+GitHub respalda **lo versionado**, no el OEM del teclado. `build/`, `artifacts/`,
+`tmp/`, updater/DLL, herramientas, binarios, fotos y snapshots privados de mapas
+quedan ignorados. No se publican credenciales ni identificadores de etiqueta.
+Ver [revisión de publicación](docs/publication-review.md).
+
+Se conservan los encabezados SPDX de las fuentes. **La licencia global y la
+revisión de atribuciones siguen pendientes**; publicar el proceso no implica
+permiso para redistribuir firmware propietario ni una garantía del fabricante.
+Proyecto independiente, sin afiliación oficial con HyperX, SONiX, QMK o Vial.

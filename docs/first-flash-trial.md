@@ -1,5 +1,11 @@
 # Primer ensayo acotado de programación
 
+> [!NOTE]
+> Informe de una fase anterior, conservado por su evidencia y fuentes. No usar
+> sus estados provisionales como estado actual ni sus comandos como receta universal.
+> Leer primero [README](../README.md), [estado](status-and-limits.md) y
+> [seguridad/recuperación](safety-and-recovery.md).
+
 2026-10-30. Procedimiento experimental; los resultados reales se registran aparte.
 No equivale a backup, restauración OEM, Vial editable ni estabilidad validada.
 

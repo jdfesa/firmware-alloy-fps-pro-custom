@@ -1,6 +1,6 @@
 # Vial editable experimental: páginas físicas y cuatro capas
 
-2026-10-30. Candidato editable instalado; geometría TKL nueva solo compilada.
+2026-10-30. Candidato TKL instalado desde macOS; edición GUI persistente verificada.
 Consultar hardware/first-flash-evidence.json para
 separar compilación de pruebas reales. No es todo Vial-QMK: sin macros, combos,
 encoders, iluminación, ajustes QMK ni comandos de arranque remotos.
@@ -15,12 +15,12 @@ la fiabilidad de conexión. Después se verificó:
 
 1. Identidad/definición/mapa de cuatro capas coincidentes con la evidencia previa.
 2. Desbloqueo físico Tab+Caps; SET_KEYCODE de Q[0,2,1]0x0014→Z0x001d.
-3. ACK en269ms y relectura completa896B idéntica salvo esa tecla.
-4. Usuario desconectó/reconectó sinEscape: Q escribió `z`; RAW conservó el mapa.
+3. ACK en269ms y relectura completa896 B idéntica salvo esa tecla.
+4. Usuario desconectó/reconectó sin Escape: Q escribió `z`; RAW conservó el mapa.
 5. Nuevo desbloqueo; restauración deQ en266ms. Otra reconexión: usuario confirmó
    `q` y RAW recuperó el hash del mapa original. El dispositivo volvió bloqueado.
 
-**Esto comprueba edición y persistencia del núcleo, no todavía la GUI.** No se
+**Esta prueba histórica comprobó el núcleo; la pruebaGUI posterior está abajo.** No se
 cambió la aplicación, el jumploader ni el ISP durante estas dos transacciones.
 No se ejecutó el updater propietario ni se accedió al Silakka54 físico.
 Evidencia pública saneada en `hardware/first-flash-evidence.json`; copia privada
@@ -41,18 +41,20 @@ tras reconectar; no confiar solo en el dibujo. No dejar varios clientes abiertos
 
 La geometría instalada es una cuadrícula eléctrica14×8, no una mitad de un
 teclado dividido. El generador nuevo `scripts/generate_vial_editable.py` coloca
-las82 teclas sanas en seis filas físicas ANSI TKL, con anchos reales y bloque
+las 82 teclas sanas en seis filas físicas ANSI TKL, con anchos reales y bloque
 de navegación. Conserva identidad propia, matriz y mapas; no imita el VID/PID
 del Silakka ni de otro fabricante. Los cinco espacios averiados se mantienen
 como huecos, sin ofrecer teclas inexistentes o prometidas como reparadas.
 La definición está en flash, no ocupa un mapa nuevo en RAM. Build real TKL:
-21412B de app,1968/2048B reservados,80B de heap y pilas224/480 sin reducir.
-Imagen app-only21440B,335reportes, rango `[0x200,0x55c0)`. Hashes en la evidencia.
-**No instalada aún:** el HyperX conserva la definición eléctrica376B. El
-instalador actual `flash_trial.py --apply` usa Linux/hidraw; no usarlo enMac ni
-asumir que el nuevo transporte RAW permite flashear. Antes de instalar desdeMac,
-adaptar/verificar el transporte ISP FeatureReport, consultar F260/CS0/checksum,
-comprobar Escape con Bootmagic deapp deshabilitado y preservar arranque/bancos.
+21 412 B de app,1968/2048B reservados,80B de heap y pilas224/480 sin reducir.
+Imagen app-only21440B,335 reportes, rango `[0x200,0x55c0)`. Hashes en la evidencia.
+**Instalada en esta sesión:** el nuevo transporte `flash_trial.py --mac` usa
+FeatureReportISP, no RAW. Escape entró al ISP con Bootmagic de app deshabilitado;
+F260 / CS0  y checksum previo0xeb27 comprobados.335 reportes enviados una sola vez,
+ACK/eco correctos, checksum posterior0x9ac7. Retorno explícito sin Escape confirmó
+TKL416 B y los896 B del mapa idénticos al snapshot previo. No reescritura dearranque,
+bancos oISP; no lectura completa de flash. [ProcedimientoMac](macos-update.md).
+Edición posterior desdeVialdesktop y salida humana verificadas como se detalla abajo.
 
 ## Referencia voluntaria del Silakka54
 
@@ -79,7 +81,7 @@ no compatibles, posiciones deshabilitadas, comandosboot/reset y extras rechazado
 La GUI podría mostrar optimistamente un rechazo: comprobar relectura/reconexión.
 
 Lock físico: iniciar Unlock enVial y mantener **Tab+Caps** aproximadamente2s
-mientras laGUI consulta progreso. Reconexión bloquea otra vez. El combo usa
+mientras la GUI consulta progreso. Reconexión bloquea otra vez. El combo usa
 coordenadas físicas, no lo cambian los remapeos. Unlock limpia reportes y bloquea
 pulsaciones de uso mientras está enprogreso; no expone matriz ni captura entradas.
 No es autenticación criptográfica. La persistencia requiere unlock previo.
@@ -95,11 +97,11 @@ base0x40062000,STATUS+4,CTRL+8,DATA+12,ADDR+16; PER=2,PG=1,START=64.
 - Arranque `[0,0x200)` eISP `[0x7800,0x8000)` quedan fuera del backend.
 - Linker ASSERT exige fin de imagen<=0x7000; build/instalador también comprueban.
 - Dos bancos físicos: `[0x7000,0x7400)` y`[0x7400,0x7800)`.
-- Cada banco: header64B (magicAVP2/esquema/generación/CRC), mapa896B en14páginas,
+- Cada banco: header64B (magicAVP2/esquema/generación/CRC), mapa896 B en14páginas,
   commit64B separado con CMIT/generación/CRC y ceros restantes.
 - No programa palabras repetidamente enuna página. Reemplaza exactamente64B con
   erase deesa página yPG completa, verificando lectura de los16words.
-- Invalida commit destino primero; escribe14páginas delmapa, header; validaCRC
+- Invalida commit destino primero; escribe14páginas del mapa, header; validaCRC
   y códigos; publica commitfinal. Nunca escribe elbanco activo.
 - Al arrancar elige banco válido más nuevo (generaciones adyacentes, rollover);
   si ninguno es válido, defaults sin escrituras. La garantía simulada es por
@@ -108,7 +110,7 @@ base0x40062000,STATUS+4,CTRL+8,DATA+12,ADDR+16; PER=2,PG=1,START=64.
 El MCU se detiene durante erase/program (§11.1); se preservaPRIMASK y se inhiben
 interrupciones durante cada reemplazo. BUSY acotado y ERR/readback se comprueban.
 No tocaLPCTRL/opciones/seguridad/ISP. Un fallo bloquea escrituras yremonta bancos.
-No se añadieron heap buffers ni mapas896B enRAM: estado8B y buffer64B enpila.
+No se añadieron heap buffers ni mapas896 B enRAM: estado8B y buffer64B enpila.
 Las pilas224/480B se conservan; máximos reales siguen sin medir.
 
 ## Latencia, desgaste y alcance
@@ -131,5 +133,50 @@ No cubren brownout que dañe otra página, desgaste real ni USB/stack en ejecuci
 El candidato deshabilita Bootmagic deQMK: Escape al conectar depende del
 jumploader, no delmismo escaneoQMK. Probar esaentrada tras instalarlo.
 Antes de pruebas de escritura, comprobar baseinglesa/GUI; cambiar una tecla
-inofensiva, releer, desconectar/reconectar sinEscape y verificar tantoVial como
+inofensiva, releer, desconectar/reconectar sin Escape y verificar tantoVial como
 salidaHID. Revertir la tecla para dejar una base utilizable.
+
+## Vial desktop: detección y edición persistente verificadas
+
+Se corrigió un defecto de descubrimiento: la variante heredaba el descriptor
+textualEXPERIMENTAL. [VialGUIe42622c](https://github.com/vial-kb/vial-gui/blob/e42622c352b69eff523a467718db487ab9c9cbf2/src/main/python/util.py)
+`find_vial_devices` busca la marca pública `vial:f64c2b3c`, o un dispositivoVIA
+registrado/sideload. Se añade solo esa constante a la variante editable; no es
+serial privado deunidad ni suplantación deotro teclado. App21 412 B, RAM1 968 B,
+misma definiciónTKL, UID, VID/PID y bancos.106 tests pasan en Mac.
+
+Nueva app-only instalada en[0x200,0x55c0),335 reportes; ACK/eco correctos,
+checksum0x9ac7→0x53cd. MarcaUSB observada; usuario confirmó detección endesktop
+tras reconexión física. Una lecturaRAW larga inicial agotó timeout; no se atribuye
+causa única ni se declara resuelta la fiabilidad general.
+
+Después deabrir **Security → Unlock enla barra superior de macOS**, mantener
+Tab+Caps hasta completar labarra. Pulsar las teclas sin iniciar esa ventana no
+hace nada. El GUIoficial consulta cada200ms, por lo que20 pasos son unos4s.
+La edición usa mouse: seleccionar tecla destino eneldibujo superior y luego
+la asignación enelselector inferior; no escribir conelteclado físico.
+
+Prueba real: elusuario asignóE aA/S/D de **capa1**. Relectura896 B confirmó solo
+esas tres posiciones0x0001→0x0008 (noQ→Z). Después dereconectar sin Escape,
+relectura completa idéntica, relock y salidaFn+A→E confirmada porelusuario.
+El usuario restauró las tres posiciones a transparentes desde GUI tras repetir
+Unlock. Otra reconexión confirmó los 896 bytes originales y el estado bloqueado.
+El aparente fallo al restaurar era haber omitido Unlock después de reconectar.
+
+**Uso normal:** cada asignación admitida se guarda automáticamente. No requiere
+botón final degrabar, compilarC, reflashear ni Vialabierto alusar elteclado.
+Unlock solo esnecesario paraeditar después decada reconexión; no parausar elmapa.
+C/recompilación son necesarios paraañadir funciones noadmitidas, sin prometer
+que cabrá cualquier extensión en2KB. No macros/combos/tap-dance/multimedia,
+one-shot o iluminación. Remapeos básicos, modificadores/mod-tap, LT0..3 y
+TO/MO/TG0..3 siguen siendo el subconjunto permitido; no escoger códigos deotras
+funciones suponiendo que se guardarán. Una pruebaGUI no valida todos loscódigos.
+
+## Gráfico físico completo sin cambiar el mapa
+
+Por pedido estético se dibujan ahora las 87 posiciones. Las82 sanas conservan su
+comportamiento; las 5 averiadas siguenKC_NO yla whitelist rechaza habilitarlas.
+No se cambiaron UID/matriz/persistencia. Definición de 416 B, app21 412 B  y RAM1 968 B,
+107 tests pasan en Mac. Nueva app-only 335 reportes, mismo rango[0x200,0x55c0),
+ACK/eco  y retorno correctos. RAW confirmó87 coordenadas  y mapa896 B idéntico a la base.
+Las cifras82 visibles anteriores pertenecen a la revisión anterior del dibujo.

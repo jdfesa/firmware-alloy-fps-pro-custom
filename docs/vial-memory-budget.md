@@ -1,5 +1,11 @@
 # Vial: presupuesto real y pendientes
 
+> [!NOTE]
+> Informe de una fase anterior, conservado por su evidencia y fuentes. No usar
+> sus estados provisionales como estado actual ni sus comandos como receta universal.
+> Leer primero [README](../README.md), [estado](status-and-limits.md) y
+> [seguridad/recuperación](safety-and-recovery.md).
+
 Estado: **2026-10-29**. No hay firmware Vial instalado ni integración completa.
 El repositorio consolidado conserva el puerto QMK previo y sus resultados.
 

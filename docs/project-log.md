@@ -286,3 +286,97 @@ Foto superior y, si el usuario acepta abrir **solo el HyperX desconectado**, fot
   build/trial/installed-editable-before-tkl. **No seinstaló la mejoraTKL.**
 - Suite local ampliada:96tests pasan. Falta adaptar/verificar transporteISP
   Mac antes deactualizar, y probar ediciónGUI real con geometría física.
+
+## 2026-10-30 — Actualización TKL real desde macOS por SSH
+
+- Revisión de la fuenteMac b91224f y de `tmp/intento_0` sin sobrescribir avances.
+  Linux previo conservado; revisión aislada y subidas con hashes depreimagen.
+- AdaptadorISP hidapi FeatureReport separado deRAW; ID0+64B enambos sentidos,
+  selección única ISP/ruta vigente, app-only0x200..0x7000, sin erase/security,
+  OEMentry, reintentos ni reboot automático. Nueve tests nuevos;105 pasan enMac.
+- Clientes cerrados y reconexión sinEscape restituyeronRAW; causa del timeout
+  no aislada. Snapshot privado de896B antes deactualizar, no backupOEM.
+- Usuario reconectó conEscape: ISP respondióF260/CS0 conBootmagic deapp
+  deshabilitado. Se indicó soltarEscape antes deactualizar; rescate deapp
+  deliberadamente corrupta sigue sin probarse.
+- CandidatoTKL preexistente21412B/padded21440B,335reports, SHAimagen
+  dd1f768f21b7352eb88b43d881ccba3f23b949cd081e190d188457210d647393,
+  escrito una sola vez en[0x200,0x55c0). Checksum0xeb27→0x9ac7;ACK/eco válidos,
+  no readbackflash ni dominio checksum demostrado. Sin reescribirjumploader,
+  bancos demapas oISP; sin updaterpropietario ni Silakka54.
+- RETURN_USER explícito: nueva definiciónANSI TKL416B yhashc9767f77… confirmados.
+  Relectura completa896B idéntica al mapa previo, hash94944d6c… .GUI pendiente.
+
+- Usuario confirmó TKL completo enGUI web salvo las5averiadas, pero reporta
+  edición aún no disponible y ausencia enappdesktop. Se solicita captura
+  conQ seleccionada y confirmación deunlock; no dar tareaGUI por terminada.
+
+- Hallado defecto concreto de descubrimiento desktop: `raw_compact` fija
+  SERIAL_NUMBER aEXPERIMENTAL, mientras VialGUIe42622c `find_vial_devices`
+  filtra por la marca pública `vial:f64c2b3c` (oVIAregistrado/sideload).
+  Corregido solo elconfigeditable y añadida regresión. Nuevo buildARM21412B,
+  RAM1968B, mismoTKL/UID/mapas; markerUTF16 comprobado enbinario.106tests pasan
+  enMac. Candidato subido con preimágenes ybuildprevio preservado; aúnnoinstalado.
+- Aclaración deoperación: Tab+Caps por sísolo no abre nada. Primero elcliente
+  debe detectar, luego iniciarSecurity→Unlock y recién mantener lasteclas
+  hasta completar labarra (elGUIoficial consulta cada200ms: unos4s).
+
+- Segunda actualización app-only para descubrimiento desktop instalada en el
+  mismo rango[0x200,0x55c0):335reports,ACK/eco válidos,checksum0x9ac7→0x53cd,
+  retorno ymarcaUSB confirmados. Primer read_map terminó, pero inspectposterior
+  agotó timeoutRAW antes delacomparación/registro. No repetir escrituras; se
+  pidiócoldreconnect sinEscape y soloappdesktop. Causa deRAW noaislada y
+  relecturacompleta deestasegundaactualización todavía pendiente.
+
+- Usuario confirmó detección enVialdesktop tras coldreconnect conmarca corregida.
+  Edición aúnpendiente; se guía menúSecurity→Unlock antes deTab+Caps, sin
+  nuevosflasheos ni atribuir el sonido reportado auna causa nocomprobada.
+
+- EdiciónGUI real comprobada trasUnlock explícito: A/S/D decapa1 pasaron de
+  transparente0x0001 aE0x0008; no ocurrió elQ→Z propuesto. Se comunicó ladiferencia
+  sin falsearprueba ni sobrescribir cambios. Mapa896B hash43bd8521… idéntico
+  antes/después decoldreconnect, relock yFn+A→E confirmado porelusuario.
+- Usuario pidió restaurar esas3posiciones atransparentes. Se guióGUI; comprobación
+  final pendiente. Cambios ordinarios ya persisten sinC/recompilación; se mantienen
+  límites dekeycodes/funciones y condiciónexperimental, sin estabilidaddeclarada.
+
+## 2026-10-30 — Cierre GUI, restauración y documentación pública
+
+- El aparente fallo al restaurar las tres E era editar después de reconectar
+  sin volver a desbloquear. Usuario repitió Security→Unlock y restauró desde GUI.
+  Tras cerrar/reconectar, lectura completa896B igual a la base94944d6c…,
+  cero diferencias y relock. No se escribieron mapas desde scripts en esta prueba.
+- README reorganizado como entrada pública con WARNING de responsabilidad,
+  ausencia de backup/restauración OEM, rescate no garantizado, alcance de una unidad,
+  modelo exacto y proceso Unlock destacado. No se ofrece receta universal de flash.
+- Guías de uso, seguridad, reproducción, proceso/decisiones y límites; firmware
+  README actualizado. Informes anteriores conservados y marcados históricos,
+  evaluación/plan anterior preservados, sin borrar fuentes ni evidencias.
+- Entornos reales documentados: Mac Intel/macOS15.5/Clang17/Python3.14.6,
+  Linuxx86_64/Arch/GCC16.2.1/Python3.14.8; compiladorARM xPack12.3.1-1.2.
+  No se publican credenciales, direcciones ni rutas personales. No hay provisionado
+  limpio end-to-end validado ni licencia global/atribuciones ya resueltas.
+- Usuario pidió Conventional Commits en inglés y push desde Mac al remoto existente;
+  sincronización Linux solo después de preservar y comparar sus cambios previos.
+
+## 2026-10-30 — Gráfico completo solicitado, sin habilitar posiciones averiadas
+
+- Usuario pidió dibujar87posiciones por estética. Se retiró la omisión del
+  generadorKLE; matriz, mapa, UID ywhitelist permanecen iguales. Las5 averiadas
+  siguenKC_NO; testC recorre5posiciones×4capas ycomprueba rechazo sinmutaciones.
+- App21412B/1968BRAM, XZ416B;107tests pasan enMac. Candidatoanterior conservado.
+  Nueva imagenSHAd251bb70ded32c1434488556ec8e4a4ef01ab674520e12a4111ab2bc40a582a0,
+ 335reports app-only[0x200,0x55c0),checksum0x828d→0x316d,ACK/eco yretorno válidos.
+- LecturaUSB: definiciónhashfd6c0f67… con87coordenadas únicas;896B demapa iguales
+  aloriginal94944d6c… y5averiadas en0 entodaslas capas. Sin reescribirarranque,
+  bancos, seguridad ni usar updater. CapturaGUI ofrecida por usuario pendiente.
+- README distingue conectar normal, UnlockTabCaps paraeditar yEscape alconectar
+  paraISP/rescate. Origen documentado:5teclas fallaron yse quiso reutilizar resto,
+  no reparaciónporfirmware ni causa física diagnosticada.
+
+- Vialdesktop0.7.5 presentó arranque sinresponder/error de comunicación después
+  del cambio visual. Se atendió pedido de reiniciar soloapp porSSH, sinfirmware
+  niUSB paralelo; usuario informó que luego cargó. Captura privada muestra
+  RuntimeError failed to communicate with the device enreload_via_protocol,
+  antes dedescargar definición. No se atribuye causa al layout ni a caché sinprueba.
+  Se solicitó captura principal para distinguir5casillasKC_NO deausencia real.

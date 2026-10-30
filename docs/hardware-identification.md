@@ -1,5 +1,11 @@
 # Identificación del HyperX
 
+> [!NOTE]
+> Informe de una fase anterior, conservado por su evidencia y fuentes. No usar
+> sus estados provisionales como estado actual ni sus comandos como receta universal.
+> Leer primero [README](../README.md), [estado](status-and-limits.md) y
+> [seguridad/recuperación](safety-and-recovery.md).
+
 Actualizado: 2026-10-29. La carcasa debe permanecer cerrada por decisión explícita del usuario. Identificación e inferencia estática, no validación en hardware.
 
 ## Evidencia de la unidad del usuario

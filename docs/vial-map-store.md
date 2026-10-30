@@ -1,5 +1,11 @@
 # Mapa editable con RAM acotada: experimento sin escritura física
 
+> [!NOTE]
+> Informe de una fase anterior, conservado por su evidencia y fuentes. No usar
+> sus estados provisionales como estado actual ni sus comandos como receta universal.
+> Leer primero [README](../README.md), [estado](status-and-limits.md) y
+> [seguridad/recuperación](safety-and-recovery.md).
+
 **2026-10-29. Código C probado en host y objeto Cortex-M0 compilado.**
 No se enlaza en `vial_readonly`, no implementa un controlador flash ni habilita
 SET_KEYCODE en el teclado. El firmware disponible sigue siendo de solo lectura.

@@ -1,5 +1,11 @@
 # Compilación ARM real y revisión de arranque — 2026-10-29
 
+> [!NOTE]
+> Informe de una fase anterior, conservado por su evidencia y fuentes. No usar
+> sus estados provisionales como estado actual ni sus comandos como receta universal.
+> Leer primero [README](../README.md), [estado](status-and-limits.md) y
+> [seguridad/recuperación](safety-and-recovery.md).
+
 > Informe histórico del primer build. Actualización posterior: [ISP real,
 > jumploader propio y variante custom42_fn](usb-isp-and-startup.md).
 
