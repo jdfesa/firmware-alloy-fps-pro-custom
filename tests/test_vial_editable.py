@@ -42,7 +42,16 @@ class EditableTests(unittest.TestCase):
   self.assertEqual(self.lib.alloy_vial_keycode(0,7,6),0x2a)
   for col in range(5):self.assertEqual(self.lib.alloy_vial_keycode(0,7,col),0)
   v=json.loads((PORT/"vial.json").read_text());coords=[k for row in v["layouts"]["keymap"] for k in row if isinstance(k,str)]
-  self.assertEqual(len(coords),82);self.assertIn("9,5",coords);self.assertIn("7,6",coords)
+  self.assertEqual(len(coords),87);self.assertIn("9,5",coords);self.assertIn("7,6",coords)
+ def test_visible_failed_keys_remain_disabled_in_all_layers(self):
+  coords={k for row in json.loads((PORT/"vial.json").read_text())["layouts"]["keymap"] for k in row if isinstance(k,str)}
+  for layer in range(4):
+   for col in range(5):
+    self.assertIn(f"7,{col}",coords)
+    self.assertEqual(self.lib.alloy_vial_keycode(layer,7,col),0)
+    self.unlock()
+    self.assertEqual(self.exchange([5,layer,7,col,0,4])[0],255)
+  self.assertEqual(self.lib.mutation_count(),0)
  def test_locked_writes_rejected_and_physical_unlock_required(self):
   self.assertEqual(self.exchange([5,0,2,1,0,0x1d])[0],255)
   self.assertEqual(self.lib.mutation_count(),0)

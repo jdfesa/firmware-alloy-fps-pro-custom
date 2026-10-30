@@ -36,9 +36,13 @@ class PhysicalLayoutTests(unittest.TestCase):
                     w = 1
             y += 1
         expected = {','.join(map(str,e['matrix'])) for e in matrix['entries']
-                    if e['usage'] and e['usage'] not in generator.BROKEN}
+                    if e['usage']}
         self.assertEqual(set(positions), expected)
-        self.assertEqual(len(positions), 82)
+        self.assertEqual(len(positions), 87)
+        failed = {','.join(map(str,e['matrix'])) for e in matrix['entries']
+                  if e['usage'] in generator.BROKEN}
+        self.assertEqual(len(failed), 5)
+        self.assertTrue(failed <= set(positions))
         self.assertEqual(positions['0,0'], (0, 0, 1))  # Escape
         self.assertEqual(positions['6,6'], (14, 0, 1))  # F12, same top row
         self.assertEqual(positions['7,6'], (13, 1.5, 2))  # Backspace

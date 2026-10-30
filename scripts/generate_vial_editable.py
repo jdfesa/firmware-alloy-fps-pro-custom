@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Generate the HyperX ANSI TKL visual layout, not a different board identity.
 
-Physical placement is independent of the inferred 14x8 scan matrix. The five
-broken keys retain their physical spaces but are not offered as editable keys.
+Physical placement is independent of the inferred 14x8 scan matrix. All 87
+positions are drawn; the five known failed keys remain KC_NO in the map and
+the firmware still rejects assigning them nonzero keycodes.
 No USB access and no changes to the persistent map or matrix coordinates.
 """
 import argparse
@@ -49,8 +50,6 @@ def definition(matrix):
         if index == 1:
             keys.append({'y': 0.5})  # gap below the function row
         for usage, x, width in row:
-            if usage in BROKEN:
-                continue
             props = {}
             if x != cursor:
                 props['x'] = x-cursor
