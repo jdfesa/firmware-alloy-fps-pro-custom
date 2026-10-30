@@ -1,6 +1,13 @@
 # Respaldo y recuperación antes del port
 
-Actualizado: 2026-10-29.
+Actualizado: 2026-10-30.
+
+**Prioridad acordada:** el usuario acepta una primera prueba con recuperación
+mínima para cargar otro candidato, sin exigir restauración OEM perfecta. Ver
+[el criterio actualizado](next-steps.md#0-prioridad-nueva-rescate-mínimo-y-primera-prueba-no-perfección-previa).
+Los requisitos de preservar el ISP, conocer protocolo/rangos y mantener la
+carcasa cerrada siguen vigentes. Esto cambia el alcance buscado, no la evidencia:
+ni el rescate de una app fallida ni la restauración OEM están aún comprobados.
 
 **Estado actualizado: se obtuvo un paquete desde un espejo comunitario y se extrajo su imagen estáticamente. No está autenticado contra el fabricante, no es un volcado de la unidad y no se ha probado restauración. No existe todavía un backup propio del teclado.** El usuario exige mantener la carcasa cerrada; las propuestas anteriores de inspección física quedan descartadas. Ver [avance de extracción](closed-case-development.md).
 

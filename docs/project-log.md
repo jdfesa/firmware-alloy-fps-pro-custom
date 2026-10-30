@@ -182,3 +182,22 @@ Foto superior y, si el usuario acepta abrir **solo el HyperX desconectado**, fot
 - Sin USB, flash, desbloqueo de protección ni intervención del Silakka54.
   Checklist sigue2/NOT READY TO FLASH. Siguiente trabajo técnico y límites en
   [vial-map-store.md](vial-map-store.md).
+
+## 2026-10-30 — Prioridad explícita: recuperación mínima y primer ensayo
+
+- El usuario pide no demorar la primera prueba buscando una restauración
+  perfecta: priorizar una vía mínima de reprogramación independiente de QMK
+  para poder ensayar otro candidato si el primero no arranca.
+- Acepta como alternativa un firmware funcional con mapa equivalente al de
+  fábrica si no se logra Vial. Se aclara que eso no restaura el OEM por sí solo,
+  no funciona sin una aplicación arrancable y no repara posiciones averiadas.
+- Revisión acotada del jumploader existente y referencia SonixQMK: se conserva
+  la ruta propuesta Escape→ISP antes de QMK. No se implementa otro cargador.
+  C0/A0 y funcionamiento real pendientes; vectores válidos no prueban que la
+  app no se cuelgue. La entrada de rescate debe cubrir también ese caso.
+- Registrado el criterio en AGENTS/README/guías: revisar protocolo, borrado,
+  preservación y conjunto arranque+app; ensayar rescate primero, después mapa.
+  No exigir circularmente una instalación previa para autorizar el primer
+  ensayo, pero explicar su riesgo residual y no afirmar validación anticipada.
+- No se alteró ningún indicador de evidencia ni el checklist general. Sin
+  cambios de firmware, builds repetidos, comandos USB ni flasheo en este paso.

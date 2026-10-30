@@ -1,5 +1,10 @@
 # HyperX Alloy FPS Pro: viabilidad de firmware propio
 
+**Prioridad acordada al2026-10-30:** [primera prueba con rescate mínimo](docs/next-steps.md#0-prioridad-nueva-rescate-mínimo-y-primera-prueba-no-perfección-previa)
+para poder cargar otro candidato si QMK falla, sin esperar restauración OEM
+perfecta ni Vial completo. Esta vía de rescate todavía debe sustentarse/probarse;
+no elimina el riesgo del primer reemplazo del arranque.
+
 **Estado al 2026-10-29:** QMK compilado con cuatro capas; variante `custom42_fn`
 con 42 posiciones + F1–F12. **Primer ciclo USB OEM → ISP → OEM comprobado en la
 unidad**, familia SN32F26x y seguridad CS0 reportadas; usuario confirmó que sigue

@@ -23,6 +23,29 @@ es SonixQMK. **Vial es una segunda fase**, no una función ya implementada.
 La configuración debe aproximarse al flujo del usuario en su Silakka54, no
 suponer que ya se dispone de su mapa exacto.
 
+## Prioridad acordada: primera prueba con recuperación mínima — 2026-10-30
+
+- Priorizar una vía mínima para **volver a programar otro candidato aunque la
+  aplicación QMK falle**, sin demorar la primera prueba buscando restauración
+  OEM perfecta, todas las funciones Vial o validación completa del mapa final.
+- La recuperación mínima no equivale a restaurar el firmware original. La
+  falta de un backup OEM exacto no es por sí sola un veto indefinido al ensayo;
+  deben explicarse el riesgo residual y los límites del procedimiento concreto.
+- Antes de escribir, sustentar el protocolo/rangos y una entrada de rescate que
+  no dependa de QMK funcional. Verificarla en hardware será prioridad del primer
+  ensayo; no exigir circularmente haber instalado/probado antes lo que se va a
+  ensayar, pero tampoco declarar esa recuperación ya comprobada.
+- Si falla una aplicación y permanece accesible el rescate, iterar con otro
+  candidato conservando ese arranque. El primer reemplazo del arranque también
+  puede fallar: no prometer que esta estrategia elimina todo riesgo de bloqueo.
+- Si Vial no resulta viable, el usuario acepta como alternativa un firmware
+  funcional con distribución de fábrica. Eso requiere que arranque y escanee;
+  no restaura automáticamente el OEM ni repara las cinco teclas averiadas.
+- Mantener carcasa cerrada, Silakka54 excluido y prohibiciones de desprotección,
+  borrado masivo, rangos adivinados y ejecución del updater propietario. No
+  marcar evidencia como verificada por esta aceptación del riesgo residual.
+- Plan acotado y criterio de ensayo: `docs/next-steps.md`, sección0.
+
 ## Límites obligatorios
 
 - **No abrir, desmontar, soldar ni manipular internamente el HyperX.** El usuario

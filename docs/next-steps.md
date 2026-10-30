@@ -1,6 +1,56 @@
 # Cómo seguir sin abrir el teclado
 
-Actualizado: **2026-10-29**. Esta es la guía de relevo del proyecto.
+Actualizado: **2026-10-30**. Esta es la guía de relevo del proyecto.
+
+## 0. Prioridad nueva: rescate mínimo y primera prueba, no perfección previa
+
+El usuario pide avanzar hacia un primer ensayo sin prolongar indefinidamente
+la preparación. Acepta iterar con un segundo candidato si el primero falla,
+siempre que conservemos una vía mínima para volver a programar. **No exige
+restauración OEM exacta como condición previa absoluta.** Esto no prueba que el
+rescate exista ni autoriza comandos/offsets desconocidos.
+
+**Ruta a evaluar primero, reutilizando lo existente:** el pequeño jumploader
+entra al ISP antes de ejecutar QMK; la tecla de rescate propuesta es Escape.
+Ya hay código para ello, no hace falta crear otro sistema de configuración.
+Su lectura C0/A0 está inferida y no probada eléctricamente. El rechazo de
+vectores inválidos ayuda, pero no detecta una aplicación que tiene vectores
+correctos y luego se cuelga. El rescate manual debe cubrir ese caso.
+
+### Trabajo mínimo que sí afecta a la primera prueba
+
+1. Revisar el protocolo de programación y las unidades/rangos de borrado para
+   preservar el ISP y, en iteraciones posteriores, el jumploader. No confundir
+   una dirección de salto al ISP con garantía de ROM inmutable.
+2. Sustentar el arranque y la entrada de rescate independiente de la aplicación,
+   con su incertidumbre residual explícita. No instalar el jumploader solo
+   encima del OEM enlazado en cero. Revisar el conjunto de arranque+aplicación.
+3. Elegir el candidato mínimo ya disponible, sin exigir edición Vial en el
+   primer arranque. Revisar imagen, regiones y condiciones concretas del ensayo.
+4. Al probar, priorizar reenumeración y entrada al rescate; después teclas. Si
+   falla QMK pero el ISP sigue accesible, cambiar solo la aplicación. No repetir
+   escrituras a ciegas ni seguir si desaparece la única ruta de rescate.
+
+**Qué no debe retrasar por sí solo ese ensayo:** recuperar exactamente cada
+byte OEM, iluminación, mapa final de42 teclas, todas las funciones Vial o una
+GUI perfecta. La geometría de persistencia editable puede esperar si el primer
+candidato no escribe mapas en flash; la geometría necesaria para instalarlo no.
+
+No podemos probar una recuperación de nuestro jumploader en esta unidad antes
+de instalarlo por primera vez. La distinción es: revisión técnica suficiente
+antes del ensayo, validación real durante él. **La primera instalación sigue
+teniendo riesgo residual**, especialmente si falla el propio arranque o la
+tecla inferida; no se promete una unidad imposible de bloquear.
+
+Si no logramos Vial, el usuario acepta mantener una distribución equivalente a
+la de fábrica mediante un firmware funcional. Si no arranca ninguna aplicación,
+no basta con «dejar el mapa de fábrica»: primero debe funcionar el rescate y
+después alguna aplicación. Esto tampoco repara las cinco posiciones averiadas.
+
+Los apartados siguientes conservan el plan completo. La restauración OEM sigue
+siendo deseable, pero no debe confundirse con este nuevo objetivo mínimo. El
+comprobador actual es el checklist general, no un permiso ni un selector de
+primer ensayo; sigue marcando evidencias pendientes y no se cambiaron a `true`.
 
 ## 1. Estado actualizado: ya se consultó el ISP de la unidad
 
