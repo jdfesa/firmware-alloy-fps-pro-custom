@@ -201,3 +201,23 @@ Foto superior y, si el usuario acepta abrir **solo el HyperX desconectado**, fot
   ensayo, pero explicar su riesgo residual y no afirmar validación anticipada.
 - No se alteró ningún indicador de evidencia ni el checklist general. Sin
   cambios de firmware, builds repetidos, comandos USB ni flasheo en este paso.
+
+## 2026-10-30 — Instalador acotado para la primera prueba
+
+- Reconfirmados69 archivos versionados idénticos entre fuente macOS por SSH y
+  Linux con HyperX; árboles inicialmente limpios en616519c. Fuentes nuevas se
+  escriben en macOS; Linux reutiliza toolchain y USB, sin mover el teclado.
+- Revisado manual SONiX v1.9 p.122: User ROM0..0x7800, ISP0x7800..0x8000,
+  páginas64B. SonixFlasherC73f9fab8 omite erase explícito paraF260; protocolo
+  CMD5=offsetbytes/reportes64B. No se ejecutó updater ni flasher upstream.
+- Nuevo flash_trial.py: dry-run por defecto, hashes y vectores, límites,
+  HyperX/interfaz0/puerto explícito, F260/CS0/checksum previo, sin erase/security,
+  sin reintentos ni reboot automático. Primer conjunto jumploader+default;
+  iteraciones soloapp0x200. ACK/eco no se presentan como readback.
+- Pruebas de límites, streams, abortos y procedencia; corregida resolución de
+  /var frente a /private/var en macOS al comprobar rutas de fuentes de tests.
+- Recompilación para seleccionar candidato concreto: default16868B, hash
+  646be183c794dc3042c3e1589562f42701d1ae9ccd71e9d8547434ed232b95af;
+  jumploader436B/512, mismo hash4d336e11 previo. RAM1960/2048, no runtime aún.
+- Plan, fuentes y límites: [primer ensayo](first-flash-trial.md). Ninguna
+  evidencia de hardware se cambia antes de observar el resultado.
