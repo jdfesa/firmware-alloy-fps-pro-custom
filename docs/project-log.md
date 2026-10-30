@@ -380,3 +380,13 @@ Foto superior y, si el usuario acepta abrir **solo el HyperX desconectado**, fot
   RuntimeError failed to communicate with the device enreload_via_protocol,
   antes dedescargar definición. No se atribuye causa al layout ni a caché sinprueba.
   Se solicitó captura principal para distinguir5casillasKC_NO deausencia real.
+
+- Captura principal aportada: confirma las87posiciones, incluidas5casillas vacías
+  entre7 yBackspace. El usuario intentaba conservarles leyendas solo por estética;
+  la no persistencia enesas5 es rechazo intencional, no fallo deguardado de sanas.
+  Se decidió no habilitarlas ni falsear el mapa para una captura.
+- Imagen de ventana revisada y publicada sin retoques, con excepción exacta en
+  .gitignore ypie explicativo; error yotrosarchivos detmp siguenprivados.
+- Commits e65d64f/53525fe/b7ee763 creados ypush verificado desdeMac. HTTPSsincredenciales
+  falló; SSHpreexistente autenticado permitió push sin copiar credenciales. Solo
+  pushURLlocal cambió aSSH; fetchHTTPSpermanece. Publicación no incluye OEM/builds.

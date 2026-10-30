@@ -18,14 +18,14 @@ No se ejecuta el actualizador propietario ni la herramienta upstream completa.
 
 ## Límites del adaptador
 
-`flash_trial.py --mac` selecciona una única colección ISP0c45:7010/release0100,
-interfaz0 (o -1 si hidapi no informa), y exige su ruta vigente explícita.
+`flash_trial.py --mac` selecciona una única colección ISP 0c45:7010/release0100,
+interfaz 0 (o -1 si hidapi no informa), y exige su ruta vigente explícita.
 Rechaza ambigüedad o cambios al abrir. Solo enumera esa identidad y nunca abre
 colecciones de teclado ajenas. La ruta es circunstancial, no identidad permanente.
 
 Antes de programar verifica fuentes/manifiesto/binario, vectores, RAM, hash del
-dry-run, familiaF260 / CS0 y checksum previo explícito. Solo permite app desde0x200
-con fin<=0x7000, fuera de jumploader, bancos y región ISP reservada. No admite
+dry-run, familia F260 / CS0 y checksum previo explícito. Solo permite app desde 0x200
+con fin <=0x7000, fuera de jumploader, bancos y región ISP reservada. No admite
 primera instalación en Mac, OEMentry, borrado explícito, cambio de protección,
 reintentos de escritura ni reinicio automático. ACK/eco no son readback de flash.
 
@@ -53,7 +53,7 @@ comprobación constituye una garantía universal.
 - Transporte realMac F260 / CS0, ACK/eco  y retorno en tres actualizaciones app-only.
 - TKL inicial de 82 posiciones visibles  y mapa anterior preservado.
 - Corrección del descriptor público para detección desktop.
-- EdiciónGUI de3 teclas, reconexión física, lectura896 B ysalidaFn+A; restauraciónGUI
+- EdiciónGUI de 3 teclas, reconexión física, lectura896 B ysalidaFn+A; restauraciónGUI
   atransparentes  y base completa recuperada.
 - Gráfico posterior de 87 posiciones, mismas82 útiles, definición416 B  y mapa intacto.
 - 107 tests completos pasan en el entorno Mac preparado. No estabilidad prolongada,

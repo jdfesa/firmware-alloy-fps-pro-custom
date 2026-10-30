@@ -52,3 +52,6 @@ __pycache__/
 *.jpeg
 *.png
 *.heic
+
+# Reviewed GUI screenshot only; do not allow arbitrary photos/screenshots.
+!/docs/images/vial-tkl-full.png

@@ -90,15 +90,26 @@ es autorización para flashear: leer [seguridad](safety-and-recovery.md).
 
 ## Error de comunicación al iniciar Vial desktop
 
-Se observó en Vial0.7.5/macOS15.5 `RuntimeError: failed to communicate with the
+Se observó en Vial 0.7.5/macOS 15.5 `RuntimeError: failed to communicate with the
 device`, con la traza en `reload_via_protocol`/`hid_send`. Esa consulta precede a
 la descarga de la definición: no es una excepción del parser del dibujo ni
-prueba por sí misma que el gráfico de87posiciones sea inválido. La causa general
+prueba por sí misma que el gráfico de 87 posiciones sea inválido. La causa general
 no se aisló. No ejecutar herramientas RAW en paralelo para intentar arreglarlo.
 
-Cerrar Vial por completo, cerrar la web y reconectar HyperX sinEscape antes de
+Cerrar Vial por completo, cerrar la web y reconectar HyperX sin Escape antes de
 reabrir puede permitir continuar; no se presenta como garantía ni reparación
 probada de la causa. Si reaparece, conservar el error y comprobar versiones,
 clientes y comunicación de forma aislada, sin borrar mapas ni reflashear a ciegas.
 Después de una recarga fallida no confiar en un dibujo anterior: confirmar una
 carga exitosa y distinguir cinco casillas `KC_NO` vacías de posiciones ausentes.
+
+## Por qué desaparece una asignación de las cinco averiadas
+
+Fue confirmado con la captura principal: las cinco casillas sí están dibujadas,
+pero sus leyendas quedan vacías porque contienen `KC_NO`. Intentar asignarles
+8/9/0/-/= en la GUI no persiste **por política del firmware**, no por el mismo
+olvido de Unlock que afectó a teclas sanas. La GUI puede mostrarlo temporalmente
+hasta recargar. Se dejó así: el pedido era estético y no justifica fingir que
+se guardan o habilitar posiciones físicamente averiadas solo para una captura.
+
+[Captura revisada del teclado completo](images/vial-tkl-full.png).

@@ -264,6 +264,8 @@
     "jumploader_rewritten": false,
     "map_banks_rewritten_by_installer": false,
     "flash_readback_verified": false,
-    "gui_screenshot_verified": false
+    "gui_screenshot_verified": true,
+    "gui_screenshot": "docs/images/vial-tkl-full.png",
+    "gui_screenshot_scope": "User-provided Vial desktop screenshot visually reviewed: complete TKL, five blank KC_NO cells between7 andBackspace; no unit identifiers or unrelated windows. Not proof of assigning failed positions."
   }
 }

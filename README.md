@@ -45,6 +45,16 @@ las revisiones de este modelo.
 one-shot, multimedia/volumen, mouse keys o QMK Settings configurables en esta
 variante. Las cinco posiciones averiadas no se repararon por firmware.
 
+## Vista real en Vial
+
+![TKL completo en Vial de escritorio, con cinco posiciones deshabilitadas](docs/images/vial-tkl-full.png)
+
+Captura aportada por el usuario en macOS/Vial 0.7.5. El teclado superior muestra
+**87 posiciones físicas y 82 utilizables**. Las cinco casillas vacías entre 7 y
+Backspace son `8 9 0 - =`, mantenidas en `KC_NO` por su avería; **no faltan del
+dibujo**. La paleta inferior de Vial ofrece más funciones de las que admite este
+firmware: que aparezcan en la interfaz no significa que estén implementadas.
+
 ## Antes de editar: desbloquear
 
 > [!IMPORTANT]

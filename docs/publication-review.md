@@ -158,3 +158,13 @@ no cambia matriz, mapas, UID o whitelist. Se publica fuente/tests/evidencia, no
 el binario instalado. Una captura futura deberá revisarse y sanearse antes de
 permitir un archivo de imagen específico; no se abre una excepción general para
 fotos o artefactos privados. La whitelist de JSON de artifacts no cambia.
+
+## Captura GUI revisada
+
+Se permite únicamente `docs/images/vial-tkl-full.png` con una excepción exacta
+al patrón de imágenes ignoradas. Captura de ventana Vial aportada por usuario:
+sin escritorio ajeno, cuentas, rutas, seriales deunidad ni contenido personal.
+Revisión de PNG: sin chunks de texto o rutas privadas; EXIF solo contiene
+anchura/altura y hay perfil de color. No se retocaron píxeles para simular teclas
+funcionales. Las cinco casillas `KC_NO` siguen vacías y el pie lo explica.
+La captura del error de comunicación queda privada en `tmp/`, no se publica.
