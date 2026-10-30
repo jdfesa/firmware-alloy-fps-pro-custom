@@ -10,6 +10,7 @@ import hashlib
 import json
 from pathlib import Path
 import struct
+import sys
 import time
 
 import probe_hyperx as probe
@@ -197,13 +198,36 @@ def main():
     mode.add_argument("--inspect-isp", action="store_true")
     mode.add_argument("--return-user", action="store_true")
     parser.add_argument("--port")
+    parser.add_argument("--mac", action="store_true", help="ISP Feature transport; app-only, preserves maps")
+    parser.add_argument("--isp-path", help="current exact hidapi ISP path, from --mac --list-isp")
+    parser.add_argument("--list-isp", action="store_true", help="macOS ISP metadata only; no device open")
     parser.add_argument("--expected-sha256")
     parser.add_argument("--expected-checksum", type=lambda v: int(v, 0))
     args = parser.parse_args()
+    if args.mac:
+        if sys.platform != 'darwin' or args.port or args.first_install:
+            parser.error('--mac requires macOS; no --port or first installation')
+        from hyperx_isp_hid import MacTrialDevice, metadata
+        if args.list_isp:
+            if args.apply or args.inspect_isp or args.return_user or args.isp_path:
+                parser.error('--list-isp cannot be combined with device operations')
+            print(json.dumps(metadata(), default=lambda b: b.decode('utf-8'), indent=2))
+            return
+        def target():
+            if not args.isp_path:
+                parser.error('explicit current --isp-path required')
+            return MacTrialDevice(args.isp_path.encode('utf-8'))
+    else:
+        if args.isp_path or args.list_isp:
+            parser.error('--isp-path/--list-isp require --mac')
+        def target():
+            if not args.port:
+                parser.error('explicit --port required')
+            return open_target(args.port, args.first_install)
     if args.inspect_isp or args.return_user:
-        if not args.port or args.first_install:
+        if args.first_install:
             parser.error("explicit port required; first-install not allowed for ISP controls")
-        dev = open_target(args.port)
+        dev = target()
         try:
             print(json.dumps(require_f260_cs0(dev)), flush=True)
             checksum = struct.unpack_from("<H", dev.query(6), 8)[0]
@@ -217,10 +241,12 @@ def main():
             dev.close()
         return
     data, plan = candidate(args.keymap, args.first_install)
+    if args.mac and plan['end_exclusive'] > 0x7000:
+        parser.error('macOS candidate overlaps persistent maps')
     print(json.dumps(plan, indent=2), flush=True)
     if not args.apply:
         return
-    if not args.port or args.expected_sha256 != plan["sha256"] or args.expected_checksum is None:
+    if args.expected_sha256 != plan["sha256"] or args.expected_checksum is None:
         parser.error("apply requires port, exact dry-run SHA256 and reviewed checksum")
     folder = ROOT / "build/trial"
     folder.mkdir(parents=True, exist_ok=True)
@@ -232,7 +258,7 @@ def main():
             stream.flush()
             print(line, flush=True)
         event({"event": "plan", **plan})
-        dev = open_target(args.port, args.first_install)
+        dev = target()
         try:
             apply(dev, data, plan, args.expected_checksum, event)
         except BaseException as exc:
