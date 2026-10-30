@@ -19,5 +19,7 @@
   "vial_gui_detection_verified": false,
   "vial_persistent_remapping_verified": false,
   "vial_evidence_report": "docs/vial-readonly-prototype.md",
-  "usb_access_available_over_ssh_scope": "Historical Linux SSH ISP cycle; current SSH source host is macOS. User reports HyperX on local Linux; no new USB access attempted."
+  "usb_access_available_over_ssh_scope": "Historical Linux SSH ISP cycle. Current primary source is local macOS; remote Linux has toolchain and user-reported HyperX. Source sync/build only this session; no new USB probe.",
+  "vial_map_storage_stage": "Host-tested C copy-on-write prototype, 29266 simulated fault cases; standalone ARM object only; no physical backend or QMK/protocol integration",
+  "vial_map_storage_report": "docs/vial-map-store.md"
 }

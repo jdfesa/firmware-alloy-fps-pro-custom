@@ -153,3 +153,32 @@ Foto superior y, si el usuario acepta abrir **solo el HyperX desconectado**, fot
   y añadidas aserciones de los dos selectores de capa; el firmware no cambió.
 - Checklist sigue2/NOT READY TO FLASH. No USB/flash, no Silakka54, no publicación.
   Detalle y siguiente código: [prototipo de lectura Vial](vial-readonly-prototype.md).
+
+## 2026-10-29 — Comparación de copias y almacén transaccional simulado
+
+- Aclarada la ubicación actual: macOS local como fuente principal; Linux remoto
+  por SSH para toolchain y HyperX. Sin contraseñas/direcciones privadas en Git.
+- Comparación por SHA-256 sin herramientas descargadas/cachés:91 archivos
+  iguales,8 diferentes revisados (todos contienen avances locales),22 solo en
+  macOS y2 logs solo en Linux. No faltaban fuentes remotas. Se preservaron
+  versiones anteriores en artefactos ignorados y se consolidó sin borrados,
+  verificando preimágenes para no pisar cambios concurrentes.
+- No se repitió el prototipo de lectura ni el parche USB. Nuevo almacén C de
+  mapas: dos bancos virtuales, copia por palabras, CRC, formato versionado,
+  commit final, validación de keycodes y fallback. Estado8 B, sin mapa RAM.
+- 12 tests nuevos; **62 pasan en macOS y Linux**.29.266 escenarios de cortes y
+  errores simulados, además de ASan/UBSan, rollover, corrupción, reintentos,
+  offsets impares y política de posiciones. No son cortes sobre el teclado.
+- Objeto independiente Cortex-M0 compilado con el GCC fijado:1272 B de código,
+  sin `.data`/`.bss`; frame de edición64 B más llamadas. No enlace QMK nuevo ni
+  máximo de pila real. No se repitieron builds de candidatos sin cambios.
+- Los bancos1024 B son una abstracción, no geometría comprobada. No hay backend
+  físico, adaptación de escritura Vial ni firmware editable. Se documentan
+  atomicidad por paquete, coste de230 operaciones y desgaste/latencia pendientes.
+- Git inicial sin historia; remoto elegido por el usuario sin referencias al
+  consultar. Primer commit conserva la base previa; siguiente commit separa
+  el almacén nuevo. Mensajes Conventional Commits en inglés y correo noreply.
+  Revisión de selección pública sin ampliar los cuatro JSON permitidos.
+- Sin USB, flash, desbloqueo de protección ni intervención del Silakka54.
+  Checklist sigue2/NOT READY TO FLASH. Siguiente trabajo técnico y límites en
+  [vial-map-store.md](vial-map-store.md).

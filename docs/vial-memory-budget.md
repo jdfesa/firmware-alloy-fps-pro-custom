@@ -7,6 +7,10 @@ El repositorio consolidado conserva el puerto QMK previo y sus resultados.
 transporte. El nuevo [prototipo de lectura](vial-readonly-prototype.md) enlaza
 sin aumentar la RAM estática, pero no añade remapeo ni persistencia.
 
+**Avance posterior:** [almacén C simulado](vial-map-store.md) con estado8 B y
+sin sombra RAM del mapa; objeto ARM1272 B, fuera del enlace del candidato.
+No se ha medido todavía el coste del firmware integrado ni existe backend físico.
+
 ## La iluminación ya está desactivada
 
 `firmware/keyboards/hyperx/alloy_fps_pro/rules.mk` desactiva backlight,

@@ -12,7 +12,7 @@ retorno y el usuario confirmó que sigue escribiendo. No se escribió flash.
   mantiene cuatro capas y ocupa 17316 B / 1960 B RAM estática con pilas.
 - Jumploader propio C/ASM: 436 B, relleno a512, con Escape inferido y magic del
   QMK fijado. Compilado y revisado estáticamente, **no instalado**.
-- 50 tests pasan en Linux/macOS. Vial completo, backup propio, matriz real y rescate con app
+- 62 tests pasan en Linux/macOS. Vial completo, backup propio, matriz real y rescate con app
   fallida siguen pendientes. El checklist sigue devolviendo2.
 - Checksum de referencia no coincide bajo los cálculos ensayados; eso no
   demuestra corrupción, pero impide afirmar identidad. No usarlo como backup.
@@ -23,9 +23,11 @@ el informe nuevo precisa qué partes de A/B/C/D ya avanzaron y cuáles no.
 Vial: consultar [presupuesto real de RAM y alternativa de tres capas](vial-memory-budget.md).
 El [nuevo prototipo de lectura Vial](vial-readonly-prototype.md) ya compila:
 19460 B flash,1952 B RAM; no es aún configuración editable. Para código,
-continuar con diseño/pruebas de persistencia sin duplicar el mapa en RAM.
-El usuario aclaró que el HyperX está en Linux local; macOS por SSH es ahora la
-fuente principal. No trasladarlo solo para compilar ni asumir USB en el remoto.
+el [almacén C simulado](vial-map-store.md) ya evita duplicar el mapa en RAM y
+pasa29.266 escenarios de fallos. Falta backend físico, desgaste/latencia y
+adaptación al escaneo/protocolo; no habilitar escrituras antes de verificar
+geometría y recuperación. macOS **local** es la fuente principal; Linux
+**remoto por SSH** tiene el toolchain y el HyperX. No hace falta moverlo.
 
 ## 2. Qué significa «arranque auxiliar», explicado sin electrónica
 
@@ -127,7 +129,7 @@ rtk proxy python3 -m unittest discover -s tests -v
 rtk proxy python3 scripts/check_port_readiness.py
 ```
 
-Resultado esperado: **50 pruebas pasan** y el segundo comando sale con **2**,
+Resultado esperado: **62 pruebas pasan** y el segundo comando sale con **2**,
 enumerando revisión, matriz, bootloader, recuperación y jumploader pendientes.
 Ninguno de los dos comandos accede al teclado.
 

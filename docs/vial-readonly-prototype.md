@@ -5,6 +5,12 @@ un subconjunto de lectura de **Vial 6 / VIA 9** encima del parche USB compacto
 ya existente. No es el port completo de Vial-QMK, no permite configurar teclas
 y no demuestra que Vial lo detecte en hardware.
 
+**Continuación:** el [almacén de mapas simulado](vial-map-store.md) ya tiene
+código y pruebas de fallos. Está separado de este candidato: no cambia su
+protocolo, binario ni condición de solo lectura. Los roles actuales son macOS
+local para edición y Linux remoto para build/HyperX; las referencias siguientes
+a local/remoto describen la sesión histórica de este prototipo.
+
 ## Qué se implementó
 
 En `firmware/keyboards/hyperx/alloy_fps_pro/keymaps/vial_readonly/`:

@@ -4,13 +4,17 @@
 con 42 posiciones + F1–F12. **Primer ciclo USB OEM → ISP → OEM comprobado en la
 unidad**, familia SN32F26x y seguridad CS0 reportadas; usuario confirmó que sigue
 escribiendo. Jumploader propio compilado (436 B), **no instalado ni validado**.
-**50 pruebas pasan en Linux/macOS; todavía sin flasheo ni Vial completo.** No hay backup
+**62 pruebas pasan en Linux/macOS; todavía sin flasheo ni Vial completo.** No hay backup
 propio ni recuperación demostrada ante una aplicación inválida.
 
 **Nuevo código:** [prototipo Vial de solo lectura](docs/vial-readonly-prototype.md)
 compilado para ARM:19460 B flash,1952/2048 B RAM, cuatro capas y tapping
 conservados. Identidad, definición y lectura de mapas comprobadas en host;
 **sin edición persistente ni detección real en Vial**.
+
+**Avance de almacenamiento:** [mapa editable simulado en C](docs/vial-map-store.md),
+sin copia RAM del mapa, estado8 B y29.266 escenarios de fallos. No está
+conectado a la flash física ni al protocolo de escritura del firmware.
 
 **Novedades y continuación:** [informe USB/arranque e instalación pendiente](docs/usb-isp-and-startup.md).
 Los informes anteriores conservan contexto histórico; la limitación USB del
@@ -23,13 +27,14 @@ No son proyectos distintos: `firmware/` contiene C/ASM y mapas; `scripts/` las
 herramientas; `tests/` sus pruebas; `hardware/`, `toolchains/` y `docs/` las
 evidencias y documentación. Este README es el punto de entrada único.
 
-En esta continuación, la copia macOS accesible por SSH es la fuente principal
-de edición. La máquina Linux local aporta el toolchain y allí está conectado
-el HyperX, según aclaró el usuario. Los roles de las máquinas cambiaron respecto
-a la etapa SSH anterior; no copiar sus supuestos de ubicación. No
-editar ambos árboles independientemente: comparar cambios antes de sincronizar,
-sin borrados automáticos; cuando exista el remoto GitHub, usar el mismo repo.
-No hay sincronización automática ni publicación realizada.
+La copia **macOS local** es la fuente principal de edición. **Linux remoto
+por SSH** conserva el toolchain y el HyperX conectado. Se compararon ambas
+copias por hashes y se revisaron sus diferencias antes de consolidarlas:
+ningún código remoto faltaba aquí. No editar los dos árboles independientemente.
+El repositorio de sincronización elegido por el usuario es
+[jdfesa/firmware-alloy-fps-pro-custom](https://github.com/jdfesa/firmware-alloy-fps-pro-custom).
+Se conservan herramientas/artefactos locales fuera de Git; los commits usan
+Conventional Commits en inglés. No hay sincronización automática.
 
 Los builds, referencias privadas y dependencias se conservan en `build/` y
 `artifacts/`, respetando `.gitignore`: no se sube la carpeta completa a GitHub.

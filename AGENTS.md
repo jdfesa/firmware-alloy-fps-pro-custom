@@ -5,9 +5,9 @@ dependa de rutas personales de la máquina de desarrollo.
 
 ## Fuente única de trabajo
 
-- En esta continuación, la copia macOS accesible por SSH es la fuente principal
-  elegida por el usuario. Linux local aporta el toolchain y **el HyperX está en
-  la máquina local**, no en la remota. No hace falta moverlo para código/build.
+- La copia macOS local es la fuente principal elegida por el usuario. Linux
+  remoto por SSH aporta el toolchain y **allí está conectado el HyperX**. No
+  hace falta moverlo para código/build. GitHub es el punto de sincronización.
 - El trabajo SSH inicial es la base; no descartarlo. Antes de sincronizar,
   comparar cambios y no sobrescribir archivos distintos sin revisión.
 - README es la entrada única; los múltiples archivos forman un solo repo.
@@ -49,7 +49,7 @@ suponer que ya se dispone de su mapa exacto.
   cuatro capas,42+12 teclas, averiadas excluidas. Vial no integrado.
 - RAM reservada1960/2048 B con pilas; heap88 B, máximos de pila no medidos.
 - App en0x200. Jumploader propio C/ASM compilado436 B, relleno512, no instalado.
-- 50 tests pasan en Linux y macOS. Sin backup de unidad ni rescate ante app
+- 62 tests pasan en Linux y macOS. Sin backup de unidad ni rescate ante app
   inválida verificado.
 - El ciclo previo por SSH en Linux dispuso de USB/hidraw; no asumir ese acceso
   en el host macOS actual. `probe_hyperx.py` es metadata-only por defecto;
@@ -73,8 +73,10 @@ suponer que ya se dispone de su mapa exacto.
 - Usuario acepta considerar3 capas si ayuda; mapas siguen en4. Quitar una capa
   estática ahorra flash, no resuelve el overflow RAM del transporte.
 - Leer `docs/vial-memory-budget.md`. No declarar Vial integrado o detectado.
-  Siguiente código: almacenamiento editable sin duplicar el mapa en RAM y con
-  pruebas de corte de energía; ninguna escritura física sin geometría/recuperación.
+  El almacén C simulado ya está implementado: estado8 B, objeto ARM1272 B,
+  29.266 casos de fallos simulados; no integrado ni backend físico. Leer
+  `docs/vial-map-store.md`. Siguiente: geometría/recuperación y desgaste/latencia
+  antes de adaptar escrituras; nunca usar los bancos virtuales como direcciones.
 
 ## Antes de continuar
 
@@ -100,6 +102,7 @@ rtk proxy python3 scripts/build_firmware.py --keymap default
 rtk proxy python3 scripts/build_firmware.py --keymap custom42_fn
 rtk proxy python3 scripts/build_jumploader.py
 rtk proxy python3 -B scripts/build_compact_raw.py --keymap vial_readonly
+rtk proxy python3 -B scripts/measure_map_store.py
 ```
 
 El comprobador devuelve **2 / NOT READY TO FLASH** mientras falten evidencias.

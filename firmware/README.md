@@ -3,7 +3,9 @@
 Actualización: [consulta ISP real y jumploader compilado](../docs/usb-isp-and-startup.md).
 `custom42_fn` ofrece 42 posiciones + F1–F12 directas en todas las capas,
 17316 B y el mismo uso estático de RAM. El mapa estricto `custom42` no cambia.
-26 tests pasan. Ningún candidato fue flasheado.
+62 tests pasan. Ningún candidato fue flasheado. El [prototipo Vial de lectura](../docs/vial-readonly-prototype.md)
+ya compila; el [almacén C con fallos simulados](../docs/vial-map-store.md) sigue
+separado, sin backend físico ni edición Vial habilitada.
 
 Se creó `keyboards/hyperx/alloy_fps_pro` para la base **SonixQMK**, referencia de código `62973ee48a976c6f7cc6d4f7b198bd48a2fdfe60`. Los dos mapas se compilaron y enlazaron para ARM Cortex-M0. Se comprobó su ajuste estático a flash/RAM, pero no se probaron en el teclado. **Los binarios no están aprobados para flashear.** Ver [build, memoria y arranque](../docs/arm-build-and-boot.md).
 

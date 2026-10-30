@@ -1,6 +1,6 @@
 # Preparación para un repositorio público
 
-Revisión local: **2026-10-29**. El usuario desea publicar el proyecto en GitHub.
+Revisión inicial: **2026-10-29, antes del primer commit**. El usuario desea publicar el proyecto en GitHub.
 **Git local inicializado en `main`, sin commits ni remoto configurado. No se creó
 ni publicó un repositorio remoto.**
 
@@ -100,3 +100,27 @@ No se incorporan credenciales SSH ni ubicaciones de red al repositorio. La
 whitelist de cuatro JSON en `artifacts/analysis` **no se amplió**: los nuevos
 manifiestos, logs y binarios siguen ignorados. No se publicó ni creó remoto.
 Mantener la advertencia READ-ONLY y la revisión de licencia antes del primer push.
+
+## Continuación: repositorio elegido y revisión del almacén
+
+El usuario autorizó commits Conventional Commits en inglés y push al repositorio
+[jdfesa/firmware-alloy-fps-pro-custom](https://github.com/jdfesa/firmware-alloy-fps-pro-custom),
+que ya existía y no anunció referencias en la consulta inicial. No se creó otro
+repositorio ni se cambió su visibilidad. El nombre recomendado arriba queda
+como propuesta histórica; se respeta el destino elegido por el usuario.
+
+El primer commit conserva los63 archivos de la base anterior y el siguiente
+añade el almacén C simulado, tests, medición y documentación actualizada. El
+autor ya configurado usa correo GitHub noreply; no se incorporan credenciales
+SSH ni direcciones privadas. Los manifests nuevos con rutas personales siguen
+ignorados, al igual que las copias anteriores guardadas durante la consolidación.
+La whitelist de cuatro JSON no cambia.
+
+Se revisaron rutas, tipos y contenido de la selección pública y patrones de
+secretos/rutas privadas. Es una revisión acotada, no una certificación absoluta.
+Los espacios de contexto dentro del archivo `.patch` son parte del formato del
+parche y no se recortaron. La selección se prueba también en una exportación
+limpia sin herramientas/binarios propietarios: algunos tests que los requieren
+se omiten explícitamente. No se publican imágenes instalables ni una release
+estable. Sigue pendiente elegir una licencia global y revisar atribuciones antes
+de invitar a reutilizar; se conservan los encabezados SPDX existentes.
