@@ -25,7 +25,7 @@ No equivale a backup, restauración OEM, Vial editable ni estabilidad validada.
   ACK `0xfafafafa`, stream de datos; respuesta final devuelve el último word
   en+60. [Versión anterior b41694c](https://github.com/SonixQMK/SonixFlasherC/blob/b41694cdff5b6d935b51067f24975aabeebe344c/sonixflasher.c)
   también omite erase para F260. Eso sustenta el protocolo; no es una traza
-  previa de escrituras de nuestra unidad ni prueba de preservación byte a byte.
+  previa de escrituras de la unidad ensayada ni prueba de preservación byte a byte.
 - El perfil20/02 observado en la unidad es F260; CS0 observado. El nuevo
   instalador aborta ante otro chip/nivel. No ofrece comandos2/3/4/8/9, cambios
   de opciones, unlock ni erase. No se ejecuta el flasher upstream ni el OEM.
@@ -62,13 +62,13 @@ reescritura de arranque puede dejarlo sin rescate cerrado.
 
 1. Dry-run `rtk proxy python3 scripts/flash_trial.py --first-install --keymap default`.
 2. Revisar hash/rango concretos; `--apply` solo con los valores recién observados
-   y autorización de esta sesión. Logs privados en `build/trial/`.
+   y autorización explícita para esa escritura concreta. Logs privados en `build/trial/`.
 3. Tras completar sin error, **mantener Escape del HyperX** y pedir retorno
    desde ISP. Consultar otra vez ISP antes de liberar Escape: es la primera
    comprobación real del arranque independiente de QMK.
 4. Liberar Escape, volver a user, observar VID/PID QMK y pedir escritura humana.
 5. Hacer un ciclo físico: desconectar/reconectar solo HyperX con Escape pulsado,
-   consultar ISP; luego arrancar normalmente. No tocar Silakka54.
+   consultar ISP; luego arrancar normalmente.
 6. Solo con rescate funcional, cambiar la app manteniendo el jumploader.
    Vial read-only puede comprobar transporte/detección pero no edición.
 
@@ -84,7 +84,7 @@ riesgo residual permite este ensayo, no cambiar los indicadores anticipadamente.
 - RETURN_USER con Escape pulsado: reenumeración0c45:7010/bcd0100, versión y
   checksumISP respondieron. Al soltarEscape y repetir retorno: QMK enumera
   FEED:A11F/bcd0001, producto Alloy FPS Pro custom EXPERIMENTAL.
-- Usuario escribió `hola qmk`. Después desconectó/reconectó solo HyperX con
+- Escritura humana de `hola qmk` confirmada. Después se reconectó solo HyperX con
   Escape; ISP reenumeró y respondió F260/CS0/checksum0x1ad2. QMK Bootmagic
   también está habilitado: no atribuir exclusivamente esta entrada al
   jumploader sin aislarlo. No prueba de app deliberadamente corrupta.

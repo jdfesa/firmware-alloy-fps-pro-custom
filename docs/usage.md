@@ -50,8 +50,8 @@ Las escrituras fallidas de una herramienta no se reintentan a ciegas.
 
 La prueba GUI efectiva cambió A/S/D de capa 1 a E. Se leyeron los 896 bytes antes
 y después de desconectar/reconectar; fueron idénticos y Fn+A escribió E en un
-editor de macOS. Después el usuario desbloqueó, restauró las tres posiciones a
-transparentes y volvió a reconectar. La relectura completa coincidió con el mapa
+editor de macOS. Después de otro desbloqueo se restauraron las tres posiciones
+a transparentes y se volvió a reconectar. La relectura completa coincidió con el mapa
 inicial: cero diferencias, teclado bloqueado. No quedaron cambios de prueba.
 
 Esta prueba valida esos casos, no todos los códigos de Vial ni una importación
@@ -72,7 +72,7 @@ no nulas; pueden verse vacías o como deshabilitadas en la GUI. Su presencia no
 prueba reparación. Intentar un código rechazado puede volver a bloquear las
 escrituras: repetir Unlock antes de editar una posición admitida.
 
-Una reparación física futura no fue realizada ni autorizada en este proyecto;
+No se realizó ninguna reparación física como parte de este proyecto;
 verificarla y rehabilitar esas posiciones sería una etapa aparte. No se promete
 que el defecto sean pistas ni que todas las averías sean reparables.
 
@@ -109,7 +109,7 @@ Fue confirmado con la captura principal: las cinco casillas sí están dibujadas
 pero sus leyendas quedan vacías porque contienen `KC_NO`. Intentar asignarles
 8/9/0/-/= en la GUI no persiste **por política del firmware**, no por el mismo
 olvido de Unlock que afectó a teclas sanas. La GUI puede mostrarlo temporalmente
-hasta recargar. Se dejó así: el pedido era estético y no justifica fingir que
-se guardan o habilitar posiciones físicamente averiadas solo para una captura.
+hasta recargar. La representación visual no habilita posiciones averiadas ni
+justifica mostrar como guardadas asignaciones que el firmware rechaza.
 
 [Captura revisada del teclado completo](images/vial-tkl-full.png).

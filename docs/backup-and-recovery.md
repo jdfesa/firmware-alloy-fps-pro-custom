@@ -8,14 +8,14 @@
 
 Actualizado: 2026-10-30.
 
-**Prioridad acordada:** el usuario acepta una primera prueba con recuperación
-mínima para cargar otro candidato, sin exigir restauración OEM perfecta. Ver
+**Prioridad del ensayo:** evaluar una primera prueba con recuperación mínima
+para cargar otro candidato, sin exigir restauración OEM perfecta. Ver
 [el criterio actualizado](first-trial-planning-history.md).
 Los requisitos de preservar el ISP, conocer protocolo/rangos y mantener la
 carcasa cerrada siguen vigentes. Esto cambia el alcance buscado, no la evidencia:
 ni el rescate de una app fallida ni la restauración OEM están aún comprobados.
 
-**Estado actualizado: se obtuvo un paquete desde un espejo comunitario y se extrajo su imagen estáticamente. No está autenticado contra el fabricante, no es un volcado de la unidad y no se ha probado restauración. No existe todavía un backup propio del teclado.** El usuario exige mantener la carcasa cerrada; las propuestas anteriores de inspección física quedan descartadas. Ver [avance de extracción](closed-case-development.md).
+**Resultado de esa fase: se obtuvo un paquete desde un espejo comunitario y se extrajo su imagen estáticamente. No está autenticado contra el fabricante, no es un volcado de la unidad y no se ha probado restauración. No existe todavía un backup propio del teclado.** La investigación se limita a carcasa cerrada; las propuestas anteriores de inspección física quedaron descartadas. Ver [avance de extracción](closed-case-development.md).
 
 ## 1. Tres cosas distintas
 
@@ -65,7 +65,7 @@ Para evaluar una lectura real:
 1. Inferir MCU/revisión con imagen de distribución y protocolo/USB, sin abrir la carcasa. Registrar explícitamente la confianza y lo que no pueda confirmarse.
 2. Establecer si hay lectura USB soportada o si haría falta un depurador compatible y acceso físico. Tener pines SWD no garantiza que la flash sea legible.
 3. Revisar el procedimiento para asegurar que no borra, desbloquea, escribe opciones, programa una aplicación auxiliar ni restaura valores de fábrica. No adivinar tensiones o pines de conexión.
-4. Solo tras acordar una intervención concreta y no destructiva, leer las regiones autorizadas. Mantener el Silakka54 fuera de cualquier selección de dispositivo.
+4. Solo tras acordar una intervención concreta y no destructiva, leer las regiones autorizadas. Seleccionar exclusivamente el HyperX previsto, sin acceder a otros dispositivos.
 5. Para regiones estáticas, obtener dos lecturas independientes y comprobar identidad de bytes/hashes. Conservar mapa de direcciones, tamaño, método, herramienta/versión y cobertura exacta. Dos lecturas iguales ayudan a verificar consistencia, no prueban restaurabilidad.
 
 Si alguna región no es legible, el respaldo será parcial y se identificará como tal. No crear un archivo vacío o rellenado para presentarlo como backup.
@@ -74,25 +74,25 @@ Si alguna región no es legible, el respaldo será parcial y se identificará co
 
 - Evidencia suficiente que vincule MCU/revisión inferidos con la unidad, sin depender solo de otro teclado o de su aspecto.
 - Matriz y periféricos relevantes mapeados; pines no identificados no se activan a ciegas.
-- Material original recuperable y sus límites documentados, o decisión explícita del usuario de aceptar un riesgo residual sin respaldo completo.
+- Material original recuperable y sus límites documentados, o aceptación explícita del riesgo residual sin respaldo completo.
 - Procedimiento de recuperación aplicable a esa revisión, con alcance y limitaciones claros; no prometer que el bootloader es indestructible.
 - Geometría de flash y rangos de escritura comprobados; no borrar ni sustituir el bootloader como primer experimento.
 - Validar el jumploader requerido por el candidato SonixQMK: su aplicación está enlazada en `0x200`, mientras la imagen OEM tiene vectores en cero. Ni escribir el `.bin` desde cero ni preservar sin más los primeros 512 B OEM es una transición demostrada. Ver [análisis de arranque](arm-build-and-boot.md).
 - Firmware mínimo compilado y revisado, incluidos flash, RAM y margen de pila.
-- El usuario autorizó continuar cuidadosamente con firmware propio, no un desbloqueo destructivo ni usar una imagen con rangos de escritura adivinados. Mantener las validaciones antes de cualquier escritura.
+- La autorización para desarrollar firmware no incluye un desbloqueo destructivo ni imágenes con rangos de escritura adivinados. Mantener las validaciones antes de cualquier escritura.
 
 No es necesario reflashear el firmware original simplemente para guardar su paquete. Una prueba de restauración sería una intervención separada, no una lectura inocua.
 
 ## 6. Qué reutilizar de otro teclado QMK/Vial
 
-La propuesta del usuario de partir de código existente es adecuada, con una corrección: **el criterio principal es la electrónica, no tener el mismo número o dibujo de teclas**.
+Para reutilizar código existente, **el criterio principal es la electrónica, no tener el mismo número o dibujo de teclas**.
 
 | Parte reutilizable | Condición |
 | --- | --- |
 | Plataforma, arranque y controlador USB | MCU exacto soportado y configuración compatible con este chip/bootloader. |
 | Escaneo de matriz | Adaptarlo a las filas, columnas, pines y diodos reales del HyperX. Dos teclados TKL pueden cablearse de maneras distintas. |
 | Definición visual y distribución | Un TKL similar puede servir como plantilla de representación, nunca como prueba del pinout. |
-| Capas y funciones del usuario | Trasladarlas a teclas sanas cuando exista un escaneo fiable. Se puede conservar el mapa de las teclas físicamente presentes y utilizar solo 42. |
+| Distribución y funciones deseadas | Trasladarlas a teclas sanas cuando exista un escaneo fiable. Se puede conservar el mapa de las teclas físicamente presentes y utilizar solo 42. |
 | Vial y almacenamiento dinámico | Integración adicional con presupuesto de flash/RAM/persistencia verificado. No queda habilitado por copiar un JSON. |
 
 Si se confirma el Sonix candidato, el [ejemplo mínimo `handwired/onekey/sn32f260`](https://github.com/SonixQMK/qmk_firmware/tree/62973ee48a976c6f7cc6d4f7b198bd48a2fdfe60/keyboards/handwired/onekey/sn32f260) es una referencia de plataforma a estudiar, **no un firmware listo para flashear al HyperX**. No se han aprobado sus pines ni su configuración de arranque para esta placa. [SonixQMK explica por qué hay que mapear cada placa](https://sonixqmk.github.io/SonixDocs/faq/).

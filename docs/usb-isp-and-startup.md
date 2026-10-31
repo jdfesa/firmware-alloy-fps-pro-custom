@@ -8,8 +8,8 @@
 
 **2026-10-29 — avance experimental; todavía sin flasheo.** Este informe sustituye
 la limitación anterior de acceso USB: trabajando por SSH, los nodos sí son
-accesibles. No se instaló ningún remapeador, no se ejecutó el actualizador/DLL
-propietario y no se consultó ni modificó el Silakka54.
+accesibles en el entorno de esa prueba. No se instaló ningún remapeador ni se
+ejecutó el actualizador/DLL propietario.
 
 ## Resultado en la unidad conectada
 
@@ -22,7 +22,7 @@ propietario y no se consultó ni modificó el Silakka54.
    conservado sin interpretar como opciones de chip. Seguridad reportada: `0x0000` (**CS0**).
 5. Checksum reportado: **`0x27d1`**. No es un volcado de memoria.
 6. Enviado `RETURN_USER_MODE`; después volvió a enumerar como HyperX con el
-   mismo descriptor HID. **El usuario confirmó que sigue escribiendo.**
+   mismo descriptor HID. **Escritura humana posterior confirmada.**
 
 No se enviaron órdenes de borrar, programar o cambiar protección. El primer
 diagnóstico esperó solo un segundo tras salir y mostró `after: []`; una lectura
@@ -76,7 +76,7 @@ Una respuesta USB correcta no sustituye comprobar que escribe.
   compatible con el HyperX por compartir chip.
 - [QMK fijado, sn32_dfu.c](https://github.com/SonixQMK/qmk_firmware/blob/62973ee48a976c6f7cc6d4f7b198bd48a2fdfe60/platforms/chibios/bootloaders/sn32_dfu.c):
   usa `0xDEADBEEF` en el último word de RAM. El jumploader upstream antiguo
-  busca `bldr` en otra dirección. Nuestro código usa el contrato QMK fijado.
+  busca `bldr` en otra dirección. El código del proyecto usa el contrato QMK fijado.
 
 ### No confundir ReadData con leer flash
 
@@ -141,7 +141,7 @@ esas posiciones y agrega las doce teclas físicas de función en **todas las
 capas**: 54 posiciones activas, cuatro capas, las cinco averiadas desactivadas.
 Se compiló realmente: **17316 B**, la misma reserva de RAM de **1960/2048 B**
 y **88 B de heap**. No aumenta la matriz ni el número de capas almacenadas.
-No es aún Vial ni un mapa importado del Silakka54. Son mapas compilados QMK.
+Son mapas estáticos compilados QMK; en esa fase no ofrecían edición Vial.
 
 ## Qué impide instalar todavía y próximo trabajo concreto
 

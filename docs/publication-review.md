@@ -1,73 +1,30 @@
-# Preparación para un repositorio público
+# Publicación: criterios y registro de revisión
 
-Revisión inicial: **2026-10-29, antes del primer commit**. El usuario desea publicar el proyecto en GitHub.
-**Git local inicializado en `main`, sin commits ni remoto configurado. No se creó
-ni publicó un repositorio remoto.**
+Revisión editorial: **2026-10-31**. Esta guía distingue los criterios vigentes
+del registro histórico de publicación. El repositorio ya tiene historial,
+remoto público y [LICENSE (GNU GPL versión 2)](../LICENSE); las referencias a
+«sin commits», «sin remoto» o «licencia pendiente» describen fases anteriores.
 
-## Resultado y alcance
+## Criterios antes de cada commit y push
 
-En los archivos candidatos a publicación no se detectaron credenciales con
-los patrones revisados, correos electrónicos, rutas de usuario locales,
-direcciones IP privadas ni identificadores de etiqueta con el formato revisado.
-Esto es una revisión acotada, **no una garantía de ausencia de todo secreto**.
-No se examinó información ajena a esta carpeta ni se enviaron archivos a un
-servicio de análisis externo.
-
-Se encontraron rutas personales en `AGENTS.md`, informes locales y archivos de
-bloqueo del editor. Se retiró la referencia personal de `AGENTS.md` y se
-excluyeron los informes y temporales afectados, sin borrarlos ni cerrar el
-editor del usuario. Las reglas RTK siguen documentadas en el propio archivo.
-
-La foto original de la etiqueta no se copió al proyecto. No se publican
-números de serie, SP ni códigos de esa foto. El SKU, VID/PID, nombre del modelo,
-familia MCU y hashes de artefactos son información técnica, no identificadores
-secretos de la unidad. La documentación menciona las preferencias del usuario,
-el Silakka54 y la ESP32; ese contexto quedaría visible al publicar.
-
-## Qué se permite y qué se excluye
-
-**Candidatos públicos:** fuentes propias del port y scripts, pruebas,
-documentación, matriz inferida, estado de validación y lock de herramientas.
-En `artifacts/analysis` solo están permitidos estos metadatos revisados:
-
-- `arm-build-custom42.json`
-- `arm-build-default.json`
-- `extraction.json`
-- `vendor-provenance.json`
-
-**Excluidos por defecto:** herramientas y dependencias descargadas, firmware
-propietario y actualizador, DLL, builds experimentales, desensamblado del
-proveedor, exportaciones REA sin sanear, logs, informes de tamaños/símbolos,
-fotos, temporales del editor y configuraciones locales de agentes/cloud.
-Las reglas también previenen adiciones accidentales de varios formatos comunes
-de credenciales. No representan un detector exhaustivo de secretos.
-
-La selección se verificó con Git en un repositorio temporal en un directorio transitorio,
-usando esta carpeta únicamente como árbol de trabajo y sin modificar su `.git`.
-Se comprobaron 11 casos de exclusión, incluidos locks de editor, fotos,
-actualizador, configuración local y reportes crudos. No se usó `git add -f`.
-
-## Comprobaciones antes del primer push
-
-1. Revisar la lista **real** de archivos staged y su diff; no subir la carpeta
+1. Revisar la lista **real** de archivos staged y su diff. No publicar la carpeta
    completa como ZIP ni forzar archivos ignorados.
-2. Si existe historial previo fuera de lo accesible en esta sesión, revisarlo
-   también. La revisión inicial se hizo antes de inicializar Git. Ahora existe
-   el repositorio local en `main`, todavía sin commits; revisar su índice real
-   antes del primer commit. La simulación anterior no lo reemplaza.
-3. `.gitignore` no retira archivos ya versionados ni borra sus versiones del
-   historial. [Explicación oficial de GitHub](https://docs.github.com/en/get-started/git-basics/ignoring-files).
-4. Revisar el nombre/correo usados en los futuros commits si no se desea
-   publicar el correo personal. No se cambió la configuración Git del usuario.
-5. **Elegir una licencia antes de invitar a reutilizar el código.** Aún no hay
-   archivo `LICENSE`. Revisar las licencias de cualquier código de terceros que
-   se incorpore; no se ha certificado autorización para redistribuir el updater
-   o la imagen propietaria, que se mantienen excluidos.
-6. Mantener visible que se trata de un **port experimental independiente**:
-   QMK compilado, no instalado ni validado en hardware; Vial pendiente y sin
-   relación oficial con HyperX. No publicar una release como «estable».
-
-Comandos orientativos para una sesión con repositorio Git real, sin publicar:
+2. Revisar también el historial que vaya a enviarse. Una revisión del árbol de
+   trabajo no audita automáticamente los commits anteriores.
+3. No confiar en `.gitignore` para retirar archivos ya versionados o sus copias
+   del historial. [Documentación de GitHub](https://docs.github.com/en/get-started/git-basics/ignoring-files).
+4. Revisar nombre y correo del commit antes de publicar. No incluir credenciales,
+   direcciones privadas, rutas personales ni identificadores de etiqueta.
+5. Conservar encabezados SPDX y revisar atribuciones/licencias de terceros.
+   La presencia de LICENSE no certifica permiso para redistribuir el updater,
+   la DLL o la imagen propietaria analizados: permanecen excluidos.
+6. Mantener visibles el carácter experimental, el alcance de una unidad y la
+   ausencia de backup/restauración OEM. No publicar una release como estable.
+7. Escribir documentación autónoma, centrada en el HyperX: requisitos por tarea,
+   resultados, límites y procedimientos. No incluir pertenencias, instrucciones
+   del chat o autorizaciones personales como si fueran requisitos generales.
+8. Usar Conventional Commits en inglés. Un commit no implica autorización de
+   push; revisar el destino y publicar solo cuando se solicite explícitamente.
 
 ```sh
 rtk git status --short
@@ -76,109 +33,65 @@ rtk git diff --cached
 rtk git ls-files
 ```
 
-La revisión debe repetirse si se agregan capturas, logs, paquetes, configuraciones
-o nuevos metadatos. Ninguna regla impide que un `git add -f` los fuerce.
+Repetir la revisión al añadir capturas, logs, paquetes, configuraciones o nuevos
+metadatos. Ninguna exclusión evita que `git add -f` la fuerce. La revisión de
+atribuciones de terceros y la preparación reproducible desde un clon limpio
+siguen pendientes; no se certifican por esta revisión editorial.
 
-## Nombre recomendado
+## Qué se permite y qué se excluye
 
-**`hyperx-alloy-fps-pro-qmk`**: identifica marca, modelo y tecnología objetivo.
-Es más específico que `firmware-alloy-fps-pro-custom`. La descripción sugerida:
+**Material público:** fuentes propias del port y scripts, pruebas, documentación,
+matriz inferida, evidencia saneada, estado de validación y locks de herramientas.
+En `artifacts/analysis` solo están permitidos cuatro metadatos revisados:
 
-> Port QMK experimental para HyperX Alloy FPS Pro: matriz inferida, mapa de
-> 42 teclas y cuatro capas. Sin validación en hardware; Vial pendiente.
+- `arm-build-custom42.json`
+- `arm-build-default.json`
+- `extraction.json`
+- `vendor-provenance.json`
 
-No incluiría `vial` ni `stable` en el nombre actual porque no están demostrados.
-No se renombró la carpeta local ni se eligió un nombre remoto por el usuario.
-El nombre del repositorio en GitHub puede diferir del de la carpeta local.
+**Excluidos por defecto:** herramientas y dependencias descargadas, firmware
+propietario, updater/DLL, builds, desensamblado propietario, exportaciones REA
+sin sanear, logs crudos, informes de tamaños/símbolos, fotos, temporales del
+editor, configuraciones locales y snapshots privados de mapas. Las reglas
+cubren varios formatos comunes de credenciales, no todo secreto posible.
 
-## Ampliación de revisión: prototipo de lectura Vial
+La excepción exacta para `docs/images/vial-tkl-full.png` no autoriza otras fotos
+ni capturas. No ampliar la lista de excepciones sin revisar el contenido real.
+SKU, VID/PID, modelo, familia MCU y hashes de artefactos son datos técnicos;
+números de serie, SP y códigos individuales de la etiqueta no se publican.
 
-Se añaden fuentes C/headers, JSON de distribución eléctrica generado desde la
-matriz existente, generador Python, tests y referencias de protocolo con
-hashes/URLs públicos. El UID del prototipo es de diseño, no un serial de unidad.
-No se incorporan credenciales SSH ni ubicaciones de red al repositorio. La
-whitelist de cuatro JSON en `artifacts/analysis` **no se amplió**: los nuevos
-manifiestos, logs y binarios siguen ignorados. No se publicó ni creó remoto.
-Mantener la advertencia READ-ONLY y la revisión de licencia antes del primer push.
+## Alcance de las revisiones técnicas
 
-## Continuación: repositorio elegido y revisión del almacén
+La revisión inicial de 2026-10-29 examinó candidatos con patrones de credenciales,
+correos, rutas personales, direcciones privadas e identificadores de etiqueta.
+No detectó coincidencias en esa selección. Git aislado comprobó 11 casos de
+exclusión. Es una revisión acotada, **no una garantía de ausencia de todo secreto**
+ni una auditoría automática de todo el historial.
 
-El usuario autorizó commits Conventional Commits en inglés y push al repositorio
-[jdfesa/firmware-alloy-fps-pro-custom](https://github.com/jdfesa/firmware-alloy-fps-pro-custom),
-que ya existía y no anunció referencias en la consulta inicial. No se creó otro
-repositorio ni se cambió su visibilidad. El nombre recomendado arriba queda
-como propuesta histórica; se respeta el destino elegido por el usuario.
+Las ampliaciones revisaron fuentes C/ASM/Python, JSON generados, referencias de
+protocolo y tests. No se incorporaron dependencias descargadas, updater/DLL,
+binarios instalables o credenciales. Los espacios de contexto de un `.patch`
+son parte del formato y no se recortan. En pruebas sin material propietario o
+toolchain se informan las omisiones explícitas, no se declaran pruebas inexistentes.
 
-El primer commit conserva los63 archivos de la base anterior y el siguiente
-añade el almacén C simulado, tests, medición y documentación actualizada. El
-autor ya configurado usa correo GitHub noreply; no se incorporan credenciales
-SSH ni direcciones privadas. Los manifests nuevos con rutas personales siguen
-ignorados, al igual que las copias anteriores guardadas durante la consolidación.
-La whitelist de cuatro JSON no cambia.
+La marca `vial:f64c2b3c` es pública y el UID experimental identifica el diseño,
+no una unidad individual. No confundir estos datos con seriales privados.
 
-Se revisaron rutas, tipos y contenido de la selección pública y patrones de
-secretos/rutas privadas. Es una revisión acotada, no una certificación absoluta.
-Los espacios de contexto dentro del archivo `.patch` son parte del formato del
-parche y no se recortaron. La selección se prueba también en una exportación
-limpia sin herramientas/binarios propietarios: algunos tests que los requieren
-se omiten explícitamente. No se publican imágenes instalables ni una release
-estable. Sigue pendiente elegir una licencia global y revisar atribuciones antes
-de invitar a reutilizar; se conservan los encabezados SPDX existentes.
+### Captura GUI permitida
 
-## Actualización macOS, descubrimiento desktop y pruebas GUI
+`docs/images/vial-tkl-full.png` muestra solo la ventana Vial. La revisión no
+halló escritorio ajeno, cuentas, rutas, seriales o contenido personal; tampoco
+chunks PNG de texto o rutas privadas. EXIF contenía anchura/altura y había perfil
+de color. No se retocaron píxeles para simular teclas funcionales. Las cinco
+casillas `KC_NO` permanecen vacías y el pie lo explica. El reemplazo con más zoom
+usó el mismo archivo permitido. La captura de un error de comunicación quedó
+fuera del versionado.
 
-Se revisan el adaptador ISP hidapi, flags del instalador, tests, marcador USB
-público de Vial y documentos/evidencia de las dos actualizaciones app-only y la
-prueba GUI persistente. La marca `vial:f64c2b3c` es una constante pública de
-protocolo, no un serial individual. El UID de diseño permanece igual.
+### Procedencia del candidato ensayado
 
-El material privado aportado, updater, capturas, toolchain, binarios y
-snapshots privados de mapas siguen ignorados; no se amplía la whitelist de cuatro
-JSON de `artifacts/analysis`. No se publica la dirección/credencial SSH, rutas
-personales ni información de etiqueta. Las referencias de Vial son fuentes
-primarias públicas; el código de GUI descargado para lectura queda en artefactos
-ignorados, no se vende ni incorpora como dependencia del firmware.
-
-El usuario pidió explícitamente Conventional Commits en inglés y push desde
-la Mac al remoto existente. Se revisará el índice real antes de cada commit.
-El resultado se sigue denominando experimental: no publicar release estable ni
-confundir backup de fuentes en GitHub con restauración OEM. Licencia global y
-atribuciones siguen pendientes antes de invitar a reutilización general.
-
-## Organización pública y gráfico de 87 posiciones
-
-Se reorganiza el README con callouts WARNING/IMPORTANT, modelo exacto, origen
-del caso, ausencia de backup/restauración OEM y distinción entre desbloqueo de
-edición y modo ISP por Escape. Se añaden guías de uso, seguridad, reproducción,
-proceso/decisiones y límites; se preservan documentos anteriores rotulados como
-históricos, sin sustituir inferencias por hechos.
-
-El cambio visual generado muestra87 posiciones, pero mantiene solo82 útiles;
-no cambia matriz, mapas, UID o whitelist. Se publica fuente/tests/evidencia, no
-el binario instalado. Una captura futura deberá revisarse y sanearse antes de
-permitir un archivo de imagen específico; no se abre una excepción general para
-fotos o artefactos privados. La whitelist de JSON de artifacts no cambia.
-
-## Captura GUI revisada
-
-Se permite únicamente `docs/images/vial-tkl-full.png` con una excepción exacta
-al patrón de imágenes ignoradas. Captura de ventana Vial aportada por usuario:
-sin escritorio ajeno, cuentas, rutas, seriales deunidad ni contenido personal.
-Revisión de PNG: sin chunks de texto o rutas privadas; EXIF solo contiene
-anchura/altura y hay perfil de color. No se retocaron píxeles para simular teclas
-funcionales. Las cinco casillas `KC_NO` siguen vacías y el pie lo explica.
-La captura del error de comunicación queda fuera del versionado, no se publica.
-
-## Registro de reconstrucción y presentación de requisitos
-
-Se retiraron del relato nombres incidentales de directorios privados, sin
-cambiar exclusiones o borrar evidencia técnica. Requisitos organizados por tarea:
-configuración, build e instalación; la tabla conserva restricciones reales de
-backend/toolchain, sin exigir dos sistemas o equipos. Se añade diagrama Mermaid.
-
-`toolchains/reconstruction-record.json` contiene solo hashes, revisiones,
-propiedades de la app ensayada y rutas relativas de fuentes propias. Se contrastó
-cada fuente contra el commit indicado. No contiene dumps, credenciales, rutas de
-usuario o una autorización de flash; tampoco garantiza bit-reproducibilidad limpia.
-La whitelist de artifacts no se amplía. Captura reemplazada por versión aportada
-con mejor zoom, mismo archivo permitido, sin retoques ni ventanas privadas.
+`toolchains/reconstruction-record.json` conserva revisiones, hashes, propiedades
+de la app y rutas relativas de fuentes. Cada fuente se contrastó con el commit
+indicado. No contiene dumps, credenciales o autorización de flash ni garantiza
+reproducción limpia byte a byte. La revisión editorial de 2026-10-31 no modifica
+ese registro ni los indicadores de validación para aparentar una compilación
+o prueba de hardware nueva. GitHub conserva fuentes, no restaura el OEM.

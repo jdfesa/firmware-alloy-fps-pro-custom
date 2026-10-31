@@ -1,6 +1,7 @@
 # Estado, capacidades y límites del HyperX
 
-Actualizado: 2026-10-30. Este es un firmware experimental independiente basado
+Resultados de hardware al 2026-10-30; revisión documental 2026-10-31.
+Este es un firmware experimental independiente basado
 en SonixQMK, con un subconjunto propio del protocolo Vial. No es un port completo
 de Vial-QMK ni una restauración del firmware original de HyperX.
 
@@ -13,10 +14,10 @@ de Vial-QMK ni una restauración del firmware original de HyperX.
 - Cuatro capas y remapeo desde Vial de escritorio. La GUI web también mostró
   el TKL completo. La marca USB pública de descubrimiento se corrigió para que
   la aplicación de escritorio lo encuentre sin una definición cargada a mano.
-- Edición real desde la GUI: el usuario asignó E a A/S/D de capa 1. Se leyeron
+- Edición real desde la GUI: se asignó E a A/S/D de capa 1. Se leyeron
   los 896 bytes del mapa antes y después de desconectar/reconectar: idénticos.
-  El teclado volvió bloqueado y Fn+A escribió E en un editor de la Mac.
-  No presentar esta prueba como Q→Z: ese fue un ensayo anterior por script.
+  El teclado volvió bloqueado y Fn+A escribió E en un editor de macOS.
+  Es un ensayo distinto del Q→Z anterior realizado por script.
 - Actualización desde macOS por transporte ISP FeatureReport. Dos aplicaciones
   se instalaron en [0x200, 0x55c0), dejando fuera arranque, bancos del mapa y
   región reservada. ACK/eco y retorno comprobados; no lectura completa de flash.
@@ -28,8 +29,8 @@ de Vial-QMK ni una restauración del firmware original de HyperX.
 - 107 tests automatizados pasan en macOS, además de la prueba humana indicada.
   Los tests simulados no equivalen a cortes de alimentación o desgaste reales.
 
-La evidencia detallada está en `hardware/first-flash-evidence.json`. El usuario
-restauró las tres posiciones a transparentes desde GUI tras otro Unlock. Después
+La evidencia detallada está en `hardware/first-flash-evidence.json`. Se
+restauraron las tres posiciones a transparentes desde GUI tras otro Unlock. Después
 de reconectar, los 896 bytes coincidieron con el mapa inicial: cero diferencias
 y estado bloqueado. No quedaron asignaciones de prueba.
 
@@ -125,20 +126,20 @@ ante fallos. Podría investigarse sin asumir un gran aumento de RAM, porque el
 mapa vive en flash. No se garantiza todavía un número mayor concreto ni se deben
 copiar rangos virtuales o adivinados a una orden de programación.
 
-## Comparación con el flujo del Silakka54
+## Configuración ergonómica y posibles extensiones
 
-Para **seleccionar teclas, organizar capas y conservar cambios con Vial**, ya
-existe el mismo tipo de flujo básico. Puede usarse una zona de 42 teclas del
+El firmware permite **seleccionar teclas, organizar capas y conservar cambios
+con Vial**. Puede usarse una zona de 42 teclas del
 HyperX sin desactivar las demás posiciones sanas.
 
 No es equivalente al catálogo completo de funciones de un firmware Vial-QMK.
-La referencia pública ofrecida del Silakka incluye one-shot y multimedia/volumen
-que esta variante aún no admite. No se leyó ni modificó el Silakka físico.
-El mapa exacto tampoco se ha importado: son matrices y distribuciones diferentes.
+Esta variante aún no admite one-shot ni multimedia/volumen. Un mapa de otro
+teclado no se puede importar suponiendo que comparte matriz, distribución o
+conjunto de funciones; cada asignación debe ser compatible con este port.
 
 Hay margen para mejoras selectivas, no evidencia para prometer paridad total.
-Los candidatos a evaluar son one-shot y multimedia necesarios para ese flujo,
-seguido de otras funciones o más capas según prioridad. Cada mejora debe medir
+Los candidatos a evaluar incluyen one-shot y multimedia,
+seguidos de otras funciones o más capas según prioridad. Cada mejora debe medir
 flash, RAM/pilas y latencia; no activar todo a la vez ni asumir que C hace caber
 cualquier función. Una asignación ordinaria admitida NO requiere reflasheo.
 
@@ -146,7 +147,7 @@ cualquier función. Una asignación ordinaria admitida NO requiere reflasheo.
 
 - Restauración de A/S/D completada; mantener una base limpia al cerrar futuras pruebas.
 - Configurar el mapa ergonómico deseado en Vial y comprobar las funciones usadas;
-  acordar sustitutos para cualquier código no admitido antes de importaciones.
+  elegir sustitutos para cualquier código no admitido antes de importaciones.
 - Medir pilas, fiabilidad USB/reconexión, teclas simultáneas, rebote y matriz
   completa; no se declara firmware estable por una prueba de remapeo.
 - Evaluar desgaste y latencia de escrituras: cada cambio distinto reemplaza 17

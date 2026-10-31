@@ -74,6 +74,12 @@ nuevo vaya a producir bytes idénticos sin completar y validar su preparación.
 Los resultados binarios locales siguen siendo necesarios para comparar el build
 nuevo contra ese registro y su manifiesto antes de considerar una instalación.
 
+El registro está vinculado al commit indicado, no a cada revisión posterior del
+repositorio. Una limpieza de comentarios o metadatos también cambia hashes de
+fuentes: no actualizar los hashes históricos para aparentar que corresponden a
+un build nuevo. Reconstruir y generar un manifiesto nuevo cuando se requiera
+validar un candidato con fuentes modificadas.
+
 ## Reproducción sin hardware
 
 En un clon de las fuentes identificadas, con dependencias/toolchain preparados:

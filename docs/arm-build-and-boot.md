@@ -12,7 +12,7 @@
 
 ## Resultado
 
-Se compilaron y enlazaron **dos candidatos nativos ARM Cortex-M0** desde el port experimental, sin abrir la carcasa ni acceder a entradas o configuración del Silakka54. No se flasheó el HyperX y no se probó estabilidad en hardware.
+Se compilaron y enlazaron **dos candidatos nativos ARM Cortex-M0** desde el port experimental, sin abrir la carcasa ni capturar entradas de teclado. No se flasheó el HyperX y no se probó estabilidad en hardware.
 
 | Candidato | Binario de aplicación | Flash disponible para la app |
 | --- | ---: | ---: |
@@ -77,8 +77,8 @@ El driver revisa commits, rechaza cambios rastreados en fuentes upstream, usa el
 
 ## Por qué todavía no se hizo la prueba física
 
-1. **El entorno no expone `/dev/bus/usb`, `/dev/hidraw*` ni `/dev/input`**; solo hay metadatos sysfs. No se dispone aquí de acceso directo para hablar con el HyperX, entrar/salir del cargador o escribirlo.
+1. **El entorno de esa fase no exponía `/dev/bus/usb`, `/dev/hidraw*` ni `/dev/input`**; solo había metadatos sysfs. No se disponía en esa fase de acceso directo para hablar con el HyperX, entrar/salir del cargador o escribirlo.
 2. La revisión/polaridad de matriz y la recuperación del original siguen sin validar en la unidad.
-3. El arranque auxiliar requerido por el candidato todavía no está validado. La autorización general del usuario para experimentar no cambia el offset ni demuestra recuperabilidad.
+3. El arranque auxiliar requerido por el candidato todavía no está validado. Una autorización general para experimentar no cambia el offset ni demuestra recuperabilidad.
 
 El siguiente hito es revisar el jumploader/protocolo y conseguir una sesión de prueba con USB accesible de forma autorizada, manteniendo la carcasa cerrada. **Ningún teclado ha sido modificado.**

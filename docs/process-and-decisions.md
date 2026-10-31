@@ -23,7 +23,7 @@ en hechos ni presentar una receta universal. Estado actual: [README](../README.m
 | Análisis estático | Extraer una imagen de distribución y seguir arranque, USB y tablas de matriz sin ejecutar updater/DLL. | Matriz 14×8 y pines candidatos. Imagen de referencia, no dump ni OEM autenticado. |
 | Primer ARM | Compilar con QMK/ChibiOS fijados y xPack GCC. | La app enlaza en 0x200, no en cero; exige un arranque compatible y revisión de rangos. |
 | ISP sin flash | Ciclo OEM→ISP, consultas versión/checksum y retorno; escritura humana confirmada. | Familia F260/CS0 observada; aún no recuperaba una aplicación inválida. |
-| Rescate mínimo | Jumploader pequeño con Escape antes de QMK. Se aceptó riesgo residual sin esperar una restauración OEM perfecta. | Revisado antes de instalar; no se declaró seguro por aceptación del usuario. |
+| Rescate mínimo | Jumploader pequeño con Escape antes de QMK. Se aceptó riesgo residual sin esperar una restauración OEM perfecta. | Revisado antes de instalar; aceptar el riesgo no sustituyó la validación técnica. |
 | Primera instalación | Conjunto arranque+default, ACK/eco, ISP y luego escritura humana; Escape al reconectar. | Hardware arrancó; no readback completo ni garantía contra todos los fallos. |
 | Presupuesto USB | Raw HID upstream excedía RAM. Se midieron variantes y se compactaron estructuras sin recortar pilas a ciegas. | Transporte compacto enlaza; caber no prueba estabilidad. |
 | Vial de lectura | Identidad, definición y lectura de cuatro capas sin mutación. | GUI reconoció READ-ONLY; detección no significaba edición. |

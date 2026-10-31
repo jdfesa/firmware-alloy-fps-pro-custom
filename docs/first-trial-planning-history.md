@@ -1,53 +1,16 @@
 # Historia de la planificación del primer ensayo
 
-> Plan anterior conservado para explicar decisiones y riesgos. El ensayo ya ocurrió.
-> Para continuar, usar [la guía actual](next-steps.md).
-
-# Cómo seguir sin abrir el teclado
-
-## Estado actual — 2026-10-30
-
-Leer el [estado, capacidades y límites](status-and-limits.md) para operación, memoria y mejoras posibles.
-
-**Firmware TKL editable instalado; edición desde Vial de escritorio y
-persistencia comprobadas.** Tras iniciar `Security → Unlock` y mantenerTab+Caps,
-el usuario asignóE aA/S/D de capa1 desde laGUI. Se releyeron los896B antes y
-después de reconectar sinEscape: mismo mapa, y Fn+A escribióE eneditorMac.
-La Q de capa0 no cambió; no presentar esto como un ensayoGUI deQ→Z.
-El usuario pidió devolver esas tres posiciones atransparentes; verificación
-final de esa restauración pendiente. La prueba anterior por scriptQ→Z ysu
-restauración siguen documentadas como historia separada.
-
-**TKL ANSI instalado desde macOS:**82 posiciones sanas y cuatro capas, con
-huecos en8/9/0/-/=. Se escribió solo la aplicación en `[0x200,0x55c0)`;
-arranque y bancos excluidos del rango. La definición TKL416B respondió y los896
-bytes del mapa quedaron idénticos al snapshot previo. Escape al reconectar
-entró alISP con Bootmagic deapp deshabilitado. Transporte FeatureReportMac
-verificado conF260/CS0, ACK/eco final y retorno explícito; no readback de flash.
-
-**GUI verificada:** remapeo persistente sin recompilar; desktop detecta tras
-corregir la marcaUSB pública deVial. Fiabilidad general de reconexión pendiente.21412B deapp,
-1968/2048B deRAM con pilas; no es Vial-QMK completo ni firmware estable.
-Procedimiento: [actualizaciónMac](usb-update.md).
-
-**Topología actual:** fuente y HyperX en **macOS local**. Linux remoto se usa
-solo para compilar. No consultar ni tocar el Silakka54; únicamente se leyó el
-archivo público que el usuario ofreció como referencia. El material privado se mantiene fuera de Git. Detalles y evidencia: [Vial editable](vial-editable.md),
-`hardware/first-flash-evidence.json`.
-
-Actualizado: **2026-10-30**. Esta es la guía de relevo del proyecto.
-
-## Plan histórico de la primera instalación (ya realizada)
-
-Las secciones0–5 siguientes preservan los criterios del ensayo inicial, no
-el estado actual. Para continuar ahora, seguir `vial-editable.md`.
+> [!NOTE]
+> Plan de las fases 2026-10-29/30, anterior a la primera escritura. Conserva
+> propuestas, criterios y pendientes de entonces; el ensayo ya ocurrió.
+> Para el estado vigente usar [estado y límites](status-and-limits.md) y
+> [continuación](next-steps.md). Resultados en [primer ensayo](first-flash-trial.md).
 
 ## 0. Prioridad entonces acordada: rescate mínimo y primera prueba, no perfección previa
 
-El usuario pide avanzar hacia un primer ensayo sin prolongar indefinidamente
-la preparación. Acepta iterar con un segundo candidato si el primero falla,
-siempre que conservemos una vía mínima para volver a programar. **No exige
-restauración OEM exacta como condición previa absoluta.** Esto no prueba que el
+Se priorizó un primer ensayo con una vía mínima para volver a programar otro
+candidato si el primero fallaba. **No se exigió restauración OEM exacta como
+condición previa absoluta.** Esto no prueba que el
 rescate exista ni autoriza comandos/offsets desconocidos.
 
 **Ruta a evaluar primero, reutilizando lo existente:** el pequeño jumploader
@@ -76,14 +39,14 @@ byte OEM, iluminación, mapa final de42 teclas, todas las funciones Vial o una
 GUI perfecta. La geometría de persistencia editable puede esperar si el primer
 candidato no escribe mapas en flash; la geometría necesaria para instalarlo no.
 
-No podemos probar una recuperación de nuestro jumploader en esta unidad antes
-de instalarlo por primera vez. La distinción es: revisión técnica suficiente
+No se puede probar el jumploader en la unidad antes de instalarlo por primera
+vez. La distinción es: revisión técnica suficiente
 antes del ensayo, validación real durante él. **La primera instalación sigue
 teniendo riesgo residual**, especialmente si falla el propio arranque o la
 tecla inferida; no se promete una unidad imposible de bloquear.
 
-Si no logramos Vial, el usuario acepta mantener una distribución equivalente a
-la de fábrica mediante un firmware funcional. Si no arranca ninguna aplicación,
+Como alternativa mínima a Vial se contempló una distribución equivalente a la
+de fábrica mediante un firmware funcional. Si no arranca ninguna aplicación,
 no basta con «dejar el mapa de fábrica»: primero debe funcionar el rescate y
 después alguna aplicación. Esto tampoco repara las cinco posiciones averiadas.
 
@@ -92,11 +55,11 @@ siendo deseable, pero no debe confundirse con este nuevo objetivo mínimo. El
 comprobador actual es el checklist general, no un permiso ni un selector de
 primer ensayo; sigue marcando evidencias pendientes y no se cambiaron a `true`.
 
-## 1. Estado actualizado: ya se consultó el ISP de la unidad
+## 1. Estado previo a la primera escritura: consulta ISP completada
 
 Leer primero [USB real, arranque e instalación pendiente](usb-isp-and-startup.md).
 La consulta en SSH confirmó familia SN32F26x, CS0 y checksum `0x27d1`; se pidió
-retorno y el usuario confirmó que sigue escribiendo. No se escribió flash.
+retorno y se confirmó escritura humana posterior. No se escribió flash.
 
 - `custom42` y `default` siguen disponibles; `custom42_fn` agrega F1–F12,
   mantiene cuatro capas y ocupa 17316 B / 1960 B RAM estática con pilas.
@@ -116,8 +79,8 @@ El [nuevo prototipo de lectura Vial](vial-readonly-prototype.md) ya compila:
 el [almacén C simulado](vial-map-store.md) ya evita duplicar el mapa en RAM y
 pasa29.266 escenarios de fallos. Falta backend físico, desgaste/latencia y
 adaptación al escaneo/protocolo; no habilitar escrituras antes de verificar
-geometría y recuperación. macOS **local** es la fuente principal; Linux
-**remoto por SSH** tiene el toolchain y el HyperX. No hace falta moverlo.
+geometría y recuperación. La compilación de esa fase se realizó en Linux con
+fuentes sincronizadas por SSH; compilar no requería mover el teclado.
 
 ## 2. Qué significa «arranque auxiliar», explicado sin electrónica
 
@@ -167,15 +130,15 @@ QMK arranque y escanee bien. **No es un salvavidas independiente**.
 | Paso | Trabajo necesario | Evidencia de salida / límite |
 | --- | --- | --- |
 | **A. Estudiar el arranque** | Revisar el jumploader SonixQMK aplicable a SN32F268F y el inicio del OEM. Identificar direcciones, interrupciones y qué región reemplazaría. | Diseño documentado con fuentes/revisiones y mapa de escritura; no concatenar binarios a ciegas. Puede hacerse sin tocar el teclado. |
-| **B. Estudiar actualización y recuperación** | Analizar estáticamente protocolo/herramientas e imagen. Determinar entrada/salida del modo de actualización por USB con carcasa cerrada, incluso si QMK no arranca. | Secuencia y alcance respaldados por evidencia. Si solo se puede recuperar con acceso interno, no cumple el límite del usuario. |
-| **C. Disponer de acceso USB autorizado** | Trabajar en una sesión que exponga el HyperX al sistema/herramienta de diagnóstico. Este entorno no expone los nodos USB. | Poder seleccionar exclusivamente el HyperX. El cambio de entorno no autoriza flashear ni borra los pasos A/B. No evadir restricciones de esta sesión. |
+| **B. Estudiar actualización y recuperación** | Analizar estáticamente protocolo/herramientas e imagen. Determinar entrada/salida del modo de actualización por USB con carcasa cerrada, incluso si QMK no arranca. | Secuencia y alcance respaldados por evidencia. Si solo se puede recuperar con acceso interno, no cumple el alcance de carcasa cerrada. |
+| **C. Disponer de acceso USB autorizado** | Disponer de acceso al HyperX desde el sistema/herramienta de diagnóstico. En el entorno inicial no estaban expuestos los nodos USB. | Poder seleccionar exclusivamente el HyperX. El cambio de entorno no autoriza flashear ni borra los pasos A/B. No evadir restricciones de acceso. |
 | **D. Contrastar la unidad** | Verificar información y comportamiento que el protocolo permita sin escribir, desproteger ni restablecer. Separar metadatos, comandos de consulta y cambios de modo. | Relación suficiente con MCU/revisión/imágenes; registrar qué se comprobó y qué sigue inferido. No llamar pasiva a una consulta que reinicia el dispositivo. |
 | **E. Resolver restauración** | Buscar paquete auténtico adecuado y verificar qué recupera; evaluar si existe lectura no destructiva. | Ruta realista de retorno, con regiones y límites explícitos. Hoy no hay backup propio ni restauración comprobada. |
 | **F. Preparar el primer ensayo** | Solo con lo anterior resuelto, revisar una imagen de prueba mínima y su mapa; explicar incertidumbres residuales antes de escribir. | Selección inequívoca del HyperX, recuperación compatible con carcasa cerrada y plan de verificación. No usar las cinco posiciones averiadas como teclas de rescate. |
-| **G. Validar funciones** | Después de un primer arranque comprobado: matriz, USB, teclas simultáneas, rebote, capas, reinicios y uso máximo de pila. | Registro de resultados reales. Después adaptar el mapa al usuario y evaluar Vial/persistencia con el presupuesto restante. |
+| **G. Validar funciones** | Después de un primer arranque comprobado: matriz, USB, teclas simultáneas, rebote, capas, reinicios y uso máximo de pila. | Registro de resultados reales. Después adaptar la distribución deseada y evaluar Vial/persistencia con el presupuesto restante. |
 
 **Continuar A/B/E según el informe USB/arranque; C ya dispone de acceso por SSH.** Se pueden investigar con archivos
-y código públicos; no requieren que el usuario abra ni compre nada.
+y código públicos, sin desmontaje ni compra de hardware.
 No hace falta volver a descargar el compilador o repetir builds sin cambios.
 
 Si no se encuentra una recuperación que respete la carcasa cerrada, hay que
@@ -183,33 +146,9 @@ decirlo: **no se puede prometer un primer flasheo seguro en esas condiciones**.
 La autorización para experimentar no convierte en conocido un método de
 recuperación que todavía no está demostrado.
 
-## 4. La ESP32: qué podría aportar y qué no
+## 4. Comprobaciones previstas en esa fase
 
-**No hace falta conectarla ahora.** Falta conocer su modelo exacto; una foto
-de la placa o la inscripción del módulo servirían si se decide estudiar esa
-alternativa. Esto no implica abrir el HyperX.
-
-- El **ESP32 original**, por ejemplo los módulos ESP32-WROOM-32 habituales, no
-  tiene USB nativo; el USB de muchas placas es un conversor USB-serie para
-  programar la propia placa. [FAQ oficial de Espressif, sección USB](https://docs.espressif.com/projects/esp-faq/en/latest/esp-faq-en-master.pdf).
-- **ESP32-S2/S3** sí admiten USB host y Espressif ofrece un ejemplo HID para
-  recibir teclados. El ejemplo consultado usa protocolo Boot, por lo que no
-  valida automáticamente todos los reportes del HyperX. [Ejemplo oficial HID](https://github.com/espressif/esp-idf/blob/master/examples/peripherals/usb/host/hid/README.md).
-- **Inferencia de diseño:** una placa adecuada podría estudiarse como
-  remapeador externo, sin cambiar el firmware del HyperX. No sería este port
-  QMK instalado dentro del teclado ni Vial automático. Habría que resolver
-  alimentación y cómo enviar las teclas al PC; tener dos conectores USB no
-  garantiza dos funciones independientes. El periférico OTG no debe estar
-  ocupado a la vez por las pilas host y device. [Documentación USB host de Espressif](https://docs.espressif.com/projects/arduino-esp32/en/latest/api/usb_host.html).
-
-Conectarla únicamente al PC **no la convierte en un programador universal del
-HyperX**, no proporciona acceso a su flash y no evita conocer el protocolo de
-actualización. No hay instrucciones de cableado, compras o programación de
-la ESP32 aprobadas en esta etapa.
-
-## 5. Cómo retomar el trabajo
-
-1. Leer `AGENTS.md` y este documento.
+1. Leer los criterios del ensayo y sus fuentes.
 2. Revisar `hardware/validation-status.json`: ARM aprobado significa build y
    ajuste estático, no hardware probado.
 3. Ejecutar, si hace falta comprobar el estado local:
@@ -219,10 +158,9 @@ rtk proxy python3 -m unittest discover -s tests -v
 rtk proxy python3 scripts/check_port_readiness.py
 ```
 
-Resultado esperado: **62 pruebas pasan** y el segundo comando sale con **2**,
+Resultado registrado entonces: **62 pruebas pasan** y el segundo comando sale con **2**,
 enumerando revisión, matriz, bootloader, recuperación y jumploader pendientes.
 Ninguno de los dos comandos accede al teclado.
 
-Registrar toda nueva evidencia en [la bitácora](project-log.md). Mantener el
-Silakka54 completamente fuera del trabajo y no presentar la imagen del espejo
-ni el archivo `*.analysis-only.bin` como un respaldo de la unidad.
+Registrar toda nueva evidencia en [la bitácora](project-log.md). No presentar
+la imagen del espejo ni el archivo `*.analysis-only.bin` como respaldo de la unidad.

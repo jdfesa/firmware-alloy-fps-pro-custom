@@ -20,7 +20,7 @@ preservan jumploader y bancos; una primera instalación es otro procedimiento.
 | Variante | Propósito |
 | --- | --- |
 | `default` | Referencia compilada de 87 posiciones, primer arranque QMK comprobado. No replica OEM ni repara teclas. |
-| `custom42` | Mapa estático de 42 posiciones, BASE/NUM/SYM/NAV. No importado del Silakka. |
+| `custom42` | Mapa estático provisional de 42 posiciones, BASE/NUM/SYM/NAV. |
 | `custom42_fn` | Anterior más F1–F12, cuatro capas estáticas. |
 | `raw_compact` | Experimento del transporte USB reducido para caber en RAM. |
 | `vial_readonly` | Prototipo previo de identidad/definición/lectura; rechaza escrituras. No usarlo esperando edición. |

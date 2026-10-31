@@ -8,7 +8,7 @@
 
 ## Restricción y alcance
 
-El usuario **no abrirá el HyperX** y autoriza avanzar cuidadosamente con un firmware personalizado. Se reemplaza la propuesta de fotos internas por investigación de archivos, metadatos USB y protocolo cuando sea accesible. El Silakka54 sigue excluido de toda operación.
+El desarrollo se limita al **HyperX con la carcasa cerrada**. En lugar de inspección interna se investigan archivos, metadatos USB y el protocolo cuando sea accesible. Ninguna inferencia estática sustituye la validación en la unidad.
 
 ## Paquete adquirido, aún no autenticado
 
@@ -48,7 +48,7 @@ Ghidra vía REA no estaba disponible (`GHIDRA_INSTALL_DIR` sin configurar). No s
 
 ## Código y pruebas creados
 
-Ver [fuentes QMK y capas](../firmware/README.md). El generador produce un mapa completo de referencia y otro con 42 posiciones, BASE/NUM/SYM/NAV, sin iluminación ni Vial inicial. La distribución es provisional: no se leyó el Silakka54.
+Ver [fuentes QMK y capas](../firmware/README.md). El generador produce un mapa completo de referencia y otro con 42 posiciones, BASE/NUM/SYM/NAV, sin iluminación ni Vial inicial. La distribución de 42 posiciones es provisional, no un mapa ergonómico validado.
 
 **17 pruebas locales pasan**, incluidas tablas C compiladas y verificadas con GCC anfitrión. Por separado, ya se compilaron y enlazaron dos candidatos reales QMK/ARM con el compilador y dependencias aislados en el proyecto. `custom42` ocupa 17316 B y `default` 16868 B; ambos reservan 1960 B de los 2048 B de RAM, incluidas las pilas, y dejan 88 B de heap. No se midió uso máximo de pila ni estabilidad; no hay firmware instalado.
 
@@ -58,5 +58,5 @@ El [informe de build y arranque](arm-build-and-boot.md) documenta una condición
 
 1. Revisar el jumploader y la transición desde el arranque OEM; los candidatos ARM y su memoria estática ya están documentados. No preparar una imagen combinada sin validar recuperación y límites de escritura.
 2. Estudiar el protocolo de actualización de la DLL/firmware sin ejecutarlos. No confundir una orden `ReadData` de librería con una capacidad de dump comprobada.
-3. Determinar entrada y recuperación del bootloader aplicables a esta revisión por evidencia estática/USB, sin quitar protección ni probar escrituras a ciegas. El entorno actual no expone nodos `/dev/input`, `/dev/hidraw*` ni `/dev/bus/usb`; sysfs sí proporciona metadatos.
-4. Validar posteriormente el candidato en el HyperX, sin involucrar Silakka54. No etiquetarlo como estable antes de estas pruebas.
+3. Determinar entrada y recuperación del bootloader aplicables a esta revisión por evidencia estática/USB, sin quitar protección ni probar escrituras a ciegas. El entorno de esa fase no exponía nodos `/dev/input`, `/dev/hidraw*` ni `/dev/bus/usb`; sysfs sí proporciona metadatos.
+4. Validar posteriormente el candidato exclusivamente en el HyperX. No etiquetarlo como estable antes de estas pruebas.

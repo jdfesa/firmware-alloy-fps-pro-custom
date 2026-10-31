@@ -1,6 +1,7 @@
 # Continuación del proyecto
 
-Actualizado: 2026-10-30. Entrada principal: [README](../README.md).
+Revisión documental: 2026-10-31. Resultados de hardware al 2026-10-30.
+Entrada principal: [README](../README.md).
 
 ## Punto de partida confirmado
 
@@ -18,14 +19,15 @@ Actualizado: 2026-10-30. Entrada principal: [README](../README.md).
    [seguridad](safety-and-recovery.md). No hace falta reflashear para configurar.
 2. Para editar tras reconectar: **Security → Unlock**, luego mantener Tab+Caps
    hasta completar la barra. Solo pulsar las teclas no inicia nada.
-3. Comparar cambios antes de sincronizar. Mac es la fuente principal y tiene
-   el HyperX; Linux compila. No sobrescribir trabajo diferente sin revisión.
+3. Comparar cambios antes de sincronizar copias del repositorio. No sobrescribir
+   trabajo diferente sin revisión. Compilar no requiere mover el teclado ni
+   disponer de dos equipos; ver [requisitos por tarea](reproduction.md).
 4. Mantener evidencia pública saneada y bitácora al avanzar. Commits en inglés,
    push explícito al remoto existente; no publicar artefactos ignorados.
 
 ## Trabajo útil siguiente, no una autorización de nuevas escrituras
 
-1. Configurar el mapa ergonómico deseado con los códigos admitidos; acordar
+1. Configurar el mapa ergonómico deseado con los códigos admitidos; elegir
    sustitutos para one-shot/multimedia u otros todavía no implementados.
 2. Medir high-water de pilas, reconexiones/USB, matriz completa, simultáneas y
    rebote. No confundir 80 B de heap con margen de pila.
@@ -37,12 +39,12 @@ Actualizado: 2026-10-30. Entrada principal: [README](../README.md).
    inferidos sin sustento ni pedir abrir la carcasa.
 6. Mantener como pendientes revisión electrónica exacta, restauración OEM,
    ensayo de app deliberadamente corrupta y estabilidad prolongada.
-7. Mejorar preparación reproducible de un clon limpio y revisar licencia global
-   y atribuciones antes de invitar a redistribución general.
+7. Mejorar preparación reproducible de un clon limpio y completar la revisión
+   de atribuciones de terceros. La licencia del repositorio está en [LICENSE](../LICENSE).
 
 ## Lo que no cambia
 
-Carcasa cerrada. Silakka54 físico excluido. Sin updater/DLL propietario,
+Carcasa cerrada y operaciones limitadas al HyperX. Sin updater/DLL propietario,
 unprotect, mass erase ni rangos adivinados. Escape es una entrada de rescate
 observada, no un backup OEM ni garantía de recuperación universal.
 

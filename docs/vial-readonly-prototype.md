@@ -13,9 +13,9 @@ y no demuestra que Vial lo detecte en hardware.
 
 **Continuación:** el [almacén de mapas simulado](vial-map-store.md) ya tiene
 código y pruebas de fallos. Está separado de este candidato: no cambia su
-protocolo, binario ni condición de solo lectura. Los roles actuales son macOS
-local para edición y Linux remoto para build/HyperX; las referencias siguientes
-a local/remoto describen la sesión histórica de este prototipo.
+protocolo, binario ni condición de solo lectura. Los resultados siguientes
+corresponden a esa fase histórica; la compatibilidad vigente se documenta en
+[requisitos y reproducción](reproduction.md).
 
 ## Qué se implementó
 
@@ -29,7 +29,7 @@ En `firmware/keyboards/hyperx/alloy_fps_pro/keymaps/vial_readonly/`:
   fijadas. No se afirma compatibilidad con todos los keycodes de otros forks.
 - `vial.json` y `definition.h`: definición comprimida XZ en flash, generada
   desde la misma matriz/mapa. Muestra 54 posiciones en **cuadrícula eléctrica**,
-  no pretende ser un dibujo de la geometría física TKL ni del Silakka54.
+  no pretende ser un dibujo de la geometría física TKL.
 - `config.h` y `rules.mk`: conservan el transporte compacto y anuncian
   **READ-ONLY** tanto en el producto USB como en la definición. No habilitan
   `VIA_ENABLE`/`VIAL_ENABLE` ni almacenamiento persistente.
@@ -99,7 +99,8 @@ rtk proxy python3 -B scripts/build_compact_raw.py --keymap vial_readonly
 rtk proxy python3 scripts/check_port_readiness.py
 ```
 
-El build ARM usa Linux y el entorno ya preparado; no reinstalarlo en macOS.
+El build ARM de esa prueba utilizó el toolchain Linux ya preparado; no requería
+reinstalar dependencias ni trasladar el teclado.
 El driver solo admite `raw_compact` o `vial_readonly`, verifica las preimágenes
 del parche y restaura upstream incluso si el build falla, sin descartar cambios
 concurrentes. El checklist sigue saliendo con **2 / NOT READY TO FLASH**.
@@ -121,7 +122,6 @@ sustentar regiones/geometría/preservación del ISP. Un backend simulado puede
 probarse antes, pero no debe anunciar persistencia real.
 
 En paralelo sigue siendo obligatorio resolver arranque y recuperación con
-carcasa cerrada **antes de instalar cualquier candidato**, incluido este. El
-HyperX está en la máquina Linux local, según aclaró el usuario; el host macOS
-por SSH contiene la fuente principal. No hizo falta mover el teclado, abrirlo,
-enviar comandos USB ni intervenir el Silakka54 en esta etapa.
+carcasa cerrada **antes de instalar cualquier candidato**, incluido este. En
+esta etapa se compiló en Linux con fuentes verificadas por hashes. No hizo
+falta mover o abrir el teclado ni enviar comandos USB.

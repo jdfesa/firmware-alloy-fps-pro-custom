@@ -6,9 +6,9 @@
 > Leer primero [README](../README.md), [estado](status-and-limits.md) y
 > [seguridad/recuperación](safety-and-recovery.md).
 
-Actualizado: 2026-10-29. La carcasa debe permanecer cerrada por decisión explícita del usuario. Identificación e inferencia estática, no validación en hardware.
+Actualizado: 2026-10-29. Investigación limitada a carcasa cerrada. Identificación e inferencia estática, no validación en hardware.
 
-## Evidencia de la unidad del usuario
+## Evidencia de la unidad ensayada
 
 ### Etiqueta inferior fotografiada
 
@@ -37,7 +37,7 @@ Fuente: archivos sysfs, sin abrir dispositivos de entrada ni enviar comandos al 
 
 ## Evidencia externa, no confirmación de esta unidad
 
-Un [desmontaje del FPS Pro](https://www.tweaktown.com/reviews/8405/hyperx-alloy-fps-pro-mechanical-gaming-keyboard-review/index.html) muestra `SN32F268FG`. La imagen de actualización extraída presenta vectores Cortex-M0, direcciones de periféricos compatibles y un updater con cadena `SN32F26x`; su descriptor USB coincide con el conectado en `0951:16d2`, `bcdDevice=2112`. Es una inferencia coherente, no una identificación física del chip del usuario. Ver [evidencia y límites](closed-case-development.md).
+Un [desmontaje del FPS Pro](https://www.tweaktown.com/reviews/8405/hyperx-alloy-fps-pro-mechanical-gaming-keyboard-review/index.html) muestra `SN32F268FG`. La imagen de actualización extraída presenta vectores Cortex-M0, direcciones de periféricos compatibles y un updater con cadena `SN32F26x`; su descriptor USB coincide con el conectado en `0951:16d2`, `bcdDevice=2112`. Es una inferencia coherente, no una identificación física del chip de la unidad ensayada. Ver [evidencia y límites](closed-case-development.md).
 
 ## Datos que faltan
 
@@ -46,4 +46,4 @@ Un [desmontaje del FPS Pro](https://www.tweaktown.com/reviews/8405/hyperx-alloy-
 - Método de acceso a lectura/recuperación de esta revisión y estado de protección, sin modificarlo para averiguarlo.
 - Confirmación deliberada de las cinco teclas averiadas y estabilidad del resto, exclusivamente en el HyperX.
 
-El Silakka54 y su configuración quedan fuera de esta investigación.
+La investigación se limita al HyperX identificado en este informe.

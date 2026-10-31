@@ -1,156 +1,97 @@
 # Objetivo y reglas de este proyecto
 
-## Estado actual — 2026-10-30
+## Antes de continuar
 
-Leer el [estado, capacidades y límites](docs/status-and-limits.md) para operación, memoria y mejoras posibles.
+1. Leer [README](README.md), [estado y límites](docs/status-and-limits.md),
+   [seguridad](docs/safety-and-recovery.md) y [continuación](docs/next-steps.md).
+2. Consultar la [bitácora](docs/project-log.md), `hardware/validation-status.json`
+   y la evidencia enlazada antes de afirmar que algo está probado.
+3. Los informes de build, USB y planificación son antecedentes fechados, no
+   listas de pendientes actuales. No repetir ensayos ya verificados.
 
-**Firmware TKL editable instalado; edición desde Vial de escritorio y
-persistencia comprobadas.** Tras iniciar `Security → Unlock` y mantenerTab+Caps,
-el usuario asignóE aA/S/D de capa1 desde la GUI. Se releyeron los896 B antes y
-después de reconectar sin Escape: mismo mapa, y Fn+A escribióE eneditorMac.
-La Q de capa0 no cambió; no presentar esto como un ensayoGUI deQ→Z.
-El usuario restauró esas tres posiciones desde GUI tras repetir Unlock.
-La relectura de 896 B después de otra reconexión volvió al mapa original completo. La prueba anterior por scriptQ→Z ysu
-restauración siguen documentadas como historia separada.
+## Objetivo y estado de referencia
 
-**TKL ANSI instalado desde macOS:**87 posiciones dibujadas,82 sanas y cuatro capas;
-8/9/0/-/= siguen deshabilitadas aunque ahora se dibujan por estética. Se escribió solo la aplicación en `[0x200,0x55c0)`;
-arranque y bancos excluidos del rango. La definición TKL416 B respondió y los896
-bytes del mapa quedaron idénticos al snapshot previo. Escape al reconectar
-entró al ISP con Bootmagic de app deshabilitado. Transporte FeatureReportMac
-verificado conF260 / CS0, ACK/eco final y retorno explícito; no readback de flash.
+Crear firmware para el **HyperX Alloy FPS Pro HX-KB4RD1-US**, conservando su
+controlador y permitiendo usar unas 42 posiciones con capas de números,
+símbolos y navegación. La base es SonixQMK. Un mapa estático de cuatro capas
+no equivale a configuración dinámica desde Vial.
 
-**GUI verificada:** remapeo persistente sin recompilar; desktop detecta tras
-corregir la marcaUSB pública deVial. Fiabilidad general de reconexión pendiente.21 412 B de app,
-1968/2048B deRAM con pilas; no es Vial-QMK completo ni firmware estable.
-Procedimiento: [actualizaciónMac](docs/usb-update.md).
+Resultados de hardware al **2026-10-30**, sobre una sola unidad:
 
-**Topología actual:** fuente y HyperX en **macOS local**. Linux remoto se usa
-solo para compilar. No consultar ni tocar el Silakka54; únicamente se leyó el
-archivo público que el usuario ofreció como referencia. El material privado se mantiene fuera de Git. Detalles y evidencia: [Vial editable](docs/vial-editable.md),
-`hardware/first-flash-evidence.json`.
+- `vial_editable` instalado: TKL ANSI de 87 posiciones dibujadas, 82 útiles y
+  cuatro capas. `8 9 0 - =` siguen deshabilitadas; dibujarlas no las repara.
+- Vial de escritorio detecta el dispositivo. Tras Security → Unlock y Tab+Caps,
+  la GUI cambió A/S/D de capa 1 a E; relectura de 896 B, reconexión y Fn+A → E
+  confirmaron persistencia. Restauración desde GUI y otra reconexión devolvieron
+  el mapa original completo. Q→Z fue un ensayo anterior por herramienta, no GUI.
+- Actualizaciones macOS app-only en `[0x200,0x55c0)`, fuera de arranque y bancos.
+  F260/CS0, ACK/eco y retorno comprobados; no lectura completa de flash.
+- Escape al reconectar alcanzó ISP con Bootmagic de la app deshabilitado.
+  No se probó una app deliberadamente corrupta ni restauración OEM.
+- App de 21 412 B; RAM reservada 1968/2048 B incluidas pilas. No es Vial-QMK
+  completo ni firmware estable. Reconexión general y máximos de pila pendientes.
 
-Las reglas RTK se incluyen abajo para que este archivo sea portable y no
-dependa de rutas personales de la máquina de desarrollo.
+Detalles: [editable](docs/vial-editable.md), [actualización](docs/usb-update.md)
+y `hardware/first-flash-evidence.json`. El estado vigente se mantiene en las
+guías enlazadas, no duplicando resúmenes en cada informe histórico.
 
-## Fuente única de trabajo
+## Fuente de trabajo y entornos
 
-Esta topología es la organización del mantenedor, no un requisito de que un lector
-disponga de dos máquinas o sistemas. Ver docs/reproduction.md para compatibilidad.
-
-- La copia macOS local es la fuente principal elegida por el usuario. Linux
-  remoto por SSH aporta el toolchain; **HyperX conectado a macOS local**. No
-  mover el teclado a Linux para compilar. GitHub es el punto de sincronización.
-- El trabajo SSH inicial es la base; no descartarlo. Antes de sincronizar,
-  comparar cambios y no sobrescribir archivos distintos sin revisión.
-- README es la entrada única; los múltiples archivos forman un solo repo.
-- Binarios y entornos Linux importados no son ejecutables nativos de macOS.
-- Objetivo final obligatorio: detección y remapeo en Vial/QMK; cuatro capas
-  estáticas compiladas no equivalen a haber completado ese objetivo.
-
-## Qué buscamos
-
-Crear firmware propio para el **HyperX Alloy FPS Pro HX-KB4RD1-US**, con unas
-42 posiciones útiles y capas de números, símbolos y navegación. La base actual
-es SonixQMK. **El subconjunto Vial editable ya está instalado y verificado; no es Vial-QMK completo.**
-La configuración debe aproximarse al flujo del usuario en su Silakka54, no
-suponer que ya se dispone de su mapa exacto.
-
-## Prioridad acordada: primera prueba con recuperación mínima — 2026-10-30
-
-- Priorizar una vía mínima para **volver a programar otro candidato aunque la
-  aplicación QMK falle**, sin demorar la primera prueba buscando restauración
-  OEM perfecta, todas las funciones Vial o validación completa del mapa final.
-- La recuperación mínima no equivale a restaurar el firmware original. La
-  falta de un backup OEM exacto no es por sí sola un veto indefinido al ensayo;
-  deben explicarse el riesgo residual y los límites del procedimiento concreto.
-- Antes de escribir, sustentar el protocolo/rangos y una entrada de rescate que
-  no dependa de QMK funcional. Verificarla en hardware será prioridad del primer
-  ensayo; no exigir circularmente haber instalado/probado antes lo que se va a
-  ensayar, pero tampoco declarar esa recuperación ya comprobada.
-- Si falla una aplicación y permanece accesible el rescate, iterar con otro
-  candidato conservando ese arranque. El primer reemplazo del arranque también
-  puede fallar: no prometer que esta estrategia elimina todo riesgo de bloqueo.
-- Si Vial no resulta viable, el usuario acepta como alternativa un firmware
-  funcional con distribución de fábrica. Eso requiere que arranque y escanee;
-  no restaura automáticamente el OEM ni repara las cinco teclas averiadas.
-- Mantener carcasa cerrada, Silakka54 excluido y prohibiciones de desprotección,
-  borrado masivo, rangos adivinados y ejecución del updater propietario. No
-  marcar evidencia como verificada por esta aceptación del riesgo residual.
-- Plan acotado y criterio de ensayo: `docs/first-trial-planning-history.md`, sección0 (histórico).
+- Usar la copia de trabajo actual como fuente principal. Antes de sincronizar
+  con otra copia, comparar cambios y no sobrescribir diferencias sin revisión.
+  El trabajo inicial conservado forma parte del proyecto; no descartarlo.
+- README es la entrada única; fuentes, scripts, pruebas y documentos forman un
+  solo repositorio. GitHub conserva lo versionado, no artefactos ignorados.
+- El entorno ensayado compiló en Linux y configuró/actualizó en macOS. Esto no
+  exige dos equipos: ver [compatibilidad por tarea](docs/reproduction.md).
+  La compilación remota no requiere mover el teclado ni acceder a su USB.
+- Confirmar dónde está conectado el HyperX antes de cualquier diagnóstico;
+  no asumir acceso USB por disponer de SSH o de metadatos sysfs.
+- Los binarios Linux importados no son ejecutables nativos de macOS.
 
 ## Límites obligatorios
 
-- **No abrir, desmontar, soldar ni manipular internamente el HyperX.** El usuario
-  lo rechazó expresamente por riesgo de daño. No volver a pedir fotos internas.
-- **No tocar el Silakka54**: no flashearlo, reconfigurarlo, consultar su
-  configuración ni capturar sus entradas. Solo usar una exportación si el
-  usuario proporciona voluntariamente un archivo ya existente; ofreció como
-  referencia pública `mydotfiles/hardware/silakka54`, sin permiso para hardware.
-- Teclas averiadas reportadas: `8 9 0 - =`; Backspace funciona. El mapa
-  `custom42` no utiliza esas posiciones. No prometer repararlas por firmware.
-- Una autorización general para experimentar no valida un protocolo, offset
-  o procedimiento de recuperación. No escribir un binario a ciegas.
+- **No abrir, desmontar, soldar ni manipular internamente el HyperX.** Mantener
+  la carcasa cerrada y no solicitar fotos internas.
+- Seleccionar exclusivamente el HyperX previsto. No consultar, reconfigurar,
+  flashear ni capturar entradas de otros dispositivos. Un archivo de referencia
+  no concede autorización para acceder al hardware del que procede.
+- Teclas averiadas reportadas: `8 9 0 - =`; Backspace funciona. `custom42` no
+  utiliza esas posiciones. No prometer repararlas por firmware.
+- Una autorización general para experimentar no valida un protocolo, offset o
+  procedimiento de recuperación. No escribir un binario a ciegas.
 - No quitar protección de lectura para obtener un backup: el MCU candidato
   puede borrar User ROM al desprotegerse. No usar unlock/unprotect/mass erase.
-- No ejecutar el actualizador propietario ni su DLL. Analizarlos estáticamente.
-- No sustituir el proyecto por un remapeador del PC o adaptador externo sin
-  explicar la diferencia y acordar ese cambio de objetivo con el usuario.
+  El Unlock de edición de Vial es distinto y no cambia la protección del MCU.
+- No ejecutar el actualizador propietario ni su DLL; solo análisis estático.
+- No adivinar rangos a partir del tamaño de archivos o bancos virtuales de tests.
+  Conservar arranque, bancos de mapas y región ISP en actualizaciones app-only.
+- No sustituir el objetivo por un remapeador del PC o adaptador externo sin
+  acordar explícitamente el cambio. Un adaptador no es firmware en el HyperX;
+  hardware no identificado no es un programador USB universal.
 
-## Historial al 2026-10-29 — no confundir con el estado actual de arriba
+## Criterio de recuperación e iteración
 
-- OEM `0951:16d2`, `bcdDevice=2112`; puerto sysfs circunstancial, no identidad fija.
-- Ciclo OEM→ISP→OEM verificado sin flash; usuario confirmó escritura posterior.
-  Familia SN32F26x por protocolo, CS0, checksum0x27d1. MCU exacto/PCB aún inferidos.
-- QMK `custom42`:17316 B, `default`:16868 B; nuevo `custom42_fn`:17316 B,
-  cuatro capas,42+12 teclas, averiadas excluidas. Vial no integrado.
-- RAM reservada1960/2048 B con pilas; heap88 B, máximos de pila no medidos.
-- App en0x200. Jumploader propio C/ASM compilado436 B, relleno512, no instalado.
-- 62 tests pasan en Linux y macOS. Sin backup de unidad ni rescate ante app
-  inválida verificado.
-- El ciclo previo por SSH en Linux dispuso de USB/hidraw; no asumir ese acceso
-  en el host macOS actual. `probe_hyperx.py` es metadata-only por defecto;
-  `--probe-cycle` cambia temporalmente de modo. Nunca capturar entradas ajenas.
-- Checksum de imagen de referencia no coincide bajo cálculos ensayados; dominio
-  ISP pendiente. NO declarar imagen idéntica, auténtica ni restaurable.
-- Fuentes nuevas, evidencias y continuación: `docs/usb-isp-and-startup.md`.
+La primera prueba priorizó una vía mínima para cargar otro candidato aunque
+QMK fallara, sin exigir una restauración OEM perfecta como condición absoluta.
+Esa decisión y su riesgo residual constan en el [plan histórico](docs/first-trial-planning-history.md).
 
-## Presupuesto Vial — historia previa al candidato editable
-
-- Iluminación ya deshabilitada. Raw HID upstream con colas mínimas2392 B; sin tapping y
-  serial constante2240 B, ambos exceden2048 B antes de Vial/mapa editable.
-- `scripts/measure_raw_hid.py` reproduce ambos enlaces, solo build, no USB.
-- El experimento preexistente `raw_compact` ya enlaza con el parche verificado
-  de `patches/qmk`:18536 B flash,1952/2048 B RAM,96 B heap. Conserva tapping,
-  cuatro capas y pilas224/480; no mide máximos de pila ni USB real.
-- Nuevo `vial_readonly`:19460 B flash, misma RAM. Implementa identidad,
-  definiciónXZ y lectura de mapa Vial6/VIA9; rechaza mutaciones/unlock/ISP.
-  **No es Vial completo ni configurable ni detectado en hardware.** Leer
-  `docs/vial-readonly-prototype.md`; la GUI puede aparentar un SET rechazado.
-- Usuario acepta considerar3 capas si ayuda; mapas siguen en4. Quitar una capa
-  estática ahorra flash, no resuelve el overflow RAM del transporte.
-- Leer `docs/vial-memory-budget.md`. No declarar Vial integrado o detectado.
-  El almacén C simulado ya está implementado: estado8 B, objeto ARM1272 B,
-  29.266 casos de fallos simulados; no integrado ni backend físico. Leer
-  `docs/vial-map-store.md`. Siguiente: geometría/recuperación y desgaste/latencia
-  antes de adaptar escrituras; nunca usar los bancos virtuales como direcciones.
-
-## Antes de continuar
-
-1. Leer primero README, [estado/límites](docs/status-and-limits.md),
-   [seguridad](docs/safety-and-recovery.md) y [continuación](docs/next-steps.md).
-   Los informes USB/arranque son antecedentes, no el estado actual.
-2. Consultar [el informe ARM](docs/arm-build-and-boot.md), la
-   [bitácora](docs/project-log.md) y `hardware/validation-status.json`.
-3. Próximo: completar la GUI y geometría TKL; conservar el arranque y los
-   bancos del mapa en cualquier actualización. No repetir ensayos ya verificados. La exportación DLL ReadData es un wrapper de GET_FEATURE, no evidencia de lectura flash.
-4. No cambiar validaciones a `true` por conveniencia. Vincular cada afirmación
-   nueva con evidencia, alcance y limitaciones. Separar inferencias de hechos.
+- Sustentar protocolo, rangos y una entrada de rescate independiente de QMK
+  antes de escribir. La primera instalación del arranque también puede fallar;
+  no prometer que esta estrategia elimina todo riesgo de bloqueo.
+- Si una app falla pero responde el rescate, revisar otro candidato app-only
+  conservando el arranque. No reintentar escrituras automáticamente.
+- Una distribución funcional equivalente a la de fábrica es una alternativa
+  mínima, no restauración OEM ni reparación de las cinco teclas averiadas.
+- No exigir circularmente una instalación previa para evaluar un primer ensayo,
+  ni declarar comprobada una recuperación por aceptar su riesgo residual.
+- La exportación DLL ReadData es recepción GET_FEATURE, no evidencia de dump.
+  La imagen de referencia y un checksum no son un backup de la unidad.
 
 ## Comandos y evidencias
 
 Todas las órdenes de shell deben comenzar con `rtk`; usar `rtk proxy` si no
-existe subcomando específico.
+existe subcomando específico. Estas reglas no dependen de rutas personales.
 
 ```sh
 rtk proxy python3 -m unittest discover -s tests -v
@@ -159,30 +100,39 @@ rtk proxy python3 scripts/build_firmware.py --keymap custom42
 rtk proxy python3 scripts/build_firmware.py --keymap default
 rtk proxy python3 scripts/build_firmware.py --keymap custom42_fn
 rtk proxy python3 scripts/build_jumploader.py
+rtk proxy python3 -B scripts/build_compact_raw.py --keymap vial_editable
 rtk proxy python3 -B scripts/build_compact_raw.py --keymap vial_readonly
 rtk proxy python3 -B scripts/measure_map_store.py
 ```
 
 El comprobador devuelve **2 / NOT READY TO FLASH** mientras falten evidencias.
-Solo informa: no es un mecanismo que autorice o ejecute escrituras.
-Los builds requieren el entorno local preparado en `artifacts/tools`;
-revisiones fijadas en `toolchains/build-lock.json`.
+Solo informa: no autoriza ni ejecuta escrituras. No cambiar validaciones a
+`true` para forzar READY. Los builds requieren dependencias preparadas en
+`artifacts/tools`, con revisiones fijadas en `toolchains/build-lock.json`.
 
-Documentar cada avance significativo en `docs/project-log.md` y actualizar la
-guía/estado cuando corresponda. No afirmar «estable», «instalado», «recuperable»
-o «backup» sin haberlo comprobado. No registrar números de serie, SP ni códigos
-de la foto. Binarios propietarios, herramientas y builds locales quedan fuera
-del versionado según `.gitignore`.
+El [informe ARM](docs/arm-build-and-boot.md), el [presupuesto Vial](docs/vial-memory-budget.md),
+el [prototipo de lectura](docs/vial-readonly-prototype.md) y el [almacén simulado](docs/vial-map-store.md)
+conservan medidas de etapas anteriores. Sus bancos virtuales no son direcciones
+físicas y sus resultados host no validan desgaste, cortes reales o USB.
 
-La ESP32 mencionada por el usuario es **una posibilidad a estudiar, no hardware
-identificado ni autorización para programarla**. No asumir que cualquier ESP32
-puede actuar como puente USB o programador del HyperX.
+## Documentación y publicación
 
-## Publicación
-
-El usuario pretende publicar este proyecto en GitHub. Antes de añadir archivos,
-leer [la revisión de publicación](docs/publication-review.md). Mantener excluidos
-los binarios propietarios, herramientas, fotos de etiquetas, temporales y logs
-locales. Solo cuatro JSON revisados de `artifacts/analysis` están permitidos por
-`.gitignore`; no ampliar esa lista sin revisar contenido y rutas personales.
-No publicar ni crear un repositorio remoto sin una petición explícita.
+- Redactar documentación autónoma y neutral para cualquier lector, incluido
+  quien retome el proyecto más adelante. No depender del chat, pertenencias o
+  decisiones personales ni presentar el diálogo de desarrollo como instrucciones.
+- Describir requisitos por tarea, capacidades y condiciones reales del ensayo.
+  No convertir la organización de equipos de desarrollo en requisito universal.
+- Separar guías vigentes, evidencia de la unidad ensayada e historia fechada.
+  Conservar modelos, fechas, hashes y límites; no duplicar un «estado actual»
+  en informes históricos ni actualizar sus hashes como si fueran builds nuevos.
+- Documentar avances significativos en `docs/project-log.md`. Separar observado,
+  inferido, simulado y pendiente. No afirmar «estable», «instalado», «recuperable»
+  o «backup» sin evidencia concreta y alcance explícito.
+- Antes de añadir archivos, leer [publicación](docs/publication-review.md).
+  Excluir binarios propietarios, herramientas, fotos de etiquetas, temporales,
+  logs y snapshots privados. No registrar números de serie, SP ni códigos de foto.
+- Solo cuatro JSON revisados de `artifacts/analysis` están permitidos por
+  `.gitignore`; no ampliar esa lista sin revisar contenido y rutas personales.
+- Revisar el índice real; Conventional Commits en inglés. No crear remotos ni
+  publicar o hacer push sin petición explícita. La licencia está en `LICENSE`;
+  la revisión de atribuciones de terceros no se da por completada.

@@ -11,7 +11,7 @@ adaptador externo. Basado en SonixQMK, con un subconjunto propio del protocolo V
 > teclado inutilizable. El éxito en esta unidad NO garantiza compatibilidad con
 > otra, aunque tenga el mismo nombre o SKU.**
 >
-> **No tenemos un backup OEM de esta unidad ni un procedimiento comprobado para
+> **No hay un backup OEM de la unidad ensayada ni un procedimiento comprobado para
 > devolverla exactamente al firmware de fábrica.** La imagen de referencia
 > analizada no es ese backup. Se instaló y probó una entrada de rescate por Escape,
 > pero **rescate no significa backup ni garantía contra cualquier bloqueo**.
@@ -21,7 +21,7 @@ adaptador externo. Basado en SonixQMK, con un subconjunto propio del protocolo V
 
 ## Por qué se hizo
 
-En la unidad del autor dejaron de funcionar cinco teclas: `8 9 0 - =`.
+En la unidad ensayada dejaron de funcionar cinco teclas: `8 9 0 - =`.
 Se decidió reutilizar las posiciones sanas con capas y un firmware configurable,
 acercando el flujo a una zona de unas 42 teclas. **Reescribir el firmware no
 reparó las teclas ni diagnosticó físicamente la causa**: no se comprobó continuidad
@@ -30,8 +30,8 @@ pistas, switches o diodos mediante software.
 
 ## Estado actual
 
-Actualizado: **2026-10-30**. Resultados sobre una unidad, no certificación de todas
-las revisiones de este modelo.
+Resultados de hardware al **2026-10-30**; revisión documental **2026-10-31**.
+Pruebas sobre una unidad, no certificación de todas las revisiones del modelo.
 
 | Resultado | Evidencia y límite |
 | --- | --- |
@@ -51,7 +51,7 @@ variante. Las cinco posiciones averiadas no se repararon por firmware.
 
 ![TKL completo en Vial de escritorio, con cinco posiciones deshabilitadas](docs/images/vial-tkl-full.png)
 
-Captura aportada por el usuario en Vial 0.7.5. El teclado superior muestra
+Captura de Vial 0.7.5. El teclado superior muestra
 **87 posiciones físicas y 82 utilizables**. Las cinco casillas vacías entre 7 y
 Backspace son `8 9 0 - =`, mantenidas en `KC_NO` por su avería; **no faltan del
 dibujo**. La paleta inferior de Vial ofrece más funciones de las que admite este
@@ -104,8 +104,8 @@ programación.** Ver [procedimiento y límites](docs/safety-and-recovery.md).
 - ISP observado: familia **SN32F26x**, CS0. `SN32F268F/FG` es el candidato del
   port, **no un encapsulado verificado físicamente en esta unidad**.
 - Matriz inferida de 14×8; 87 posiciones físicas, 82 ofrecidas en el editable.
-- Carcasa cerrada durante el proyecto. No se accedió al Silakka54 físico; solo
-  se usó la referencia pública ofrecida para entender el flujo de trabajo.
+- Carcasa cerrada durante todas las pruebas; no se inspeccionó la PCB ni se
+  diagnosticó físicamente la causa de las cinco teclas averiadas.
 
 ## Por dónde empezar
 
@@ -193,7 +193,8 @@ updater/DLL, herramientas, binarios, fotos y snapshots privados de mapas
 quedan ignorados. No se publican credenciales ni identificadores de etiqueta.
 Ver [revisión de publicación](docs/publication-review.md).
 
-Se conservan los encabezados SPDX de las fuentes. **La licencia global y la
-revisión de atribuciones siguen pendientes**; publicar el proceso no implica
-permiso para redistribuir firmware propietario ni una garantía del fabricante.
+El repositorio incluye [GNU GPL versión 2](LICENSE) y conserva los encabezados
+SPDX de las fuentes. La revisión de atribuciones de terceros sigue pendiente;
+esta licencia no se presenta como permiso para redistribuir el firmware
+propietario analizado ni como garantía del fabricante.
 Proyecto independiente, sin afiliación oficial con HyperX, SONiX, QMK o Vial.

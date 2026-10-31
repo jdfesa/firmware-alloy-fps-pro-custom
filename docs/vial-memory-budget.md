@@ -58,7 +58,7 @@ La ejecución real por SSH reprodujo ambas cifras;30 tests locales pasan.
 
 ## ¿Ayudan tres capas en lugar de cuatro?
 
-El usuario acepta considerar tres como alternativa si hace viable Vial.
+Se evaluó reducir a tres capas como alternativa para hacer viable Vial.
 No se modificaron aún las cuatro capas existentes.
 
 - El mapa QMK fijo es `const ... PROGMEM`: quitar una capa reduce flash, no

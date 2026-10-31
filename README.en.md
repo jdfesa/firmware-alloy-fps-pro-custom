@@ -19,7 +19,7 @@ Based on SonixQMK, with a custom subset of the Vial protocol.
 
 ## Why this was done
 
-On the author's unit, five keys stopped working: `8 9 0 - =`.
+On the tested unit, five keys stopped working: `8 9 0 - =`.
 The decision was made to reuse the healthy positions with layers and a
 configurable firmware, approximating a ~42-key workflow. **Rewriting the
 firmware did not repair the keys nor physically diagnose the cause**: no
@@ -29,8 +29,8 @@ software.
 
 ## Current state
 
-Updated: **2026-10-30**. Results on one unit — not a certification for all
-revisions of this model.
+Hardware results as of **2026-10-30**; documentation revised **2026-10-31**.
+Tests on one unit — not a certification for all revisions of this model.
 
 | Result | Evidence and scope |
 | --- | --- |
@@ -50,7 +50,7 @@ in this variant. The five broken positions were not repaired by firmware.
 
 ![Full TKL in Vial desktop, with five positions disabled](docs/images/vial-tkl-full.png)
 
-Screenshot provided by the user in Vial 0.7.5. The upper keyboard shows
+Screenshot from Vial 0.7.5. The upper keyboard shows
 **87 physical positions and 82 usable ones**. The five empty slots between
 7 and Backspace are `8 9 0 - =`, kept as `KC_NO` due to their fault; **they
 are not missing from the drawing**. Vial's lower palette offers more functions
@@ -106,8 +106,8 @@ See [procedure and limits](docs/safety-and-recovery.md).
 - ISP observed: family **SN32F26x**, CS0. `SN32F268F/FG` is the port
   candidate, **not a package physically verified on this unit**.
 - Matrix inferred as 14×8; 87 physical positions, 82 offered in the editable.
-- Case closed throughout the project. The physical Silakka54 was not accessed;
-  only the public reference offered was used to understand the workflow.
+- Case closed throughout all tests; the PCB was not inspected and the cause
+  of the five faulty keys was not physically diagnosed.
 
 ## Where to start
 
@@ -195,7 +195,8 @@ GitHub backs up **what is versioned**, not the keyboard's OEM firmware.
 map snapshots are excluded. No credentials or label identifiers are published.
 See [publication review](docs/publication-review.md).
 
-SPDX headers in sources are preserved. **The global license and attribution
-review are still pending**; publishing the process does not imply permission
-to redistribute proprietary firmware or a manufacturer warranty.
+The repository includes [GNU GPL version 2](LICENSE) and preserves the SPDX
+headers in sources. Third-party attribution review is still pending; this
+license is not presented as permission to redistribute the analyzed proprietary
+firmware or as a manufacturer warranty.
 Independent project, with no official affiliation with HyperX, SONiX, QMK, or Vial.
