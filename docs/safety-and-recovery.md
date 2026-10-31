@@ -81,7 +81,7 @@ sin Escape permite intentar volver a la app. Nunca hacerlo durante programación
   solo encima del OEM enlazado en cero ni conservar sus vectores a ciegas.
 - No escribir en direcciones deducidas del tamaño de un archivo o de un banco
   virtual de tests. Los límites requieren manual/protocolo y evidencia.
-- No abrir, soldar o manipular internamente el HyperX; no tocar el Silakka54.
+- No abrir, soldar o manipular internamente el HyperX.
 - No marcar validaciones como verdaderas por conveniencia o aceptación del riesgo.
 
 ## ¿Se puede volver al estado de fábrica?
