@@ -639,5 +639,5 @@
   "flash_approved": false,
   "build_report": "artifacts/analysis/arm-build-custom42.json",
   "layout_geometry": "electrical_grid_not_physical_TKL",
-  "user_layout_status": "provisional_not_Silakka_export"
+  "user_layout_status": "provisional_custom42_layout"
 }

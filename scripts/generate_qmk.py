@@ -97,7 +97,7 @@ def generate(matrix: dict) -> dict:
     meta = {"active_keys": active, "active_count": 42, "layers": ["BASE", "NUM", "SYM", "NAV"],
             "maps": maps, "matrix_status": matrix["status"], "generator_compiles_firmware": False, "flash_approved": False,
             "build_report": "artifacts/analysis/arm-build-custom42.json",
-            "layout_geometry": "electrical_grid_not_physical_TKL", "user_layout_status": "provisional_not_Silakka_export"}
+            "layout_geometry": "electrical_grid_not_physical_TKL", "user_layout_status": "provisional_custom42_layout"}
     (DEST / "keymap-metadata.json").write_text(json.dumps(meta, indent=2) + "\n")
     return meta
 

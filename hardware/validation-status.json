@@ -19,7 +19,7 @@
   "vial_gui_detection_verified": true,
   "vial_persistent_remapping_verified": true,
   "vial_evidence_report": "docs/vial-editable.md",
-  "usb_access_available_over_ssh_scope": "Current SSH session to macOS with HyperX connected: bounded ISP Feature transport queried F260/CS0, installed app-only, returned and read TKL/full unchanged map. No Silakka54 access.",
+  "usb_access_available_over_ssh_scope": "2026-10-30 macOS validation with HyperX connected: bounded ISP Feature transport queried F260/CS0, installed app-only, returned and read TKL/full unchanged map. SSH was the access method, not a firmware requirement.",
   "vial_map_storage_stage": "Page-granular backend at0x7000..0x7800 physically accepted Q->Z and restoration; both cold-reconnect persisted. No wear/brownout/runtime-stack validation.",
   "vial_map_storage_report": "docs/vial-editable.md",
   "jumploader_verification_scope": "Cold-plug Escape reached responsive ISP with application Bootmagic disabled in vial_editable; no deliberately corrupt application tested. Earlier default typed hola qmk.",
